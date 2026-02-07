@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Madgwii LLC</title>
+  <meta name="description" content="Static landing page for managed domains." />
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(900px 500px at 20% 10%, rgba(0, 200, 255, .18), transparent),
+        radial-gradient(900px 500px at 80% 90%, rgba(120, 255, 120, .10), transparent),
+        #0b0f14;
+      color: #e8eef7;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(920px, 100%);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      padding: 28px;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(232, 238, 247, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 8px 10px;
+      border-radius: 999px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(26px, 4vw, 44px);
+      line-height: 1.1;
+    }
+
+    p {
+      margin: 0;
+      color: rgba(232, 238, 247, 0.82);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .panel {
+      grid-column: span 12;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    @media (min-width: 780px) {
+      .panel.left {
+        grid-column: span 7;
+      }
+
+      .panel.right {
+        grid-column: span 5;
+      }
+
+      .panel.full {
+        grid-column: span 12;
+      }
+    }
+
+    .kv {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 8px 12px;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .k {
+      color: rgba(232, 238, 247, 0.65);
+    }
+
+    code {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      word-break: break-word;
+    }
+
+    .usage {
+      margin-top: 10px;
+      color: rgba(232, 238, 247, 0.82);
+      font-size: 14px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .foot {
+      margin-top: 14px;
+      font-size: 12px;
+      color: rgba(232, 238, 247, 0.55);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .muted {
+      color: rgba(232, 238, 247, 0.72);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <div class="top">
+      <div class="badge">Home of Madgwii LLC</div>
+      <div class="badge" id="ts"></div>
+    </div>
+
+    <h1 id="headline">Welcome</h1>
+    <p id="subhead"></p>
+
+    <section class="grid" aria-label="Status panels">
+      <div class="panel left">
+        <strong>Request Info</strong>
+        <div class="kv">
+          <div class="k">Host</div>
+          <div><code id="host">-</code></div>
+
+          <div class="k">Protocol</div>
+          <div><code id="proto">-</code></div>
+
+          <div class="k">Browser</div>
+          <div><code id="browser">-</code></div>
+        </div>
+      </div>
+
+      <div class="panel right">
+        <strong>What this confirms</strong>
+        <div class="kv" id="confirmsKv">
+          <div class="k">DNS (DoH)</div>
+          <div><code id="dnsResolver">-</code></div>
+
+          <div class="k" id="tlsK">TLS</div>
+          <div id="tlsV">
+            <div class="muted">Cert name: <code id="tlsName">-</code></div>
+            <div class="muted">Match: <code id="tlsMatch">-</code></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel full">
+        <strong>Site usage info</strong>
+        <div class="usage" id="usageInfo"></div>
+      </div>
+    </section>
+
+    <div class="foot">
+      <div>© <span id="year"> </span> Ksnarf@ksnarf.dev</div>
+      <div id="build">v1.1.0</div>
+    </div>
+  </main>
+
+  <script>
+    const HOST_OVERRIDES = {
+      // "madgwii.com": {
+      //   headline: "Home of Madgwii LLC",
+      //   subhead: "Managed landing endpoint is online.",
+      //   usageInfo: `
+      // - Madgwii LLC official domain.
+      // - If you reached this page unexpectedly, check DNS cutover status.
+      // - Contact: ops@madgwii.com
+      // `.trim()
+      // },
+    };
+
+    // Fallback usage info if a host doesn't have a custom entry
+    const DEFAULT_USAGE_INFO = `
+- This is a static status/landing page for this domain.
+`.trim();
+
+    // ---- Basics (Request Info) ----
+    const host = window.location.host;
+    const hostname = window.location.hostname; // no port
+    const proto = window.location.protocol.replace(":", "");
+    const ua = navigator.userAgent;
+
+    document.getElementById("host").textContent = host;
+    document.getElementById("proto").textContent = proto;
+
+    // Timestamp badge
+    const ts = new Date();
+    document.getElementById("ts").textContent = ts.toLocaleString();
+
+    // Apply per-host headline/subhead/usageInfo if configured
+    const o = HOST_OVERRIDES[host] || HOST_OVERRIDES[hostname];
+    document.getElementById("headline").textContent = o?.headline || `Welcome to ${host}`;
+    document.getElementById("subhead").textContent = o?.subhead || "Managed landing endpoint is online.";
+    document.getElementById("usageInfo").textContent = o?.usageInfo || DEFAULT_USAGE_INFO;
+
+    // Basic browser info (instead of full UA)
+    function basicBrowserInfo() {
+      const uaData = navigator.userAgentData;
+      if (uaData && Array.isArray(uaData.brands) && uaData.brands.length) {
+        // Prefer a non-"Not A;Brand" entry
+        const brand = uaData.brands.find(b => !/not a brand/i.test(b.brand)) || uaData.brands[0];
+        const platform = uaData.platform || "Unknown OS";
+        return `${brand.brand} ${brand.version} (${platform})`;
+      }
+
+      // Fallback parsing (best effort)
+      const ua = navigator.userAgent;
+      const platform = navigator.platform || "Unknown OS";
+
+      // Edge (Chromium)
+      let m = ua.match(/Edg\/(\d+(\.\d+)?)/);
+      if (m) return `Microsoft Edge ${m[1]} (${platform})`;
+
+      // Chrome
+      m = ua.match(/Chrome\/(\d+(\.\d+)?)/);
+      if (m) return `Chrome ${m[1]} (${platform})`;
+
+      // Firefox
+      m = ua.match(/Firefox\/(\d+(\.\d+)?)/);
+      if (m) return `Firefox ${m[1]} (${platform})`;
+
+      // Safari (exclude Chrome)
+      if (/Safari\//.test(ua) && !/Chrome\//.test(ua) && !/Chromium\//.test(ua)) {
+        m = ua.match(/Version\/(\d+(\.\d+)?)/);
+        return `Safari ${m ? m[1] : ""} (${platform})`.trim();
+      }
+
+      return `Browser (${platform})`;
+    }
+
+    document.getElementById("browser").textContent = basicBrowserInfo();
+
+    // ---- DNS via DoH: show resolver FQDN only ----
+    const DOH_RESOLVER = "cloudflare-dns.com";
+    const DOH_ENDPOINT = `https://${DOH_RESOLVER}/dns-query`;
+    document.getElementById("dnsResolver").textContent = DOH_RESOLVER;
+
+    // (Optional) lightweight reachability check; if it fails, annotate.
+    (async () => {
+      try {
+        const url = `${DOH_ENDPOINT}?name=${encodeURIComponent(hostname)}&type=A`;
+        const res = await fetch(url, { headers: { "accept": "application/dns-json" } });
+        if (!res.ok) throw new Error("DoH not OK");
+      } catch {
+        document.getElementById("dnsResolver").textContent = `${DOH_RESOLVER} (unreachable)`;
+      }
+    })();
+
+    // ---- TLS cert name (if HTTPS) ----
+    // If TLS info is unavailable in this browser, remove TLS rows entirely.
+    function hostMatchesPattern(host, pattern) {
+      host = (host || "").toLowerCase();
+      pattern = (pattern || "").toLowerCase();
+      if (!host || !pattern) return false;
+      if (host === pattern) return true;
+
+      if (pattern.startsWith("*.")) {
+        const suffix = pattern.slice(1); // ".example.com"
+        return host.endsWith(suffix) && host.split(".").length === pattern.split(".").length;
+      }
+      return false;
+    }
+
+    async function getCertNamesFromBrowser() {
+      const nav = performance.getEntriesByType("navigation")[0];
+      if (!nav || typeof nav.getSecurityDetails !== "function") return null;
+      const sec = nav.getSecurityDetails();
+      if (!sec) return null;
+
+      const subjectName = sec.subjectName || null;
+      const sanList = Array.isArray(sec.sanList) ? sec.sanList : [];
+      return { subjectName, sanList };
+    }
+
+    function removeTlsRow() {
+      const k = document.getElementById("tlsK");
+      const v = document.getElementById("tlsV");
+      if (k) k.remove();
+      if (v) v.remove();
+    }
+
+    (async () => {
+      const tlsNameEl = document.getElementById("tlsName");
+      const tlsMatchEl = document.getElementById("tlsMatch");
+
+      if (proto !== "https") {
+        tlsNameEl.textContent = "No Cert";
+        tlsMatchEl.textContent = "N/A";
+        return;
+      }
+
+      const info = await getCertNamesFromBrowser();
+      if (!info) {
+        // Requirement: If "Unavailable in this browser", remove TLS + Match entirely.
+        removeTlsRow();
+        return;
+      }
+
+      const parts = [];
+      if (info.subjectName) parts.push(`Subject: ${info.subjectName}`);
+      if (info.sanList?.length) parts.push(`SAN: ${info.sanList.join(", ")}`);
+      tlsNameEl.textContent = parts.length ? parts.join(" | ") : "Present (name unknown)";
+
+      const sanMatch = (info.sanList || []).some(n => hostMatchesPattern(hostname, n));
+
+      let cnMatch = false;
+      if (info.subjectName) {
+        const m = info.subjectName.match(/CN\s*=\s*([^,]+)/i);
+        const cn = (m?.[1] || info.subjectName).trim();
+        cnMatch = hostMatchesPattern(hostname, cn);
+      }
+
+      const match = sanMatch || cnMatch;
+      tlsMatchEl.textContent = match ? "OK (hostname matches cert)" : "Mismatch (hostname does not match cert)";
+    })();
+  </script>
+</body>
+
+</html>
