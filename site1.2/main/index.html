@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>ksnarf.dev</title>
+  <meta name="description"
+    content="I build systems that don’t break. Cloud, homelab, game servers—resilient, repeatable, and used to teach others how it works." />
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="ksnarf.dev" />
+  <meta property="og:description"
+    content="I build systems that don’t break. Cloud, homelab, game servers—resilient, repeatable, and used to teach others how it works." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ksnarf.dev/" />
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --fg: #e8edf2;
+      --muted: #9aa7b4;
+      --muted2: #6e7c8a;
+      --card: #0f1620;
+      --border: #1b2633;
+      --link: #9bd2ff;
+      --accent: #38bdf8;
+      --good: #22c55e;
+      --warn: #f59e0b;
+      --bad: #ef4444;
+
+      --max: 980px;
+      --radius: 14px;
+      --shadow: 0 12px 30px rgba(0, 0, 0, .35);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none
+    }
+
+    a:hover {
+      text-decoration: underline
+    }
+
+    /* Pro-site background fix (no tiling/seams) */
+    #bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(56, 189, 248, .18), transparent 60%),
+        radial-gradient(1000px 700px at 85% 25%, rgba(34, 197, 94, .12), transparent 55%),
+        radial-gradient(900px 700px at 55% 95%, rgba(168, 85, 247, .10), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg));
+    }
+
+    #noise-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: .075;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      width: 100vw;
+      height: 100vh;
+      will-change: background-image;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 2;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    header {
+      padding: 10px 0 18px
+    }
+
+    .topline {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: .2px;
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .6px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .nav a {
+      color: var(--muted)
+    }
+
+    .nav a:hover {
+      color: var(--fg);
+      text-decoration: none
+    }
+
+    .hero {
+      margin-top: 14px;
+      padding: 18px 18px 14px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(15, 22, 32, .9), rgba(15, 22, 32, .55));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+    }
+
+    .hero h2 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: .2px;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+
+    .statusline {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted2);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, .18);
+      backdrop-filter: blur(6px);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    main {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px
+    }
+
+    section {
+      border: 1px solid var(--border);
+      background: rgba(15, 22, 32, .55);
+      border-radius: var(--radius);
+      padding: 16px 16px 14px;
+      backdrop-filter: blur(6px);
+    }
+
+    section h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      letter-spacing: .2px;
+    }
+
+    /* Featured emphasis */
+    .featured {
+      border-color: rgba(56, 189, 248, .35);
+      background: linear-gradient(180deg, rgba(56, 189, 248, .10), rgba(15, 22, 32, .55));
+      box-shadow: 0 14px 38px rgba(0, 0, 0, .42);
+    }
+
+    .featured h3 {
+      font-size: 18px;
+      letter-spacing: .25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .featured h3 .spark {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      display: inline-block;
+      box-shadow: 0 0 18px rgba(56, 189, 248, .55);
+    }
+
+    .sectionHint {
+      margin: -4px 0 12px;
+      color: var(--muted2);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    /* Cards grid */
+    .cardsGrid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+
+    .build {
+      grid-column: span 6;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(11, 15, 20, .55);
+      backdrop-filter: blur(6px);
+      min-height: 120px;
+    }
+
+    .featured .build {
+      border-color: rgba(56, 189, 248, .22);
+      background: linear-gradient(180deg, rgba(11, 15, 20, .62), rgba(11, 15, 20, .45));
+    }
+
+    @media (max-width: 820px) {
+      .build {
+        grid-column: span 12
+      }
+
+      .hero h2 {
+        font-size: 30px
+      }
+    }
+
+    .buildTop {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .buildName {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: .2px;
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: rgba(0, 0, 0, .18);
+      white-space: nowrap;
+    }
+
+    .badge.good {
+      border-color: rgba(34, 197, 94, .35);
+      color: #a7f3d0
+    }
+
+    .badge.warn {
+      border-color: rgba(245, 158, 11, .35);
+      color: #fde68a
+    }
+
+    .badge.bad {
+      border-color: rgba(239, 68, 68, .35);
+      color: #fecaca
+    }
+
+    .buildDesc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .buildLinks {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 13px
+    }
+
+    .buildLinks a {
+      font-family: var(--mono);
+      font-size: 12px
+    }
+
+    .buildMeta {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted2);
+    }
+
+    .mono {
+      font-family: var(--mono)
+    }
+
+    .muted {
+      color: var(--muted)
+    }
+
+    .loading {
+      color: var(--muted2);
+      font-family: var(--mono);
+      font-size: 12px
+    }
+
+    .hr {
+      height: 1px;
+      background: var(--border);
+      margin: 10px 0
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      grid-column: span 6;
+      border: 1px solid var(--border);
+      background: rgba(11, 15, 20, .55);
+      border-radius: 12px;
+      padding: 12px 12px 10px;
+      min-height: 92px;
+      backdrop-filter: blur(6px);
+    }
+
+    .card .kicker {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted2);
+      margin-bottom: 6px;
+    }
+
+    .card .desc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .heatmapWrap {
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, .18);
+    }
+
+    .heatmapWrap img {
+      display: block;
+      width: 100%;
+      height: auto;
+      opacity: .95;
+    }
+
+    .heatmapLink {
+      display: block;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .heatmapLink:hover {
+      text-decoration: none;
+      filter: brightness(1.05);
+    }
+
+    footer {
+      margin-top: 18px;
+      color: var(--muted2);
+      font-size: 12px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="bg-layer" aria-hidden="true"></div>
+  <div id="noise-layer" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="topline">
+        <div class="brand">
+          <h1>ksnarf.dev</h1>
+          <div class="tagline">• build systems • automation • homelab • game infra •</div>
+        </div>
+
+        <nav class="nav" aria-label="Primary">
+          <a href="#featured">Featured</a>
+          <a href="#experiments">In Progress</a>
+          <a href="#updates">Updates</a>
+          <a href="#about">About</a>
+        </nav>
+      </div>
+
+      <div class="hero">
+        <h2>I build systems that don’t break.</h2>
+        <p>
+          Resilient, automation-first infrastructure across cloud, homelab, and game servers — built to scale and used
+          to teach others how it works.
+        </p>
+
+        <div class="statusline">
+          <span class="pill"><span class="dot"></span><span class="mono">Now:</span> <span
+              id="nowLine">Loading…</span></span>
+          <span class="pill"><span class="mono">Updated:</span> <span id="lastUpdated">—</span></span>
+          <span class="pill"><span class="mono">v</span><span id="siteVersion">0.0.0</span></span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- FEATURED FIRST -->
+      <section id="featured" class="featured">
+        <h3><span class="spark" aria-hidden="true"></span> Featured</h3>
+        <div class="sectionHint">Done. Active. Maintained. </div>
+        <div id="featuredWrap" class="loading">Loading…</div>
+      </section>
+
+      <!-- EXPERIMENTS BELOW -->
+      <section id="experiments">
+        <h3>In Progress</h3>
+        <div class="sectionHint">Active work-in-progress. Not ready for full release.</div>
+        <div id="experimentsWrap" class="loading">Loading…</div>
+      </section>
+
+      <!-- UPDATES (moved up: replaces former Principles/Status position) -->
+      <section id="updates">
+        <h3>Recent updates</h3>
+
+        <div class="grid">
+          <div class="card" style="grid-column: span 12;">
+            <div class="kicker">Personal GitHub contributions</div>
+
+            <a class="heatmapLink" href="https://github.com/Ksnarf" target="_blank" rel="noopener"
+              aria-label="Open GitHub profile">
+              <div class="heatmapWrap">
+                <img id="ghHeatmap" alt="GitHub contributions heatmap" src="https://ghchart.rshah.org/1D2A44/Ksnarf"
+                  loading="lazy" />
+              </div>
+            </a>
+
+            <div style="margin-top:8px" class="muted mono">
+              Source: <a href="https://ghchart.rshah.org/" target="_blank" rel="noopener">ghchart.rshah.org</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about">
+        <h3>About</h3>
+        <p class="muted" style="max-width:80ch;margin-top:0">
+          Everything I build is a system — cloud, homelab, or game server — designed to be resilient, repeatable, and
+          used to teach others how it works.
+        </p>
+        <p class="muted" style="max-width:80ch">
+          This is my public workshop: a place to ship real builds, test ideas, and keep a living record of how I solve
+          problems.
+        </p>
+
+        <div class="hr"></div>
+        <div id="engagementWrap" class="loading">Loading…</div>
+      </section>
+    </main>
+
+    <footer>
+      <span class="mono">Last updated: <span id="footerUpdated">—</span></span>
+    </footer>
+  </div>
+
+  <script>
+    const CONFIG = {
+      githubUser: "Ksnarf",
+      ghchartColor: "1D2A44",
+      BASE_DATA_URL: "https://raw.githubusercontent.com/Ksnarf/site.2.updates/main/data/",
+      CACHE_BUST: true
+    };
+
+    // ---- Pro-site style noise generator (viewport-fixed, no tiling) ----
+    function generateNoiseDataURL(viewW, viewH) {
+      const SCALE = 0.36;
+      const DPR = Math.max(1, Math.floor(window.devicePixelRatio || 1));
+      const w = Math.max(96, Math.floor(viewW * SCALE * DPR));
+      const h = Math.max(96, Math.floor(viewH * SCALE * DPR));
+
+      const c = document.createElement("canvas");
+      c.width = w;
+      c.height = h;
+
+      const ctx = c.getContext("2d", { alpha: true });
+      if (!ctx) return null;
+
+      const img = ctx.createImageData(w, h);
+      const data = img.data;
+
+      const alpha = 22;
+      for (let i = 0; i < data.length; i += 4) {
+        const v = (Math.random() * 255) | 0;
+        data[i] = v;
+        data[i + 1] = v;
+        data[i + 2] = v;
+        data[i + 3] = alpha;
+      }
+
+      ctx.putImageData(img, 0, 0);
+
+      try { return c.toDataURL("image/png"); }
+      catch (_) { return null; }
+    }
+
+    function sizeNoiseToViewport() {
+      const layer = document.getElementById("noise-layer");
+      if (!layer) return;
+
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+      layer.style.width = "100vw";
+      layer.style.height = "100vh";
+      layer.style.backgroundSize = "cover";
+
+      const dataUrl = generateNoiseDataURL(vw, vh);
+      layer.style.backgroundImage = dataUrl ? `url("${dataUrl}")` : "none";
+    }
+
+    window.addEventListener("load", () => {
+      sizeNoiseToViewport();
+      setTimeout(sizeNoiseToViewport, 250);
+    });
+
+    let noiseResizeTimer = null;
+    window.addEventListener("resize", () => {
+      clearTimeout(noiseResizeTimer);
+      noiseResizeTimer = setTimeout(sizeNoiseToViewport, 150);
+    });
+    window.addEventListener("orientationchange", () => {
+      setTimeout(sizeNoiseToViewport, 200);
+    });
+
+    // Heatmap source
+    document.getElementById("ghHeatmap").src = `https://ghchart.rshah.org/${CONFIG.ghchartColor}/${CONFIG.githubUser}`;
+
+    // Helpers
+    function withCacheBust(url) {
+      if (!CONFIG.CACHE_BUST) return url;
+      const v = Date.now();
+      return url.includes("?") ? `${url}&v=${v}` : `${url}?v=${v}`;
+    }
+
+    async function fetchJson(path) {
+      const url = withCacheBust(CONFIG.BASE_DATA_URL + path);
+      const res = await fetch(url, { headers: { "Accept": "application/json" } });
+      if (!res.ok) throw new Error(`Fetch failed ${res.status} for ${path}`);
+      return res.json();
+    }
+
+    function esc(s) {
+      return String(s ?? "").replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#039;"
+      }[c]));
+    }
+
+    function badge(label, kind) {
+      const cls = kind ? `badge ${kind}` : "badge";
+      return `<span class="${cls}">${esc(label)}</span>`;
+    }
+
+    function linkLine(label, href) {
+      return `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(label)}</a>`;
+    }
+
+    /**
+     * primary_url support:
+     * - If item.primary_url exists, title links there
+     * - Else fallback to links[0].url if present
+     */
+    function getPrimaryUrl(item) {
+      if (item && typeof item.primary_url === "string" && item.primary_url.trim()) return item.primary_url.trim();
+      const links = (item?.links || []).filter(l => l && l.url);
+      return links.length ? links[0].url : null;
+    }
+
+    function renderProjectCards(items, opts) {
+      const { kindBadge, showStatus = false, showTags = false, maxTags = 4 } = opts || {};
+
+      return `<div class="cardsGrid">` + (items || []).map(item => {
+        const links = (item.links || []).filter(l => l && l.url);
+        const primaryUrl = getPrimaryUrl(item);
+
+        const titleText = item.name ?? item.title ?? "Untitled";
+        const descText = item.description ?? item.summary ?? "";
+
+        const titleHtml = primaryUrl
+          ? `<a href="${esc(primaryUrl)}" target="_blank" rel="noopener">${esc(titleText)}</a>`
+          : `${esc(titleText)}`;
+
+        let metaBadges = "";
+
+        if (showStatus && item.status) {
+          metaBadges += badge(item.status.label || "Active", item.status.kind || "good");
+        }
+
+        if (showTags && Array.isArray(item.tags)) {
+          const tags = item.tags.filter(Boolean);
+          const shown = tags.slice(0, maxTags);
+          metaBadges += shown.map(t => badge(t)).join("");
+          if (tags.length > maxTags) metaBadges += badge(`+${tags.length - maxTags}`);
+        }
+
+        if (kindBadge) metaBadges += badge(kindBadge);
+
+        const linksRow = links.length
+          ? `<div class="buildLinks">${links.map(l => linkLine(l.label || "link", l.url)).join("")}</div>`
+          : ``;
+
+
+
+        // Repo meta footer: show only if precomputed in JSON (repo_meta.last_commit_at)
+        const metaLine = (item.repo_meta && item.repo_meta.last_commit_at)
+          ? (() => {
+            const when = new Date(item.repo_meta.last_commit_at);
+            const now = new Date();
+            const diffMs = Math.max(0, now - when);
+            const diffMin = Math.floor(diffMs / 60000);
+            const diffHr = Math.floor(diffMin / 60);
+            const diffDay = Math.floor(diffHr / 24);
+
+            let rel = "";
+            if (diffMin < 60) rel = `${diffMin}m ago`;
+            else if (diffHr < 48) rel = `${diffHr}h ago`;
+            else rel = `${diffDay}d ago`;
+
+            const tooltipTs = when.toISOString().replace("T", " ").replace("Z", " UTC");
+            const msg = (item.repo_meta.last_commit_msg || "").trim();
+            const tooltip = msg ? `${tooltipTs} • "${msg}"` : tooltipTs;
+
+            return `<div class="buildMeta" title="${esc(tooltip)}">Updated ${esc(rel)}</div>`;
+          })()
+          : "";
+        return `
+          <div class="build">
+            <div class="buildTop">
+              <h4 class="buildName">${titleHtml}</h4>
+              <div class="badges">${metaBadges}</div>
+            </div>
+            <p class="buildDesc">${esc(descText)}</p>
+            ${linksRow}
+            ${metaLine}
+          </div>
+        `;
+      }).join("") + `</div>`;
+    }
+
+    function renderEngagement(obj) {
+      const email = obj?.email
+        ? `<div><span class="mono muted">Email</span><div style="margin-top:4px"><a class="mono" href="mailto:${esc(obj.email)}">${esc(obj.email)}</a></div></div>`
+        : "";
+      const links = obj?.links?.length
+        ? `<div style="margin-top:12px"><span class="mono muted">Elsewhere</span><div style="margin-top:6px" class="mono">${obj.links.filter(l => l && l.url).map(l => linkLine(l.label, l.url)).join(" • ")}</div></div>`
+        : "";
+      return `${email}${links}`;
+    }
+
+    async function boot() {
+      // site metadata
+      try {
+        const site = await fetchJson("site.json");
+        if (site?.version) document.getElementById("siteVersion").textContent = site.version;
+        if (site?.last_updated) {
+          document.getElementById("lastUpdated").textContent = site.last_updated;
+          document.getElementById("footerUpdated").textContent = site.last_updated;
+        }
+      } catch (e) { }
+
+      // now line
+      try {
+        const now = await fetchJson("now.json");
+        document.getElementById("nowLine").textContent = now?.line || "Building resilient, repeatable systems.";
+      } catch (e) {
+        document.getElementById("nowLine").textContent = "Building resilient, repeatable systems.";
+      }
+
+      // featured (builds.json)
+      try {
+        const builds = await fetchJson("builds.json");
+        document.getElementById("featuredWrap").className = "";
+        document.getElementById("featuredWrap").innerHTML = renderProjectCards(builds || [], {
+          kindBadge: "featured",
+          showStatus: true,
+          showTags: true,
+          maxTags: 5
+        });
+      } catch (e) {
+        document.getElementById("featuredWrap").textContent = "Could not load featured builds.";
+      }
+
+      // experiments
+      try {
+        const inprogress = await fetchJson("inprogress.json");
+        document.getElementById("experimentsWrap").className = "";
+        document.getElementById("experimentsWrap").innerHTML = renderProjectCards(inprogress || [], {
+          showStatus: true,
+          showTags: true,
+          maxTags: 4
+        });
+      } catch (e) {
+        document.getElementById("experimentsWrap").textContent = "Could not load in-progress items.";
+      }
+
+      // engagement
+      try {
+        const eng = await fetchJson("engagement.json");
+        document.getElementById("engagementWrap").className = "";
+        document.getElementById("engagementWrap").innerHTML = renderEngagement(eng || {});
+      } catch (e) {
+        document.getElementById("engagementWrap").textContent = "—";
+      }
+    }
+
+    boot();
+  </script>
+</body>
+
+</html>
