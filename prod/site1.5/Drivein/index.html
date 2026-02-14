@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Max Power Car Meet:1950's Drive In Movie Date Night</title>
+
+    <style>
+        :root {
+            --bg: #0f1115;
+            --card: #161a22;
+            --text: #e6e6e6;
+            --muted: #a9b0bd;
+            --accent: #4ea1ff;
+            --border: #262c38;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .card {
+            width: min(720px, 100%);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+        }
+
+        .title {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: .2px;
+        }
+
+        .pill {
+            font-size: 12px;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 6px 10px;
+            border-radius: 999px;
+        }
+
+        .meta {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 10px 14px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .02);
+            margin-bottom: 14px;
+        }
+
+        .k {
+            color: var(--muted);
+        }
+
+        .v {
+            word-break: break-all;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        a.button,
+        button.button {
+            appearance: none;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, .02);
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        a.button.primary,
+        button.button.primary {
+            border-color: rgba(78, 161, 255, .35);
+            background: rgba(78, 161, 255, .12);
+            color: var(--text);
+        }
+
+        .hint {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        code {
+            background: rgba(255, 255, 255, .06);
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="title">
+            <h1>Drive-in Movie</h1>
+            <div class="pill" id="status">Loading metadata…</div>
+        </div>
+
+        <div class="meta" aria-live="polite">
+            <div class="k">File</div>
+            <div class="v" id="fileName">DangerFlight.mp4</div>
+
+            <div class="k">Size</div>
+            <div class="v" id="fileSize">—</div>
+
+            <div class="k">Last Modified</div>
+            <div class="v" id="fileMod">—</div>
+
+            <div class="k">Direct URL</div>
+            <div class="v"><code id="fileUrl">./DangerFlight.mp4</code></div>
+        </div>
+
+        <div class="actions">
+            <!-- download attribute encourages downloading, but some browsers may still stream -->
+            <a class="button primary" id="downloadBtn" href="./DangerFlight.mp4" download>Download</a>
+            <a class="button" id="playBtn" href="./DangerFlight.mp4">Play/Stream</a>
+            <button class="button" id="retryBtn" type="button">Refresh status</button>
+        </div>
+
+        <div class="hint" id="autoHint">
+            Auto-download will start in <span id="countdown">3</span>s…
+            (If you’re on a TV browser and it fights downloads, use <b>Play/Stream</b>.)
+        </div>
+    </div>
+
+    <script>
+        const FILE = "DangerFlight.mp4";
+        const URL = "./" + FILE;
+
+        const statusEl = document.getElementById("status");
+        const fileNameEl = document.getElementById("fileName");
+        const fileSizeEl = document.getElementById("fileSize");
+        const fileModEl = document.getElementById("fileMod");
+        const fileUrlEl = document.getElementById("fileUrl");
+
+        const downloadBtn = document.getElementById("downloadBtn");
+        const playBtn = document.getElementById("playBtn");
+        const retryBtn = document.getElementById("retryBtn");
+
+        const countdownEl = document.getElementById("countdown");
+        const autoHintEl = document.getElementById("autoHint");
+
+        fileNameEl.textContent = FILE;
+        fileUrlEl.textContent = URL;
+        downloadBtn.href = URL;
+        playBtn.href = URL;
+
+        function humanBytes(bytes) {
+            if (!Number.isFinite(bytes)) return "—";
+            const units = ["B", "KB", "MB", "GB", "TB"];
+            let i = 0;
+            while (bytes >= 1024 && i < units.length - 1) { bytes /= 1024; i++; }
+            return `${bytes.toFixed(i === 0 ? 0 : 2)} ${units[i]}`;
+        }
+
+        async function loadMeta() {
+            statusEl.textContent = "Checking…";
+
+            try {
+                const res = await fetch(URL, { method: "HEAD", cache: "no-store" });
+                if (!res.ok) throw new Error("HTTP " + res.status);
+
+                const len = res.headers.get("content-length");
+                const lm = res.headers.get("last-modified");
+
+                fileSizeEl.textContent = len ? humanBytes(parseInt(len, 10)) : "—";
+                fileModEl.textContent = lm ? new Date(lm).toLocaleString() : "—";
+
+                statusEl.textContent = "Ready";
+            } catch (e) {
+                statusEl.textContent = "Not reachable";
+                fileSizeEl.textContent = "—";
+                fileModEl.textContent = "—";
+            }
+        }
+
+        retryBtn.addEventListener("click", loadMeta);
+
+        // Auto-download: short delay so the page can render + show status
+        const AUTO_SECONDS = 3;
+        let remaining = AUTO_SECONDS;
+
+        function tick() {
+            countdownEl.textContent = String(remaining);
+            if (remaining <= 0) {
+                // Trigger navigation to the file (most reliable across browsers)
+                window.location.href = URL;
+                return;
+            }
+            remaining--;
+            setTimeout(tick, 1000);
+        }
+
+        // Kick off
+        loadMeta();
+        tick();
+    </script>
+</body>
+
+</html>
