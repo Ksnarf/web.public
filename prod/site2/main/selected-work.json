@@ -1,0 +1,99 @@
+[
+    {
+        "title": "Automated K8s Git Ops Framework",
+        "summary": "A GitOps framework for Kubernetes that automates deployment and management of applications using Git as the source of truth.",
+        "details": "Designed and implemented a GitOps framework that integrates with Kubernetes, allowing for seamless deployment and management of applications. The framework includes features such as automated syncing, rollback capabilities, and support for multiple environments. It also provides a user-friendly interface for monitoring and managing deployments.",
+        "tags": [
+            "Kubernetes",
+            "GitOps",
+            "Automation"
+        ],
+        "linkText": "Details →",
+        "linkHref": "/"
+    },
+    {
+        "title": "Infrastructure Self-Repair Automation",
+        "summary": "Intercepts critical alerts and runs safe, staged remediation; reports outcomes back to engineers.",
+        "details": "Interprets alerts, validates impact, and executes staged actions (restart → reboot → redeploy) with guardrails, audit logs, and rollback/escalation paths. Includes post-action verification and status reporting.",
+        "tags": [
+            "Reliability",
+            "Automation",
+            "Incident response"
+        ],
+        "linkText": "Details →",
+        "linkHref": "/projects.html#self-repair"
+    },
+    {
+        "title": "Global FSxN Replication Fabric",
+        "summary": "Multi-AZ, multi-region SnapMirror architecture with replication to/from on-prem for predictable failover.",
+        "details": "Designed for controlled RPO/RTO with operational runbooks: lifecycle orchestration, break/glue workflows, health checks, and repeatable promotion/failback. Built to scale across accounts/regions.",
+        "tags": [
+            "NetApp",
+            "FSxN",
+            "SnapMirror",
+            "DR"
+        ],
+        "linkText": "Details →",
+        "linkHref": "/"
+    },
+    {
+        "title": "Golden Image Pipelines (CIS-hardened)",
+        "summary": "Automated AMI pipelines with CIS hardening, validation, scheduled rebuilds, and multi-account distribution.",
+        "details": "Quarterly rebuild cadence with security baselines, test gates, and versioned release promotion. Outputs consistent artifacts across regions and accounts with minimal manual input.",
+        "tags": [
+            "EC2 Image Builder",
+            "Terraform",
+            "Security baselines"
+        ],
+        "linkText": "Details →",
+        "linkHref": "/"
+    },
+    {
+        "title": "LLM-Assisted Log Parsing & Ops Routing",
+        "summary": "High-volume log parsing that detects failure patterns and routes findings into tickets and/or automation actions.",
+        "details": "Improves time-to-signal by clustering noisy logs, extracting probable root causes, and generating actionable summaries. Supports routing to ticket queues and optional safe automated remediations.",
+        "tags": [
+            "Observability",
+            "LLM workflows",
+            "Ticketing"
+        ],
+        "linkText": "Details →",
+        "linkHref": "/"
+    },
+    {
+        "title": "Automation in Unity License Provisioning",
+        "summary": "Build of workflow to automate provisioning of Unity licenses for new hires, reducing manual effort and onboarding time.",
+        "details": "Developed a system that integrates wtih AD and Unity's licensing platform to automatically allocate and manage licenses based on employee status.",
+        "tags": [
+            "Unity",
+            "Automation",
+            "Onboarding"
+        ],
+        "linkText": "Details →",
+        "linkHref": "/"
+    },
+    {
+        "title": "Automated Security Patch Management",
+        "summary": "Implementation of an automated system to manage security patches across all servers, ensuring timely updates and compliance.",
+        "details": "Designed and deployed a patch management solution that scans for vulnerabilities, schedules patch deployments, and provides reporting on compliance status.",
+        "tags": [
+            "Security",
+            "Automation",
+            "Compliance"
+        ],
+        "linkText": "Details →",
+        "linkHref": "/"
+    },
+    {
+        "title": "Cloud Cost Optimization Dashboard",
+        "summary": "Development of a dashboard to monitor and optimize cloud costs, providing insights and recommendations for cost-saving opportunities.",
+        "details": "Created a dashboard that aggregates cloud usage data, identifies cost trends, and offers actionable recommendations to reduce expenses while maintaining performance. Took advantage of AWS Cost Explorer APIs and implemented custom visualizations for better decision-making. The dashboard also includes alerting features to notify teams of unexpected cost spikes via slack notifications Set cost limits for non-critical resources to prevent runaway costs. Kept ",
+        "tags": [
+            "Cloud",
+            "Cost optimization",
+            "Dashboard"
+        ],
+        "linkText": "Details →",
+        "linkHref": "/"
+    }
+]

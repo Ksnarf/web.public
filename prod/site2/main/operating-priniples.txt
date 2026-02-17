@@ -1,0 +1,5 @@
+Operating principles:
+• Automate first, document second, repeat always
+• Prefer boring, observable systems
+• Build failure paths, not just happy paths
+• If it can’t be reproduced, it doesn’t exist

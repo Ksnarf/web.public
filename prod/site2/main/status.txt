@@ -1,0 +1,4 @@
+Current focus:
+• Automation in Unity License Provisioning
+• Deployment & Scaling of Amazon ECS multi-node services
+• FSxN CIFS mount to DFS Namespace Replication
