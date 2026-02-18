@@ -1,0 +1,15 @@
+{
+    "current": [
+        "Expanding multi-OS system image pipelines (Linux + Windows)",
+        "Hardening + distribution patterns for repeatable system baselines",
+        "Modular game infrastructure performance tuning",
+        "AI-assisted ops workflows with confirmation gates",
+        "Homelab reference builds for teaching/mentoring"
+    ],
+    "focus": [
+        "Reliability-first design",
+        "Repeatability via IaC + pipelines",
+        "Operational clarity under load"
+    ],
+    "notes": "This page is powered by public Git updates (site.2.updates) so it stays current without editing HTML."
+}

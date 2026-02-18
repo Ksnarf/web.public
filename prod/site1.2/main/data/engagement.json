@@ -1,0 +1,25 @@
+{
+    "email": "jobs@ksnarf.dev",
+    "links": [
+        {
+            "label": "GitHub",
+            "url": "https://github.com/Ksnarf"
+        },
+        {
+            "label": "Discord",
+            "url": "https://discord.gg/9xdXHFpxD7"
+        },
+        {
+            "label": "Bluesky",
+            "url": "https://bsky.app/profile/ksnarf.bsky.social"
+        },
+        {
+            "label": "Instagram",
+            "url": "https://www.instagram.com/ksnarf.dev/"
+        },
+        {
+            "label": "Tebex",
+            "url": "https://ksnarf.tebex.io"
+        }
+    ]
+}

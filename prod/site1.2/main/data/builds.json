@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Homelab Automation Platform",
+        "description": "A reproducible lab environment used to test designs before production: containers, routing, services, and automation patterns that are teachable and repeatable.",
+        "status": {
+            "label": "Alpha Testing",
+            "kind": "good"
+        },
+        "tags": [
+            "Homelab",
+            "Automation",
+            "Ops"
+        ],
+        "primary_url": "https://github.com/Ksnarf",
+        "links": [
+            {
+                "label": "repo",
+                "url": "https://github.com/Ksnarf"
+            },
+            {
+                "label": "writeup",
+                "url": "https://github.com/Ksnarf"
+            }
+        ],
+        "repo_meta": {
+            "last_commit_at": "",
+            "last_commit_msg": ""
+        }
+    }
+]

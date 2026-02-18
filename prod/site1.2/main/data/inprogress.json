@@ -1,0 +1,208 @@
+[
+    {
+        "title": "StreamDeck Profile Switcher (Razer Synapse)",
+        "summary": "Exploring a StreamDeck module to switch Synapse profiles for Tartarus Pro + Naga Trinity quickly and reliably.",
+        "status": {
+            "label": "Investigation",
+            "kind": "good"
+        },
+        "tags": [
+            "Windows",
+            "HID",
+            "Automation"
+        ],
+        "primary_url": "https://github.com/Ksnarf",
+        "links": [
+            {
+                "label": "repo",
+                "url": "https://github.com/Ksnarf"
+            },
+            {
+                "label": "notes",
+                "url": "https://github.com/Ksnarf/site.2.updates"
+            }
+        ],
+        "repo": "Ksnarf/site.2.updates",
+        "repo_meta": {
+            "last_commit_at": "",
+            "last_commit_msg": ""
+        }
+    },
+    {
+        "title": "n8n \u21c4 Notion Automation",
+        "summary": "Workflows for searchable + updatable Notion DBs via n8n with safe mappings and predictable updates.",
+        "status": {
+            "label": "Investigation",
+            "kind": "good"
+        },
+        "tags": [
+            "n8n",
+            "Notion",
+            "Integrations"
+        ],
+        "primary_url": "https://github.com/Ksnarf",
+        "links": [
+            {
+                "label": "repo",
+                "url": "https://github.com/Ksnarf"
+            }
+        ],
+        "repo_meta": {
+            "last_commit_at": "",
+            "last_commit_msg": ""
+        }
+    },
+    {
+        "title": "FiveM Roleplay (Codename: Nightshift)",
+        "summary": "Performance-first FiveM server infrastructure: clean resource boundaries, scalable layout",
+        "status": {
+            "label": "In-Progress",
+            "kind": "good"
+        },
+        "tags": [
+            "Game Infra",
+            "FiveM",
+            "Custom Modules"
+        ],
+        "primary_url": "https://github.com/Ksnarf",
+        "links": [
+            {
+                "label": "repo",
+                "url": "https://github.com/Ksnarf"
+            },
+            {
+                "label": "docs",
+                "url": "https://github.com/Ksnarf"
+            }
+        ],
+        "repo_meta": {
+            "last_commit_at": "",
+            "last_commit_msg": ""
+        }
+    },
+    {
+        "title": "Grey Zone Warfare Intel/Map Site",
+        "summary": "A fast, clean Intel/map site project for Grey Zone Warfare \u2014 built to be lightweight, searchable, and easy to iterate on.",
+        "status": {
+            "label": "Investigation",
+            "kind": "good"
+        },
+        "tags": [
+            "Web",
+            "Gaming",
+            "Tooling"
+        ],
+        "primary_url": "https://github.com/Ksnarf",
+        "links": [
+            {
+                "label": "site",
+                "url": "https://github.com/Ksnarf"
+            },
+            {
+                "label": "repo",
+                "url": "https://github.com/Ksnarf"
+            }
+        ],
+        "repo_meta": {
+            "last_commit_at": "",
+            "last_commit_msg": ""
+        }
+    },
+    {
+        "title": "SaltStack / Ansible Lab Stacks",
+        "summary": "Containerized labs for teaching automation through runnable examples instead of static docs.",
+        "status": {
+            "label": "Queued",
+            "kind": "good"
+        },
+        "tags": [
+            "Salt",
+            "Ansible",
+            "Labs"
+        ],
+        "primary_url": "https://github.com/Ksnarf",
+        "links": [
+            {
+                "label": "repo",
+                "url": "https://github.com/Ksnarf"
+            }
+        ],
+        "repo_meta": {
+            "last_commit_at": "",
+            "last_commit_msg": ""
+        }
+    },
+    {
+        "title": "Automated Content Pipeline",
+        "summary": "Repeatable production pipeline for storytelling with consistent visual capture + edit presets.",
+        "status": {
+            "label": "Investigation",
+            "kind": "good"
+        },
+        "tags": [
+            "Content",
+            "Pipelines",
+            "Templates"
+        ],
+        "primary_url": "https://github.com/Ksnarf",
+        "links": [
+            {
+                "label": "repo",
+                "url": "https://github.com/Ksnarf"
+            }
+        ],
+        "repo_meta": {
+            "last_commit_at": "",
+            "last_commit_msg": ""
+        }
+    },
+    {
+        "title": "Highlife Support Agent (Ops Assistant)",
+        "summary": "A modular, tag-driven PKM system built for flexibility, speed, and long-term knowledge retention.",
+        "status": {
+            "label": "Queued",
+            "kind": "good"
+        },
+        "tags": [
+            "PKM",
+            "Notion",
+            "Productivity"
+        ],
+        "primary_url": "https://github.com/Ksnarf",
+        "links": [
+            {
+                "label": "repo",
+                "url": "https://github.com/Ksnarf"
+            }
+        ],
+        "repo_meta": {
+            "last_commit_at": "",
+            "last_commit_msg": ""
+        }
+    },
+    {
+        "title": "RSS Feeder to DiscordBot ",
+        "summary": "A modular, tag-driven PKM system built for flexibility, speed, and long-term knowledge retention.",
+        "status": {
+            "label": "Queued",
+            "kind": "good"
+        },
+        "tags": [
+            "RSS",
+            "Discord",
+            "Bots",
+            "Integrations"
+        ],
+        "primary_url": "https://github.com/Ksnarf",
+        "links": [
+            {
+                "label": "repo",
+                "url": "https://github.com/Ksnarf"
+            }
+        ],
+        "repo_meta": {
+            "last_commit_at": "",
+            "last_commit_msg": ""
+        }
+    }
+]
