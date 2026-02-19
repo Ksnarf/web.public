@@ -24,6 +24,16 @@
         "linkHref": "/projects.html#self-repair"
     },
     {
+        "title": "Enterprise Teamcity environment Design & Operations",
+        "summary": "Design and operation of a large-scale TeamCity environment capable of supporting hundreds of pipelines across multiple teams.",
+        "details": "Designed scalable Teamcity environment capable of auto-scaling 100+ build agents, supporting CI/CD pipelines for multiple teams.",
+        "tags": [
+            "CI/CD",
+            "TeamCity",
+            "Build infrastructure"
+        ],
+    },
+    {
         "title": "Global FSxN Replication Fabric",
         "summary": "Enterprise-grade multi-region SnapMirror replication architecture designed for controlled RPO/RTO across cloud and on-prem environments.",
         "details": "Designed for controlled RPO/RTO with operational runbooks: lifecycle orchestration, break/glue workflows, health checks, and repeatable promotion/failback. Built to scale across accounts/regions.",
