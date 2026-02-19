@@ -1,0 +1,957 @@
+Here’s a **full `index.html`** for your **professional site** with the requested changes applied (now using a
+`CONFIG.BASE_DATA_URL` pointing at `web.public/prod/site2/main/data/`). This is based on the file you provided .
+
+```html
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Kris Sanders</title>
+    <meta name="description"
+        content="Professional landing page for Kris Sanders— Infrastructure / Platform Engineering, Cloud, Automation, Security." />
+
+    <style>
+        :root {
+            --bg0: #070A10;
+            --bg1: #0B1220;
+            --card: #0E1729cc;
+            --card2: #0E1729;
+            --stroke: #1D2A44;
+            --stroke2: #2A3B5F;
+            --text: #E7EEF8;
+            --muted: #A9B7D0;
+            --muted2: #7F91B4;
+            --accent: #7CC7FF;
+            --accent2: #B1FFDA;
+            --shadow: 0 18px 60px rgba(0, 0, 0, .45);
+            --radius: 18px;
+            --radius2: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            color: var(--text);
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            background: linear-gradient(180deg, var(--bg0), var(--bg1));
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100%;
+        }
+
+        /* Fixed gradient layer to eliminate mid-page seams/tiling */
+        #bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(1200px 800px at 20% 10%, rgba(124, 199, 255, .18), transparent 60%),
+                radial-gradient(1000px 700px at 85% 25%, rgba(177, 255, 218, .12), transparent 55%),
+                radial-gradient(900px 700px at 55% 95%, rgba(124, 199, 255, .10), transparent 60%),
+                linear-gradient(180deg, var(--bg0), var(--bg1));
+        }
+
+        /* Full-document noise overlay (single image, NO repeat, NO seams) */
+        #noise-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.075;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 2;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 56px 18px 90px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 240px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            box-shadow: 0 0 0 4px rgba(124, 199, 255, .12);
+        }
+
+        .brand .site {
+            font-weight: 650;
+            letter-spacing: .2px;
+        }
+
+        .brand .sub {
+            display: block;
+            font-size: 12px;
+            color: var(--muted2);
+            margin-top: 2px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--stroke);
+            background: rgba(14, 23, 41, .55);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+            transition: transform .12s ease, border-color .12s ease, background .12s ease;
+            font-size: 13px;
+            color: var(--text);
+            text-decoration: none !important;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            border-color: var(--stroke2);
+            background: rgba(14, 23, 41, .72);
+        }
+
+        .btn.primary {
+            border-color: rgba(124, 199, 255, .35);
+            background: linear-gradient(135deg, rgba(124, 199, 255, .18), rgba(177, 255, 218, .12));
+        }
+
+        .panel {
+            border: 1px solid var(--stroke);
+            background: rgba(14, 23, 41, .55);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            padding: 26px;
+        }
+
+        .lede {
+            margin: 0;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.55;
+            max-width: 80ch;
+        }
+
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--stroke);
+            background: rgba(8, 12, 20, .35);
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .card {
+            grid-column: span 6;
+            border: 1px solid var(--stroke);
+            background: rgba(8, 12, 20, .35);
+            border-radius: var(--radius2);
+            padding: 14px;
+            min-height: 92px;
+        }
+
+        .card.full {
+            grid-column: span 12;
+        }
+
+        .card h3 {
+            margin: 0 0 6px;
+            font-size: 12px;
+            color: var(--muted2);
+            font-weight: 650;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+        }
+
+        .codebox {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 13px;
+            color: var(--text);
+            background: rgba(0, 0, 0, .22);
+            border: 1px solid rgba(255, 255, 255, .06);
+            border-radius: 12px;
+            padding: 10px 12px;
+            overflow: auto;
+            white-space: nowrap;
+        }
+
+        .codebox.multiline {
+            white-space: pre-wrap;
+            line-height: 1.45;
+        }
+
+        /* GitHub contributions */
+        .codebox.contrib {
+            padding: 0;
+            overflow: hidden;
+            background: rgba(0, 0, 0, .22);
+            border: 1px solid rgba(255, 255, 255, .06);
+            border-radius: 12px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .02);
+        }
+
+        .codebox.contrib img {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: brightness(0.85) contrast(1.1) saturate(1.1);
+        }
+
+        .section-title {
+            margin: 22px 0 10px;
+            font-size: 13px;
+            color: var(--muted2);
+            letter-spacing: .10em;
+            text-transform: uppercase;
+        }
+
+        .section-sub {
+            margin: -4px 0 10px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .list {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .item {
+            grid-column: span 4;
+            border: 1px solid var(--stroke);
+            background: rgba(8, 12, 20, .28);
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .item.full {
+            grid-column: span 12;
+        }
+
+        .item strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            letter-spacing: .2px;
+            color: var(--text);
+        }
+
+        .item span {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.45;
+            display: block;
+        }
+
+        .item .meta2 {
+            margin-top: 10px;
+            color: var(--muted2);
+            font-size: 12px;
+        }
+
+        /* Selected work host */
+        .work-host {
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+
+        .work-summary-wrap {
+            min-width: 0;
+        }
+
+        details.work {
+            border: 1px solid var(--stroke);
+            background: rgba(8, 12, 20, .28);
+            border-radius: 16px;
+            padding: 12px 14px;
+        }
+
+        details.work+details.work {
+            margin-top: 12px;
+        }
+
+        details.work summary {
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            outline: none;
+        }
+
+        details.work summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .work-title {
+            font-weight: 700;
+            letter-spacing: .2px;
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.35;
+        }
+
+        .work-summary {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.35;
+            margin-top: 6px;
+        }
+
+        .work-chevron {
+            flex: 0 0 auto;
+            color: var(--muted2);
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            background: rgba(0, 0, 0, .18);
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        details[open] .work-chevron {
+            color: var(--text);
+        }
+
+        .work-body {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .work-tags {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            font-size: 12px;
+            color: var(--muted);
+            border: 1px solid var(--stroke);
+            background: rgba(8, 12, 20, .35);
+            padding: 6px 9px;
+            border-radius: 999px;
+        }
+
+        .work-link {
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--muted2);
+        }
+
+        footer {
+            margin-top: 18px;
+            color: var(--muted2);
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 0 4px;
+        }
+
+        .footmeta {
+            display: inline-flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .footmeta .sep {
+            opacity: .45;
+        }
+
+        @media (max-width: 860px) {
+            .card {
+                grid-column: span 12;
+            }
+
+            .item {
+                grid-column: span 12;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .brand {
+                min-width: unset;
+            }
+        }
+
+        /* Fallback when backdrop-filter isn't supported */
+        @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+
+            .btn,
+            .panel {
+                background: rgba(14, 23, 41, .85);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bg-layer" aria-hidden="true"></div>
+    <div id="noise-layer" aria-hidden="true"></div>
+
+    <main class="wrap">
+
+        <div class="topbar">
+            <div class="brand">
+                <span class="dot" aria-hidden="true"></span>
+                <div>
+                    <div class="site">KrisSanders.com</div>
+                    <small class="sub">• infrastructure • automation • cloud • hybrid onprem •</small>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a class="btn primary" href="/assets/KrisSanders2026.pdf" download>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 3v12m0 0l4-4m-4 4l-4-4" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                    Resume
+                </a>
+
+                <a class="btn" href="https://www.linkedin.com/in/ksnhosting/" target="_blank"
+                    rel="noopener noreferrer">LinkedIn</a>
+                <a class="btn" href="https://github.com/Ksnarf" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="btn" href="https://app.daily.dev/ksnarf" target="_blank"
+                    rel="noopener noreferrer">DailyDev</a>
+            </div>
+        </div>
+
+        <section class="panel" aria-label="Hero">
+
+            <div class="grid" aria-label="Intro">
+                <div class="card full">
+                    <h3>About</h3>
+                    <p class="lede">
+                        I build reliable, repeatable infrastructure across AWS and on-prem: IaC, CI/CD, observability,
+                        and security-minded automation.
+                        I validate patterns in my homelab before they hit production. If you want scalable builds, sane
+                        deployments,
+                        and fewer 3 a.m. incidents—you’re in the right place.<br>
+                        <strong>What we build, doesn't break.</strong>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Git-backed tags (fallback pills remain if fetch fails) -->
+            <div class="meta" id="tagsHost" aria-label="Technology tags">
+                <span class="pill">AWS</span>
+                <span class="pill">Azure</span>
+                <span class="pill">Docker</span>
+                <span class="pill">Kubernetes</span>
+                <span class="pill">CI/CD</span>
+                <span class="pill">Datadog</span>
+                <span class="pill">Prometheus</span>
+                <span class="pill">Solarwinds</span>
+                <span class="pill">OnPrem</span>
+                <span class="pill">NetApp</span>
+                <span class="pill">FSxN</span>
+                <span class="pill">Hybrid Cloud/OnPrem</span>
+                <span class="pill">Perforce Helix Core</span>
+                <span class="pill">TeamCity</span>
+                <span class="pill">Jenkins</span>
+                <span class="pill">Terraform</span>
+                <span class="pill">CloudFormation</span>
+                <span class="pill">Python</span>
+                <span class="pill">Powershell</span>
+                <span class="pill">Ubuntu</span>
+                <span class="pill">RHEL</span>
+                <span class="pill">Windows Server</span>
+            </div>
+
+            <div class="grid" role="list" aria-label="Quick info boxes">
+                <div class="card" role="listitem">
+                    <h3>Desired Role</h3>
+                    <div class="codebox">Infrastructure / Automation Engineering</div>
+                    <div class="codebox">Lead / Senior Engineer</div>
+                    <div class="codebox">Engineering Manager</div>
+                </div>
+
+                <div class="card" role="listitem">
+                    <h3>Focus</h3>
+                    <div class="codebox">Automation • IaC • Reliability • Infra at Scale</div>
+                    <div class="codebox">CI/CD • Observability • Security</div>
+                    <div class="codebox">Hybrid Cloud / OnPrem</div>
+                </div>
+
+                <div class="card" role="listitem">
+                    <h3>Primary Environments</h3>
+                    <div class="codebox">AWS • Onprem • Azure</div>
+                </div>
+
+                <div class="card" role="listitem">
+                    <h3>Tooling</h3>
+                    <div class="codebox">Terraform • Docker • Kubernetes • Python • Powershell</div>
+                </div>
+            </div>
+
+            <div class="section-title">What I deliver</div>
+
+            <div class="list" aria-label="Capabilities">
+                <div class="item">
+                    <strong>Repeatable Infrastructure</strong>
+                    <span>Portable Terraform patterns that query real env data instead of brittle tfvars.</span>
+                </div>
+
+                <div class="item">
+                    <strong>Build &amp; Release Systems</strong>
+                    <span>CI/CD that scales: ephemeral agents, caching, artifact pipelines, and clean promotion
+                        paths.</span>
+                </div>
+
+                <div class="item">
+                    <strong>Operational Visibility</strong>
+                    <span>Datadog / Prometheus / Solarwinds + dashboards + alerting that catch issues early and reduce
+                        false
+                        alarms.</span>
+                </div>
+
+                <div class="item">
+                    <strong>Security Hygiene</strong>
+                    <span>Least-privilege IAM, hardened images, sane logging, and audit-friendly change tracking.</span>
+                </div>
+
+                <div class="item">
+                    <strong>Homelab-to-Cloud Continuity</strong>
+                    <span>Dev environments that mirror prod patterns: reverse proxy, TLS, segmented networks,
+                        automation.</span>
+                </div>
+
+                <div class="item">
+                    <strong>Pragmatic Automation</strong>
+                    <span>Scripts + workflows that remove toil: onboarding, self-healing, inventory, and status
+                        reporting.</span>
+                </div>
+            </div>
+
+            <div class="section-title">Operating principles</div>
+            <div class="grid" aria-label="Operating principles">
+                <div class="card full">
+                    <h3>How I operate</h3>
+                    <div class="codebox multiline" id="principlesBox">Loading…</div>
+                </div>
+            </div>
+
+            <div id="contact" class="section-title">Contact</div>
+
+            <div class="grid" aria-label="Contact boxes">
+                <div class="card">
+                    <h3>Email</h3>
+                    <div class="codebox">jobs@krissanders.com</div>
+                </div>
+
+                <div class="card">
+                    <h3>Engagement</h3>
+                    <div class="codebox multiline" id="availabilityBox">Loading…</div>
+                </div>
+
+                <div class="card full">
+                    <h3>Status</h3>
+                    <div class="codebox multiline" id="statusBox">Loading…</div>
+                </div>
+            </div>
+
+            <div id="updates" class="section-title">Recent updates</div>
+
+            <div class="grid" aria-label="GitHub contributions">
+                <div class="card full">
+                    <h3>Personal GitHub contributions</h3>
+                    <div class="codebox contrib">
+                        <img src="https://ghchart.rshah.org/1D2A44/Ksnarf" alt="GitHub contributions heatmap"
+                            loading="lazy" referrerpolicy="no-referrer" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="projects" class="section-title">Selected work</div>
+            <div class="section-sub">Representative systems I’ve designed or operated at scale.</div>
+
+            <div class="list" aria-label="Selected work">
+                <div class="item full work-host">
+                    <div id="selectedWorkHost">Loading…</div>
+                </div>
+            </div>
+
+        </section>
+
+        <footer>
+            <div class="footmeta">
+                <div>© <span id="year"></span> Ksnarf@ksnarf.dev</div>
+                <span class="sep">•</span>
+                <div id="lastUpdated">Last updated: —</div>
+            </div>
+            <div id="build">v0.0.0</div>
+        </footer>
+
+    </main>
+
+    <script>
+        // =========================
+        // CONTENT SOURCE (Public Git repo)
+        // =========================
+        const CONFIG = {
+            BASE_DATA_URL: "https://raw.githubusercontent.com/Ksnarf/web.public/main/prod/site2/main/data/",
+            CACHE_BUST: true
+        };
+
+        // One cache-bust token per page load (stable across all fetches)
+        const CACHE_BUST_TS = CONFIG.CACHE_BUST ? Date.now() : 0;
+
+        function withCacheBust(url) {
+            if (!CONFIG.CACHE_BUST) return url;
+            const v = CACHE_BUST_TS;
+            return url.includes("?") ? `${url}&v=${v}` : `${url}?v=${v}`;
+        }
+
+        function dataUrl(path) {
+            return withCacheBust(CONFIG.BASE_DATA_URL + path);
+        }
+
+        const URLS = {
+            availability: dataUrl("availability.json"),
+            status: dataUrl("status.txt"),
+            work: dataUrl("selected-work.json"),
+            tags: dataUrl("tags.json"),
+            meta: dataUrl("meta.json"),
+            principles: dataUrl("operating-principles.txt"),
+            ver: dataUrl("ver")
+        };
+
+        function setText(id, text) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = String(text ?? "");
+        }
+
+        function escapeHtml(s) {
+            return String(s ?? "")
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        async function fetchText(url) {
+            const res = await fetch(url, { cache: "no-store" });
+            if (!res.ok) throw new Error(`Fetch failed: ${url} (${res.status})`);
+            return await res.text();
+        }
+
+        async function fetchJson(url) {
+            const res = await fetch(url, { cache: "no-store" });
+            if (!res.ok) throw new Error(`Fetch failed: ${url} (${res.status})`);
+            return await res.json();
+        }
+
+        function renderAvailabilityBox(data) {
+            // Supports:
+            // 1) preferred: { status: "busy", message: "Currently busy. ..." }
+            // 2) legacy: { mode, label, note }
+            // 3) { text: "..." }
+            // 4) string
+            if (!data) return "Currently busy";
+            if (typeof data === "string") return data.trim();
+
+            if (typeof data.message === "string" && data.message.trim()) return data.message.trim();
+            if (typeof data.text === "string" && data.text.trim()) return data.text.trim();
+
+            const primary = data.primary || data.label || data.status || data.mode || "Currently busy";
+            const secondary = data.secondary || data.note || data.override || "";
+            return secondary ? `${primary}\n${secondary}`.trim() : String(primary).trim();
+        }
+
+        function renderSelectedWork(items) {
+            if (!Array.isArray(items) || items.length === 0) {
+                return `<div class="codebox multiline">No selected work found.</div>`;
+            }
+
+            return items.map((p, idx) => {
+                const title = escapeHtml(p.title || `Project ${idx + 1}`);
+                const summary = escapeHtml(p.summary || "");
+                const details = escapeHtml(p.details || "");
+                const linkHref = p.linkHref ? escapeHtml(p.linkHref) : "";
+                const linkText = escapeHtml(p.linkText || "Details →");
+                const tags = Array.isArray(p.tags) ? p.tags : [];
+
+                const tagHtml = tags.length
+                    ? `<div class="work-tags">${tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>`
+                    : "";
+
+                const linkHtml = linkHref
+                    ? `<div class="work-link"><a href="${linkHref}">${linkText}</a></div>`
+                    : "";
+
+                const bodyHtml = (details || tagHtml || linkHtml)
+                    ? `<div class="work-body">${details ? details : ""}${tagHtml}${linkHtml}</div>`
+                    : `<div class="work-body">More info coming soon.</div>`;
+
+                // Open first item by default (nice UX)
+                const openAttr = idx === 0 ? " open" : "";
+                return `
+          <details class="work"${openAttr}>
+            <summary>
+              <div class="work-summary-wrap">
+                <div class="work-title">${title}</div>
+                <div class="work-summary">${summary}</div>
+              </div>
+              <span class="work-chevron">Expand</span>
+            </summary>
+            ${bodyHtml}
+          </details>
+        `;
+            }).join("");
+        }
+
+        function renderTags(tags) {
+            if (!Array.isArray(tags) || tags.length === 0) return null;
+            return tags.map(t => `<span class="pill">${escapeHtml(t)}</span>`).join("");
+        }
+
+        // Viewport-fixed runtime noise generator
+        function generateNoiseDataURL(viewW, viewH) {
+            const SCALE = 0.36;
+            const DPR = Math.max(1, Math.floor(window.devicePixelRatio || 1));
+            const w = Math.max(96, Math.floor(viewW * SCALE * DPR));
+            const h = Math.max(96, Math.floor(viewH * SCALE * DPR));
+
+            const c = document.createElement("canvas");
+            c.width = w;
+            c.height = h;
+
+            const ctx = c.getContext("2d", { alpha: true });
+            if (!ctx) return null;
+
+            const img = ctx.createImageData(w, h);
+            const data = img.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const v = (Math.random() * 255) | 0;
+                data[i] = v; data[i + 1] = v; data[i + 2] = v;
+                data[i + 3] = 22;
+            }
+
+            ctx.putImageData(img, 0, 0);
+
+            try { return c.toDataURL("image/png"); }
+            catch (_) { return null; }
+        }
+
+        function sizeNoiseToViewport() {
+            const layer = document.getElementById("noise-layer");
+            if (!layer) return;
+
+            const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+            const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+            layer.style.width = "100vw";
+            layer.style.height = "100vh";
+            layer.style.backgroundSize = "cover";
+
+            const dataUrl = generateNoiseDataURL(vw, vh);
+            layer.style.backgroundImage = dataUrl ? `url("${dataUrl}")` : "none";
+        }
+
+        // Init
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        const FALLBACK_AVAILABILITY = "Currently busy";
+        const FALLBACK_STATUS = [
+            "Current focus:",
+            "• Infrastructure automation + self-repair patterns",
+            "• FSxN replication + DR workflows",
+            "• CIS-hardened image pipelines",
+            "• Log triage automation (LLM-assisted)"
+        ].join("\n");
+
+        const FALLBACK_PRINCIPLES = [
+            "Operating principles:",
+            "• Automate first, document second, repeat always",
+            "• Prefer boring, observable systems",
+            "• Build failure paths, not just happy paths",
+            "• If it can’t be reproduced, it doesn’t exist"
+        ].join("\n");
+
+        function formatLastUpdated(value) {
+            if (!value) return "Last updated: —";
+            const d = new Date(value);
+            if (Number.isNaN(d.getTime())) return `Last updated: ${value} (live from Git)`;
+            const m = d.toLocaleString(undefined, { month: "short" });
+            const y = d.getFullYear();
+            return `Last updated: ${m} ${y} (live from Git)`;
+        }
+
+        async function loadBuildVersionFromVerFile() {
+            // "ver" is a tiny plain-text file in your updates repo.
+            // Put e.g. "v2.1.4" in it.
+            try {
+                const verText = (await fetchText(URLS.ver)).trim();
+                if (verText) setText("build", verText);
+            } catch (e) {
+                // Soft-fail: leave the default build text
+                console.warn("Build ver load failed:", e);
+            }
+        }
+
+        async function loadGitBackedContent() {
+            // Footer build/version (from /ver in updates repo)
+            loadBuildVersionFromVerFile();
+
+            // Tags
+            try {
+                const tags = await fetchJson(URLS.tags);
+                const html = renderTags(tags);
+                const host = document.getElementById("tagsHost");
+                if (host && html) host.innerHTML = html;
+            } catch (e) {
+                console.warn("Tags load failed:", e);
+            }
+
+            // Meta / last updated
+            try {
+                const meta = await fetchJson(URLS.meta);
+                setText("lastUpdated", formatLastUpdated(meta.last_updated));
+            } catch (e) {
+                setText("lastUpdated", "Last updated: —");
+                console.warn("Meta load failed:", e);
+            }
+
+            // Operating principles
+            try {
+                const principlesText = (await fetchText(URLS.principles)).trim();
+                setText("principlesBox", principlesText || FALLBACK_PRINCIPLES);
+            } catch (e) {
+                setText("principlesBox", FALLBACK_PRINCIPLES);
+                console.warn("Principles load failed:", e);
+            }
+
+            // Engagement / availability
+            try {
+                const availability = await fetchJson(URLS.availability);
+                setText("availabilityBox", renderAvailabilityBox(availability));
+            } catch (e) {
+                setText("availabilityBox", FALLBACK_AVAILABILITY);
+                console.warn("Availability load failed:", e);
+            }
+
+            // Status
+            try {
+                const statusText = (await fetchText(URLS.status)).trim();
+                setText("statusBox", statusText || FALLBACK_STATUS);
+            } catch (e) {
+                setText("statusBox", FALLBACK_STATUS);
+                console.warn("Status load failed:", e);
+            }
+
+            // Selected work
+            const host = document.getElementById("selectedWorkHost");
+            try {
+                const workItems = await fetchJson(URLS.work);
+                if (host) host.innerHTML = renderSelectedWork(workItems);
+            } catch (e) {
+                if (host) host.innerHTML = `<div class="codebox multiline">Selected work failed to load.\n${escapeHtml(String(e))}</div>`;
+                console.warn("Selected work load failed:", e);
+            }
+        }
+
+        window.addEventListener("load", () => {
+            sizeNoiseToViewport();
+            setTimeout(sizeNoiseToViewport, 250);
+            loadGitBackedContent();
+        });
+
+        let noiseResizeTimer = null;
+        window.addEventListener("resize", () => {
+            clearTimeout(noiseResizeTimer);
+            noiseResizeTimer = setTimeout(sizeNoiseToViewport, 150);
+        });
+
+        window.addEventListener("orientationchange", () => {
+            setTimeout(sizeNoiseToViewport, 200);
+        });
+    </script>
+
+</body>
+
+</html>

@@ -25,7 +25,7 @@
     },
     {
         "title": "Global FSxN Replication Fabric",
-        "summary": "Multi-AZ, multi-region SnapMirror architecture with replication to/from on-prem for predictable failover.",
+        "summary": "Enterprise-grade multi-region SnapMirror replication architecture designed for controlled RPO/RTO across cloud and on-prem environments.",
         "details": "Designed for controlled RPO/RTO with operational runbooks: lifecycle orchestration, break/glue workflows, health checks, and repeatable promotion/failback. Built to scale across accounts/regions.",
         "tags": [
             "NetApp",
