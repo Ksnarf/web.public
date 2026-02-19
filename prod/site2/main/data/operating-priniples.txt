@@ -1,2 +1,1 @@
-Operating principle:
 Designing hybrid & cloud-based only infrastructure systems that prioritize resilience, governance, and predictable scale. 
