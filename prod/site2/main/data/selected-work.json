@@ -21,7 +21,7 @@
             "Incident response"
         ],
         "linkText": "Details →",
-        "linkHref": "/projects.html#self-repair"
+        "linkHref": "/"
     },
     {
         "title": "Enterprise Teamcity environment Design & Operations",
@@ -33,7 +33,7 @@
             "Build infrastructure"
         ],
         "linkText": "Details →",
-        "linkHref": "/projects.html#teamcity"
+        "linkHref": "/"
     },
     {
         "title": "Global FSxN Replication Fabric",
