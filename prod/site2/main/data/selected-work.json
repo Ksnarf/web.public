@@ -32,6 +32,8 @@
             "TeamCity",
             "Build infrastructure"
         ],
+        "linkText": "Details →",
+        "linkHref": "/projects.html#teamcity"
     },
     {
         "title": "Global FSxN Replication Fabric",
