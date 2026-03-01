@@ -1,0 +1,30 @@
+{
+    "name": "TAK Content Portal",
+    "version": "0.2.0",
+    "updated": "2026-03-01T18:00:00Z",
+    "latest": {
+        "title": "POC Starter Pack",
+        "href": "./packages/poc-starter-pack.zip",
+        "desc": "Baseline offline bundle: local checklists + sample overlays.",
+        "updated": "2026-03-01T18:00:00Z"
+    },
+    "featured": [
+        {
+            "title": "Emergency Checklists",
+            "href": "./local/checklists/",
+            "desc": "Printable PDFs + quick reference docs.",
+            "tags": [
+                "docs",
+                "preparedness"
+            ],
+            "updated": "2026-03-01T18:00:00Z"
+        }
+    ],
+    "folders": {
+        "packages": "./packages/",
+        "overlays": "./overlays/",
+        "maps": "./maps/",
+        "official": "./official/",
+        "local": "./local/"
+    }
+}

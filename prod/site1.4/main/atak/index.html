@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TAK Content Portal | Ksnarf</title>
+
+    <style>
+        :root {
+            --bg: #0f1115;
+            --panel: rgba(25, 28, 36, 0.75);
+            --panel-2: rgba(25, 28, 36, 0.55);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #4da3ff;
+            --accent-soft: rgba(77, 163, 255, 0.16);
+            --text: #e6e9ef;
+            --muted: #9aa4b2;
+            --good: #3ddc97;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(77, 163, 255, 0.09), transparent 42%),
+                radial-gradient(circle at 80% 70%, rgba(77, 163, 255, 0.06), transparent 45%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        header {
+            padding: 2.2rem 2rem 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            min-width: 260px;
+        }
+
+        .glyph {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(77, 163, 255, 0.18), rgba(77, 163, 255, 0.06));
+            border: 1px solid var(--border);
+            box-shadow: 0 0 0 1px rgba(77, 163, 255, 0.08);
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--accent);
+        }
+
+        h1 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.65rem;
+            letter-spacing: 0.4px;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            margin-top: 0.25rem;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .pills {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 0.7rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--muted);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--good);
+            box-shadow: 0 0 0 3px rgba(61, 220, 151, 0.12);
+        }
+
+        main {
+            flex: 1;
+            padding: 1.4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Panels/cards with blur: include Safari prefix */
+        .panel,
+        .card,
+        .featured-card {
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .controls-left {
+            display: flex;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+            align-items: center;
+            flex: 1;
+        }
+
+        input[type="search"] {
+            flex: 1;
+            min-width: 240px;
+            padding: 0.7rem 0.85rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.22);
+            color: var(--text);
+            outline: none;
+        }
+
+        input[type="search"]::placeholder {
+            color: rgba(154, 164, 178, 0.75);
+        }
+
+        select {
+            padding: 0.65rem 0.8rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.22);
+            color: var(--text);
+            outline: none;
+        }
+
+        /* screen-reader-only label */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .small {
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .updated {
+            margin-left: 0.6rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.2rem;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            min-height: 132px;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent-soft), 0 10px 30px rgba(0, 0, 0, 0.42);
+            transform: translateY(-3px);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-weight: 550;
+            font-size: 1.05rem;
+            letter-spacing: 0.2px;
+        }
+
+        .meta {
+            display: flex;
+            gap: 0.55rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 0.1rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            color: var(--muted);
+            padding: 0.2rem 0.45rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tag.featured {
+            color: var(--accent);
+            border-color: rgba(77, 163, 255, 0.35);
+            background: rgba(77, 163, 255, 0.07);
+        }
+
+        .desc {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.35;
+            flex: 1;
+        }
+
+        .cta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.2rem;
+            gap: 0.8rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 0.75rem;
+            border-radius: 12px;
+            border: 1px solid rgba(77, 163, 255, 0.35);
+            background: rgba(77, 163, 255, 0.08);
+            color: var(--accent);
+            font-size: 0.85rem;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            text-decoration: none;
+            filter: brightness(1.05);
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .featured-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .featured-card {
+            background: linear-gradient(180deg, rgba(77, 163, 255, 0.11), rgba(25, 28, 36, 0.75));
+            border: 1px solid rgba(77, 163, 255, 0.20);
+            border-radius: 14px;
+            padding: 1.1rem;
+        }
+
+        .featured-card h2 {
+            margin: 0 0 0.35rem 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .featured-card p {
+            margin: 0 0 0.8rem 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.35;
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .hr {
+            height: 1px;
+            background: var(--border);
+            margin: 1.2rem 0;
+        }
+
+        footer {
+            padding: 1.2rem 2rem 1.6rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-note {
+            margin-top: 0.35rem;
+        }
+
+        .notice {
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 0.95rem 1rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+            line-height: 1.35;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="topbar">
+            <div class="brand">
+                <div class="glyph" title="Ksnarf">K</div>
+                <div>
+                    <h1>TAK Content Portal</h1>
+                    <div class="subtitle">Situational awareness artifacts · offline bundles · official/public datasets
+                    </div>
+                </div>
+            </div>
+
+            <div class="pills">
+                <div class="pill" title="Portal availability (POC)">
+                    <span class="dot"></span>
+                    Status: Online
+                </div>
+                <div class="pill" title="Protected by SSO at the edge">Auth: Authentik SSO</div>
+                <div class="pill" title="Served internally via Caddy, proxied by NPM">Edge: NPM → Caddy</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="featured-row" id="featuredRow">
+            <div class="featured-card">
+                <h2>Latest Package</h2>
+                <p id="latestPackageText">
+                    Add a package to <code>packages/</code> and optionally list it in <code>manifest.json</code> to show
+                    it here.
+                </p>
+                <a class="btn" id="latestPackageBtn" href="./packages/">Browse packages →</a>
+            </div>
+
+            <div class="featured-card">
+                <h2>Quick Links</h2>
+                <p>Overlays, maps, official feeds, and local checklists — organized and secured for emergency readiness.
+                </p>
+                <div class="quick-links">
+                    <a class="btn" href="./overlays/">Overlays →</a>
+                    <a class="btn" href="./maps/">Maps →</a>
+                    <a class="btn" href="./official/">Official →</a>
+                    <a class="btn" href="./local/">Local →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="controls">
+                <div class="controls-left">
+                    <input id="search" type="search" placeholder="Search folders and featured items…" />
+
+                    <label class="sr-only" for="sort">Sort items</label>
+                    <select id="sort" aria-label="Sort items">
+                        <option value="recent">Sort: Recently updated</option>
+                        <option value="az">Sort: A → Z</option>
+                        <option value="za">Sort: Z → A</option>
+                    </select>
+                </div>
+
+                <div class="small">
+                    <span id="count">0</span> items
+                    <span id="updated" class="updated"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid" id="grid"></div>
+
+        <div class="hr"></div>
+
+        <div class="notice">
+            <strong>Compliance note:</strong> Only store and distribute public, official, explicitly licensed, or
+            personally authored materials.
+            This portal is protected by SSO; do not expose sensitive or restricted data.
+        </div>
+    </main>
+
+    <footer>
+        <div>Hosted internally via Caddy · Secured by Authentik SSO · Exposed via NPM</div>
+        <div class="footer-note">POC now → UAT/Prod later: auditing, curated catalogs, auto-build mission packages, and
+            source manifests.</div>
+    </footer>
+
+    <script>
+        const baseItems = [
+            {
+                key: "packages",
+                title: "Packages",
+                href: "./packages/",
+                desc: "Curated mission packages (.zip) for offline deployment in ATAK/iTAK.",
+                tags: ["mission-package", "offline"],
+                updated: null,
+                featured: true
+            },
+            {
+                key: "overlays",
+                title: "Overlays",
+                href: "./overlays/",
+                desc: "KML / KMZ / GPX layers for incidents, zones, routes, and POIs.",
+                tags: ["kml", "kmz", "gpx"],
+                updated: null
+            },
+            {
+                key: "maps",
+                title: "Maps",
+                href: "./maps/",
+                desc: "MBTiles and map resources for offline basemaps and imagery.",
+                tags: ["mbtiles", "basemap"],
+                updated: null
+            },
+            {
+                key: "official",
+                title: "Official",
+                href: "./official/",
+                desc: "Public datasets from official sources (GeoJSON, CAP, alerts, exports).",
+                tags: ["public-data", "official"],
+                updated: null
+            },
+            {
+                key: "local",
+                title: "Local",
+                href: "./local/",
+                desc: "Preparedness documents, checklists, comm plans, and internal references.",
+                tags: ["docs", "checklists"],
+                updated: null
+            }
+        ];
+
+        async function loadManifest() {
+            try {
+                const res = await fetch("./manifest.json", { cache: "no-store" });
+                if (!res.ok) throw new Error("manifest not found");
+                return await res.json();
+            } catch {
+                return null;
+            }
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, (c) => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            }[c]));
+        }
+
+        function normalizeItems(manifest) {
+            const items = [...baseItems];
+
+            const updatedEl = document.getElementById("updated");
+            if (manifest && manifest.updated) {
+                updatedEl.textContent = `· updated ${manifest.updated}`;
+            } else {
+                updatedEl.textContent = "";
+            }
+
+            // Latest card
+            if (manifest && manifest.latest && manifest.latest.title && manifest.latest.href) {
+                const t = document.getElementById("latestPackageText");
+                const btn = document.getElementById("latestPackageBtn");
+
+                const updatedText = manifest.latest.updated ? `Updated: ${manifest.latest.updated}` : "";
+                const desc = manifest.latest.desc ? escapeHtml(manifest.latest.desc) : "";
+
+                t.innerHTML =
+                    `<strong>${escapeHtml(manifest.latest.title)}</strong>` +
+                    (updatedText ? `<div class="muted">${escapeHtml(updatedText)}</div>` : "") +
+                    (desc ? `<div class="muted">${desc}</div>` : "");
+
+                btn.href = manifest.latest.href;
+                btn.textContent = "Open latest →";
+            }
+
+            // Additional featured items
+            if (manifest && Array.isArray(manifest.featured)) {
+                for (const f of manifest.featured) {
+                    if (!f || !f.title || !f.href) continue;
+                    items.push({
+                        key: `featured:${f.title}`,
+                        title: f.title,
+                        href: f.href,
+                        desc: f.desc || "Featured item",
+                        tags: (f.tags || []).concat(["featured"]),
+                        updated: f.updated || (manifest.updated || null),
+                        featured: true
+                    });
+                }
+            }
+
+            return items;
+        }
+
+        function render(items) {
+            const grid = document.getElementById("grid");
+            grid.innerHTML = "";
+
+            for (const item of items) {
+                const tags = (item.tags || []).map(t => {
+                    const cls = (t === "featured") ? "tag featured" : "tag";
+                    return `<span class="${cls}">${escapeHtml(t)}</span>`;
+                }).join("");
+
+                const updated = item.updated ? `Updated: ${escapeHtml(item.updated)}` : "";
+                grid.insertAdjacentHTML("beforeend", `
+          <div class="card">
+            <div>
+              <h3><a href="${escapeHtml(item.href)}">${escapeHtml(item.title)}</a></h3>
+              <div class="meta">${tags}</div>
+            </div>
+            <p class="desc">${escapeHtml(item.desc)}</p>
+            <div class="cta">
+              <a class="btn" href="${escapeHtml(item.href)}">Open →</a>
+              <div class="muted">${updated}</div>
+            </div>
+          </div>
+        `);
+            }
+
+            document.getElementById("count").textContent = String(items.length);
+        }
+
+        function applySearchAndSort(allItems) {
+            const q = document.getElementById("search").value.trim().toLowerCase();
+            const sortMode = document.getElementById("sort").value;
+
+            let items = allItems.filter(i => {
+                if (!q) return true;
+                const hay = `${i.title} ${i.desc} ${(i.tags || []).join(" ")}`.toLowerCase();
+                return hay.includes(q);
+            });
+
+            const dateValue = (x) => {
+                if (!x) return 0;
+                const t = Date.parse(x);
+                return isNaN(t) ? 0 : t;
+            };
+
+            if (sortMode === "az") items.sort((a, b) => a.title.localeCompare(b.title));
+            else if (sortMode === "za") items.sort((a, b) => b.title.localeCompare(a.title));
+            else items.sort((a, b) => dateValue(b.updated) - dateValue(a.updated));
+
+            render(items);
+        }
+
+        (async function init() {
+            const manifest = await loadManifest();
+            const items = normalizeItems(manifest);
+
+            applySearchAndSort(items);
+
+            document.getElementById("search").addEventListener("input", () => applySearchAndSort(items));
+            document.getElementById("sort").addEventListener("change", () => applySearchAndSort(items));
+        })();
+    </script>
+</body>
+
+</html>
