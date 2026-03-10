@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lil Devil Artisan Goods | Las Vegas Local Delivery</title>
+    <meta name="description"
+        content="Lil Devil Artisan Goods is a Las Vegas local artisan business offering handcrafted goods with local delivery only." />
+    <style>
+        :root {
+            --red: #b3131b;
+            --red-dark: #7f0d13;
+            --white: #ffffff;
+            --gray-100: #f4f4f4;
+            --gray-200: #e2e2e2;
+            --gray-700: #444444;
+            --gray-900: #222222;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--gray-100);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        header {
+            background: var(--gray-900);
+            color: var(--white);
+            padding: 18px 24px;
+            border-bottom: 4px solid var(--red);
+        }
+
+        .topbar {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--white);
+        }
+
+        .brand span {
+            color: var(--red);
+        }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--white);
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: #ffb3b7;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            color: var(--white);
+            padding: 80px 24px;
+        }
+
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            margin: 0 0 16px;
+            font-size: 3rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            margin: 0 0 18px;
+            font-size: 1.1rem;
+            max-width: 700px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 8px 14px;
+            border-radius: 999px;
+            margin-bottom: 18px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 0.03em;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--red);
+        }
+
+        .btn-primary:hover {
+            background: #f0f0f0;
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--white);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            padding: 22px;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero-card h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .hero-card ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 56px 24px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            font-size: 2rem;
+            color: var(--gray-900);
+        }
+
+        .section-intro {
+            max-width: 760px;
+            color: var(--gray-700);
+            margin-bottom: 28px;
+        }
+
+        .notice {
+            background: #fff5f5;
+            border-left: 6px solid var(--red);
+            padding: 18px 20px;
+            border-radius: 10px;
+            margin-bottom: 32px;
+        }
+
+        .notice strong {
+            color: var(--red-dark);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--red);
+        }
+
+        .delivery-box {
+            background: var(--gray-900);
+            color: var(--white);
+            border-radius: 14px;
+            padding: 28px;
+            margin-top: 34px;
+        }
+
+        .delivery-box h3 {
+            margin-top: 0;
+            color: #ffb3b7;
+        }
+
+        .contact {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 14px;
+            padding: 28px;
+            margin-top: 28px;
+        }
+
+        .contact p {
+            margin: 8px 0;
+        }
+
+        footer {
+            background: var(--gray-900);
+            color: #d8d8d8;
+            text-align: center;
+            padding: 22px 24px;
+            margin-top: 30px;
+            border-top: 4px solid var(--red);
+        }
+
+        @media (max-width: 900px) {
+
+            .hero-inner,
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="topbar">
+            <div class="brand">Lil Devil <span>Artisan Goods</span></div>
+            <nav>
+                <a href="#about">About</a>
+                <a href="#products">Products</a>
+                <a href="#delivery">Delivery</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <div>
+                <div class="badge">LAS VEGAS LOCAL DELIVERY ONLY</div>
+                <h1>Handcrafted goods with a little attitude.</h1>
+                <p>
+                    Lil Devil Artisan Goods is a Las Vegas-based local business creating artisan products
+                    for customers in the valley. We currently offer <strong>local delivery only</strong>
+                    and do not ship outside the Las Vegas area.
+                </p>
+                <div class="cta-row">
+                    <a href="#products" class="btn btn-primary">Browse Test Products</a>
+                    <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                </div>
+            </div>
+
+            <div class="hero-card">
+                <h3>Quick Info</h3>
+                <ul>
+                    <li>Based in Las Vegas, Nevada</li>
+                    <li>Local delivery only</li>
+                    <li>No nationwide shipping at this time</li>
+                    <li>Perfect for pop-up, local, and direct-order sales</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="notice">
+            <strong>Please note:</strong> Lil Devil Artisan Goods is currently serving customers in
+            the Las Vegas area only. Orders outside our local delivery range may not be accepted.
+        </div>
+
+        <h2>About Lil Devil Artisan Goods</h2>
+        <p class="section-intro">
+            We create handcrafted artisan goods with bold style and local charm. This is a basic
+            starter page for testing your brand online while you build out products, ordering, and
+            delivery details.
+        </p>
+
+        <div class="grid" id="products">
+            <div class="card">
+                <h3>Handmade Creations</h3>
+                <p>
+                    Showcase your signature products here, whether they are candles, gift sets, décor,
+                    baked goods, custom crafts, or specialty artisan items.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Small Batch Quality</h3>
+                <p>
+                    Emphasize that each item is made with care, attention to detail, and local pride for
+                    Las Vegas customers.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Local First</h3>
+                <p>
+                    Let customers know your business is built around direct service, local delivery, and
+                    community support instead of mass shipping.
+                </p>
+            </div>
+        </div>
+
+        <div class="delivery-box" id="delivery">
+            <h3>Local Delivery Information</h3>
+            <p>
+                We currently deliver only within the Las Vegas area. Delivery zones, minimum order
+                requirements, and scheduling can be added here once you finalize operations.
+            </p>
+            <p>
+                Example service area copy: <strong>Las Vegas, North Las Vegas, Henderson, and nearby
+                    communities by approval.</strong>
+            </p>
+        </div>
+
+        <div class="contact" id="contact">
+            <h2>Contact / Order Inquiry</h2>
+            <p><strong>Phone:</strong> (702) 555-0123</p>
+            <p><strong>Email:</strong> orders@lildevilartisangoods.com</p>
+            <p><strong>Location:</strong> Las Vegas, Nevada</p>
+            <p>
+                Replace the placeholder contact info above with your real business phone number, email,
+                Instagram, Facebook page, or order form link.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Lil Devil Artisan Goods | Las Vegas, Nevada | Local Delivery Only
+    </footer>
+</body>
+
+</html>
