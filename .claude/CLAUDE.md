@@ -2,7 +2,9 @@
 
 ## What This Repo Is
 
-Static web content and assets for all KSN-hosted domains. This is the **content** side — server config lives in `web.private`.
+Static web content and assets for all KSN-hosted domains. This is the **content** side
+
+These sites are published via Cloudflare Pages.
 
 ---
 
@@ -81,3 +83,15 @@ When updating project info, edit the JSON files — do not hardcode content in H
 - Do not put Caddy server config here — that belongs in `web.private`
 - Do not store secrets or `.env` files — this repo is public-facing content
 - Do not add server-side code — static files only, served by Caddy
+
+---
+
+## memory-mcp
+
+Local MCP server (registered in foundation) provides cross-session memory + run-log search to all agents in this session.
+
+- `mcp__memory__memory_search` — keyword search of durable memory
+- `mcp__memory__runlog_search` — keyword search across `*/runs/DDMMMYYYY/log.log` (this repo's + others)
+- `mcp__memory__memory_status` — health snapshot
+
+Full tool list and trigger-based usage in [foundation CLAUDE.md](../../foundation/.claude/CLAUDE.md#memory-mcp).
