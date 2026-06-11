@@ -1,0 +1,16 @@
+# web.public - project log.log (repo root, append-only)
+
+Purpose: the durable narrative of what was actually done in this repo, by whom,
+with evidence. Single chronological file, separated by day headers so it stays
+searchable across all time. If it isn't written here with evidence, it did not
+happen. Verbal "I verified it" does not count - the saved output is the proof.
+
+Conventions:
+- One entry per event, newest at the BOTTOM. Real timestamps only (time MCP).
+- Day delimiter precedes each day's first entry (see format below).
+- Entry format: YYYY-MM-DD HH:MM:SS | <what was done> [evidence/path or tag]
+- Tag every claim: [verified] / [operator-did] / [unknown] / [blocked: reason].
+
+================================================================================
+2026-06-11
+================================================================================
