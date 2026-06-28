@@ -1,0 +1,14 @@
+# Cloudflare Pages — response headers for ktemawealth.com
+# Applied at the edge; no build step required.
+
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; form-action 'self' https:; frame-ancestors 'self'; base-uri 'self'
+
+# Long-cache the static assets (fonts/images are content-addressed by path)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

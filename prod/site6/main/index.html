@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  Site:    Ktema Wealth Management
+  Domain:  ktemawealth.com
+  Type:    Static marketing site — single self-contained HTML file.
+           No build system, no frameworks, no external JS/CSS, no external
+           fonts, no runtime data fetching. Opens via file:// by double-click.
+
+  ASSETS (present; graceful fallback if removed):
+    [x] assets/hero.png, about.png, insight-1..3.png, og.png
+    [ ] assets/fonts/SourceSerif4-SemiBold.woff2 + -Bold.woff2 (else Georgia)
+    NOTE: PNGs are ~1.7MB each (~11MB total). Convert to optimized WebP/JPG
+          (<300KB) before production for load performance.
+
+  TODO — PLACEHOLDERS TO FILL BEFORE LAUNCH:
+    [ ] Regulatory/CRD info  — firm CRD #, ADV/CRS/Disclosures PDF links (footer)
+    [ ] Awards row           — replace 4 placeholder badges w/ real earned awards
+    [ ] Insights articles    — replace 3 placeholder cards + dates + links
+    [ ] Client portal URL    — wire "Client Login" modal to real portal / custodian SSO
+    [ ] Contact form backend — deploy self-hosted posthorn, set FORM_ENDPOINT in script
+    [ ] Contact email/phone/address — intentionally removed from page; add back only if desired
+    [ ] Calendly/booking link — wire "Schedule a Consultation" CTAs
+    [ ] Confirm fiduciary/RIA + award-methodology disclosure language w/ compliance counsel
+  ============================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Ktema Wealth Management — disciplined, fiduciary wealth management. Independent, fee-based advisory built to endure.">
+<title>Ktema Wealth Management — Disciplined, Fiduciary Wealth Management</title>
+<meta property="og:title" content="Ktema Wealth Management">
+<meta property="og:description" content="Independent, fee-based fiduciary wealth management — built to endure.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ktemawealth.com/">
+<meta property="og:image" content="/assets/og.png">
+<style>
+  /* Self-hosted serif headings (OFL). Falls back to Georgia if the
+     woff2 files aren't present — see assets/fonts/README.md. */
+  @font-face{
+    font-family:"Source Serif 4";
+    src:url("/assets/fonts/SourceSerif4-SemiBold.woff2") format("woff2");
+    font-weight:600;font-style:normal;font-display:swap;
+  }
+  @font-face{
+    font-family:"Source Serif 4";
+    src:url("/assets/fonts/SourceSerif4-Bold.woff2") format("woff2");
+    font-weight:700;font-style:normal;font-display:swap;
+  }
+  :root{
+    --navy:#0f2034;
+    --navy-2:#16314f;
+    --charcoal:#1c2229;
+    --ink:#222a32;
+    --muted:#5d6b78;
+    --line:#e2e6ea;
+    --paper:#ffffff;
+    --paper-2:#f6f7f9;
+    --paper-3:#eef1f4;
+    --gold:#b08537;        /* single accent: deep gold */
+    --gold-dk:#8c6a2b;
+    --gold-soft:#f3ecdd;
+    --shadow:0 1px 2px rgba(15,32,52,.06), 0 10px 30px rgba(15,32,52,.07);
+    --radius:6px;
+    --serif:"Source Serif 4",Georgia,'Times New Roman',Cambria,'Liberation Serif',serif;
+    --sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body.no-scroll{overflow:hidden}
+  h1,h2,h3,h4{font-family:var(--serif);color:var(--navy);font-weight:600;line-height:1.2;letter-spacing:.2px}
+  h2{font-size:2rem;margin:0 0 .5rem}
+  p{margin:0 0 1rem}
+  a{color:var(--navy);text-decoration:none}
+  a:hover{color:var(--gold-dk)}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.5rem}
+  .eyebrow{
+    font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--gold-dk);margin:0 0 .75rem
+  }
+  .section{padding:5.5rem 0}
+  .section--alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .lead{font-size:1.15rem;color:var(--muted);max-width:48ch}
+
+  /* Buttons */
+  .btn{
+    display:inline-block;font-family:var(--sans);font-size:.95rem;font-weight:600;
+    padding:.8rem 1.5rem;border-radius:var(--radius);border:1px solid transparent;
+    cursor:pointer;transition:background .15s ease,color .15s ease,border-color .15s ease;
+    text-align:center;line-height:1.2;
+  }
+  .btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .btn-primary:hover{background:var(--navy-2);color:#fff}
+  .btn-gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+  .btn-gold:hover{background:var(--gold-dk);color:#fff}
+  .btn-outline{background:transparent;color:var(--navy);border-color:var(--line)}
+  .btn-outline:hover{border-color:var(--navy);color:var(--navy)}
+  .btn-ghost-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+  .btn-ghost-light:hover{background:rgba(255,255,255,.12);color:#fff;border-color:#fff}
+
+  /* Focus visibility */
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,.btn:focus-visible{
+    outline:3px solid var(--gold);outline-offset:2px;border-radius:4px;
+  }
+
+  /* Header / nav */
+  .site-header{
+    position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);
+    backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .wordmark{font-family:var(--serif);font-size:1.18rem;font-weight:600;color:var(--navy);letter-spacing:.3px;white-space:nowrap}
+  .wordmark .dot{color:var(--gold)}
+  .nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none;margin:0;padding:0}
+  .nav-links a{font-size:.95rem;color:var(--ink);font-weight:500}
+  .nav-links a:hover{color:var(--gold-dk)}
+  .nav-right{display:flex;align-items:center;gap:1.25rem}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:var(--radius);padding:.45rem .55rem;cursor:pointer}
+  .nav-toggle span{display:block;width:22px;height:2px;background:var(--navy);margin:4px 0;transition:transform .2s ease,opacity .2s ease}
+
+  /* Hero */
+  .hero{position:relative;color:#fff;overflow:hidden;
+    background:
+      radial-gradient(1100px 600px at 78% -10%, rgba(176,133,55,.22), transparent 60%),
+      linear-gradient(160deg,#0f2034 0%,#16314f 55%,#0c1a2c 100%);
+  }
+  /* Optional hero photo layer. If assets/hero.png is absent the image
+     simply doesn't paint and the gradient below shows through — no broken
+     icon, no layout shift. Photo is dimmed so white hero text stays legible. */
+  .hero::before{
+    content:"";position:absolute;inset:0;opacity:.28;pointer-events:none;
+    background-image:url("/assets/hero.png");background-size:cover;background-position:center;
+    mix-blend-mode:luminosity;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:url("/assets/noise.svg");background-size:300px 300px;
+  }
+  .hero .wrap{position:relative;z-index:1;padding-top:6rem;padding-bottom:6.5rem;max-width:880px}
+  .hero h1{color:#fff;font-size:clamp(2.2rem,5vw,3.5rem);margin:0 0 1.25rem}
+  .hero .sub{font-size:1.2rem;color:#d7e0ea;max-width:54ch;margin:0 0 2rem}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:1rem}
+
+  /* Trust strip */
+  .trust{background:var(--navy);color:#fff;border-top:3px solid var(--gold)}
+  .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:2.5rem 0}
+  .trust-grid--2{grid-template-columns:repeat(2,1fr);max-width:780px;margin:0 auto}
+  .trust-item{text-align:center;padding:.5rem 1rem}
+  .trust-item .num{font-family:var(--serif);font-size:1.7rem;color:#fff;line-height:1.1}
+  .trust-item .lbl{font-size:.85rem;letter-spacing:.06em;color:#bcccdd;text-transform:uppercase;margin-top:.4rem}
+  .trust-item + .trust-item{border-left:1px solid rgba(255,255,255,.14)}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+  .about-quote{
+    border-left:3px solid var(--gold);padding:1.25rem 0 1.25rem 1.5rem;margin:0;
+    font-family:var(--serif);font-size:1.25rem;color:var(--navy);font-style:italic;
+  }
+  .about-quote cite{display:block;font-style:normal;font-size:.85rem;color:var(--muted);margin-top:.6rem;letter-spacing:.04em}
+
+  /* Services */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:1.75rem;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;
+  }
+  .card:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 14px 36px rgba(15,32,52,.12)}
+  .card .ico{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:var(--gold-soft);margin-bottom:1rem}
+  .card .ico svg{width:22px;height:22px;stroke:var(--gold-dk);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .card h3{font-size:1.15rem;margin:0 0 .5rem}
+  .card p{font-size:.95rem;color:var(--muted);margin:0}
+
+  /* Process */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;counter-reset:step}
+  .step{position:relative;padding:1.5rem 0 0}
+  .step .n{
+    font-family:var(--serif);font-size:1.05rem;font-weight:700;color:#fff;background:var(--navy);
+    width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;
+    border:2px solid var(--gold);
+  }
+  .step h3{font-size:1.1rem;margin:0 0 .4rem}
+  .step p{font-size:.92rem;color:var(--muted);margin:0}
+
+  /* Insights */
+  .insight{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease}
+  .insight:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(15,32,52,.12)}
+  .insight .top{height:6px;background:linear-gradient(90deg,var(--gold),var(--gold-dk))}
+  .insight .body{padding:1.6rem}
+  .insight .date{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dk);font-weight:700}
+  .insight h3{font-size:1.18rem;margin:.5rem 0 .6rem}
+  .insight p{font-size:.95rem;color:var(--muted)}
+  .insight .more{font-weight:600;font-size:.92rem;color:var(--navy)}
+  .insight .more:hover{color:var(--gold-dk)}
+
+  /* CTA band */
+  .cta-band{
+    background:
+      radial-gradient(800px 400px at 20% 120%, rgba(176,133,55,.22), transparent 60%),
+      linear-gradient(135deg,#16314f,#0f2034);
+    color:#fff;text-align:center;
+  }
+  .cta-band h2{color:#fff;font-size:clamp(1.8rem,4vw,2.6rem)}
+  .cta-band p{color:#cfdae6;max-width:46ch;margin:0 auto 1.75rem}
+
+  /* Contact */
+  .contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:3.5rem;align-items:start}
+  form .field{margin-bottom:1.1rem}
+  form label{display:block;font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:.35rem}
+  form input,form textarea{
+    width:100%;padding:.75rem .85rem;border:1px solid var(--line);border-radius:var(--radius);
+    font-family:var(--sans);font-size:1rem;color:var(--ink);background:var(--paper);
+  }
+  form input:focus,form textarea:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(176,133,55,.18)}
+  .note{font-size:.82rem;color:var(--muted);background:var(--paper-3);border:1px dashed var(--line);
+    border-radius:var(--radius);padding:.65rem .8rem;margin-bottom:1rem}
+  .contact-narrow{max-width:600px}
+  .contact-narrow .lead{margin-bottom:2rem}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .form-status{margin:1rem 0 0;font-size:.92rem;min-height:1.2em}
+  .form-status.is-error{color:#9a2a2a}
+  .form-status.is-ok{color:var(--gold-dk)}
+  .form-done{
+    background:var(--paper-2);border:1px solid var(--line);border-top:3px solid var(--gold);
+    border-radius:var(--radius);padding:2rem;text-align:center;
+  }
+  .form-done h3{margin:0 0 .4rem}
+  .form-done p{margin:0;color:var(--muted)}
+
+  /* Footer */
+  .site-footer{background:var(--charcoal);color:#c4ccd4;padding:3.5rem 0 2rem;font-size:.9rem}
+  .footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2rem;align-items:flex-start;
+    border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:2rem;margin-bottom:1.5rem}
+  .site-footer .wordmark{color:#fff}
+  .footer-nav{display:flex;flex-wrap:wrap;gap:1.25rem;list-style:none;margin:0;padding:0}
+  .footer-nav a{color:#c4ccd4}
+  .footer-nav a:hover{color:#fff}
+  .disclosure{font-size:.8rem;color:#8c97a3;max-width:80ch;margin:0 0 .5rem}
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    background:rgba(10,18,30,.6);padding:1.25rem;
+  }
+  .modal-overlay.open{display:flex}
+  .modal{
+    background:var(--paper);width:100%;max-width:420px;border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.4);
+    border-top:4px solid var(--gold);padding:2rem 2rem 1.75rem;position:relative;
+  }
+  .modal h2{font-size:1.45rem;margin:0 0 .25rem}
+  .modal .sub{font-size:.9rem;color:var(--muted);margin:0 0 1.25rem}
+  .modal-close{
+    position:absolute;top:.9rem;right:.9rem;background:none;border:none;cursor:pointer;
+    width:34px;height:34px;border-radius:50%;color:var(--muted);font-size:1.4rem;line-height:1;
+  }
+  .modal-close:hover{background:var(--paper-3);color:var(--ink)}
+  .modal .field{margin-bottom:1rem}
+  .modal .forgot{font-size:.85rem;font-weight:600}
+  .modal .secure-note{display:flex;gap:.5rem;align-items:center;font-size:.82rem;color:var(--muted);margin-top:1rem}
+  .modal .secure-note svg{width:15px;height:15px;stroke:var(--gold-dk);fill:none;stroke-width:1.7}
+  .modal .pending{font-size:.8rem;color:var(--muted);background:var(--paper-3);border:1px dashed var(--line);
+    border-radius:var(--radius);padding:.55rem .7rem;margin-top:1rem}
+
+  /* Segmentation pillars */
+  .segments{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+  .segment{
+    background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--gold);
+    border-radius:var(--radius);padding:1.75rem;box-shadow:var(--shadow);
+  }
+  .segment h3{font-size:1.15rem;margin:0 0 .3rem}
+  .segment .tier{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dk);margin:0 0 .75rem}
+  .segment p{font-size:.95rem;color:var(--muted);margin:0}
+
+  /* Awards / recognition row */
+  .awards{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:2.25rem 0}
+  .awards .lbl{text-align:center;font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 1.25rem}
+  .award-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem}
+  .award-badge{
+    border:1px solid var(--line);background:var(--paper);border-radius:var(--radius);
+    padding:.7rem 1.1rem;font-family:var(--serif);font-size:.95rem;color:var(--navy);
+    text-align:center;min-width:150px;
+  }
+  .award-badge span{display:block;font-family:var(--sans);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dk);font-weight:700;margin-top:.2rem}
+
+  /* About image */
+  .about-figure{margin:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:linear-gradient(160deg,#16314f,#0f2034);min-height:240px}
+  .about-figure img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* Insight thumbnails */
+  .insight .thumb{height:150px;background:linear-gradient(135deg,var(--navy-2),var(--navy));background-size:cover;background-position:center}
+
+  .skip-link{position:absolute;left:-999px;top:0;background:var(--navy);color:#fff;padding:.6rem 1rem;z-index:200;border-radius:0 0 var(--radius) 0}
+  .skip-link:focus{left:0}
+
+  /* Responsive */
+  @media (max-width:880px){
+    .about-grid,.contact-grid{grid-template-columns:1fr;gap:2rem}
+    .cards,.steps,.segments{grid-template-columns:1fr 1fr}
+    .trust-grid{grid-template-columns:1fr}
+    .trust-item + .trust-item{border-left:none;border-top:1px solid rgba(255,255,255,.14)}
+  }
+  @media (max-width:720px){
+    .section{padding:4rem 0}
+    .nav-toggle{display:block}
+    .nav-links{
+      position:absolute;top:72px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);
+      flex-direction:column;align-items:stretch;gap:0;padding:.5rem 0;display:none;box-shadow:var(--shadow);
+    }
+    .nav-links.open{display:flex}
+    .nav-links li{padding:0}
+    .nav-links a{display:block;padding:.85rem 1.5rem;border-top:1px solid var(--paper-2)}
+    .nav-right .btn-gold{display:none} /* login button shown inside menu on mobile via duplicate */
+    .cards,.steps,.insights-grid,.segments{grid-template-columns:1fr}
+  }
+  @media (max-width:720px){
+    .nav-login-mobile{display:block !important;margin:.5rem 1.5rem}
+  }
+  .nav-login-mobile{display:none}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================ HEADER / NAV ============================ -->
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="wordmark" href="#top">Ktema Wealth Management<span class="dot">.</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-right">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="/about/">About</a></li>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/approach/">Approach</a></li>
+          <li><a href="/insights/">Insights</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li class="nav-login-mobile"><a class="btn btn-gold" href="#" data-login>Client Login</a></li>
+        </ul>
+        <a class="btn btn-gold" href="#" data-login id="navLoginBtn">Client Login</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<span id="top"></span>
+
+  <!-- ============================== HERO ============================== -->
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap">
+      <p class="eyebrow" style="color:#d9b873">Independent · Fee-Based · Fiduciary</p>
+      <h1 id="hero-h">Disciplined wealth management, built to endure.</h1>
+      <p class="sub">We are an independent, fee-based fiduciary advisory firm. We give counsel that is unconflicted, evidence-based, and patient — so your wealth serves your life and the generations that follow.</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="#contact">Schedule a Consultation</a>
+        <a class="btn btn-ghost-light" href="#" data-login>Client Login</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ TRUST STRIP ============================ -->
+  <section class="trust" aria-label="Firm highlights">
+    <div class="wrap">
+      <div class="trust-grid trust-grid--2">
+        <div class="trust-item">
+          <div class="num">Fiduciary, always</div>
+          <div class="lbl">Your interest comes first</div>
+        </div>
+        <div class="trust-item">
+          <div class="num">Independent &amp; fee-based</div>
+          <div class="lbl">No commissions, no products to sell</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= WHO WE SERVE ========================= -->
+  <section class="section" id="clients" aria-labelledby="seg-h">
+    <div class="wrap">
+      <p class="eyebrow">Who We Serve</p>
+      <h2 id="seg-h">Built for families with complex wealth.</h2>
+      <p class="lead">We work with a focused number of relationships so each receives genuine, partner-level attention.</p>
+      <div class="segments">
+        <article class="segment">
+          <p class="tier">Established Families</p>
+          <h3>Wealth that has outgrown a simple plan</h3>
+          <p>Coordinated planning across investments, tax, and estate for families with substantial, multi-account balance sheets.</p>
+        </article>
+        <article class="segment">
+          <p class="tier">Approaching Retirement</p>
+          <h3>From accumulation to durable income</h3>
+          <p>A disciplined transition plan — withdrawal strategy, tax sequencing, and risk control built to last decades.</p>
+        </article>
+        <article class="segment">
+          <p class="tier">Stewards &amp; Foundations</p>
+          <h3>Legacy, gifting, and institutional capital</h3>
+          <p>Multi-generational and mission-driven strategies for those who measure success across a long horizon.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= AWARDS / RECOGNITION ========================= -->
+  <section class="awards" aria-label="Recognition">
+    <div class="wrap">
+      <p class="lbl">Recognition</p>
+      <div class="award-row">
+        <!-- TODO: replace placeholders with real, earned awards + dated methodology
+             disclaimer in footer. Do NOT display awards the firm has not received. -->
+        <div class="award-badge">Award Placeholder<span>Publication · Year</span></div>
+        <div class="award-badge">Award Placeholder<span>Publication · Year</span></div>
+        <div class="award-badge">Award Placeholder<span>Publication · Year</span></div>
+        <div class="award-badge">Award Placeholder<span>Publication · Year</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== ABOUT ============================== -->
+  <section class="section" id="about" aria-labelledby="about-h">
+    <div class="wrap">
+      <div class="about-grid">
+        <div>
+          <p class="eyebrow">About the Firm</p>
+          <h2 id="about-h">A possession for all time.</h2>
+          <p>Ktema Wealth Management was founded on a simple fiduciary conviction: advice should be given solely in the client's interest, free of the conflicts that come with commissions and proprietary products. We are independent and fee-based, which means our counsel is aligned with your outcomes — not with a sale.</p>
+          <p>We believe wealth is best stewarded slowly and deliberately. Markets reward patience and punish reaction; our role is to keep your plan disciplined through both, so that decisions are made by design rather than by emotion.</p>
+        </div>
+        <div>
+          <blockquote class="about-quote">
+            “κτῆμα ἐς αἰεί” — a possession for all time.
+            <cite>The Greek <em>ktema</em> (κτῆμα) means a possession or asset. Thucydides described his history as <em>ktema es aei</em> — something of lasting worth. We took the name as our standard: wealth built to last beyond a single market, a single generation.</cite>
+          </blockquote>
+          <p style="color:var(--muted);font-size:.95rem">Our work is unhurried and exacting. We measure success not in a quarter, but across the arc of a family's life.</p>
+          <figure class="about-figure">
+            <!-- assets/about.png (1200×900). If absent, the navy gradient
+                 background shows and layout is unaffected. -->
+            <img src="/assets/about.png" alt="" loading="lazy"
+                 onerror="this.style.display='none'">
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= SERVICES ============================= -->
+  <section class="section section--alt" id="services" aria-labelledby="services-h">
+    <div class="wrap">
+      <p class="eyebrow">What We Do</p>
+      <h2 id="services-h">Comprehensive, coordinated advice.</h2>
+      <p class="lead" style="margin-bottom:2.5rem">Every discipline below is integrated into one plan and one fiduciary relationship — never sold piecemeal.</p>
+      <div class="cards">
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg>
+          </div>
+          <h3>Wealth Planning</h3>
+          <p>A living financial plan that connects your goals, cash flow, and balance sheet into one clear roadmap.</p>
+        </article>
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"/></svg>
+          </div>
+          <h3>Investment Management</h3>
+          <p>Globally diversified, evidence-based portfolios managed for cost, tax, and risk — not for headlines.</p>
+        </article>
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3v6m0 0a4 4 0 100 8 4 4 0 000-8zM6 21h12"/><path d="M9 13l-3 8M15 13l3 8"/></svg>
+          </div>
+          <h3>Retirement &amp; Income</h3>
+          <p>Durable income strategies and withdrawal planning designed to last across a long retirement.</p>
+        </article>
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2v20M7 6h7a3 3 0 010 6H7m0 0h8a3 3 0 010 6H6"/></svg>
+          </div>
+          <h3>Tax-Aware Strategies</h3>
+          <p>Asset location, tax-loss harvesting, and coordinated planning to keep more of what you earn.</p>
+        </article>
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/><path d="M9.5 12l2 2 3.5-4"/></svg>
+          </div>
+          <h3>Estate &amp; Legacy</h3>
+          <p>Thoughtful wealth transfer, gifting, and charitable strategy — coordinated with your attorney and CPA.</p>
+        </article>
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/><path d="M12 9v4M12 16h.01"/></svg>
+          </div>
+          <h3>Risk Management</h3>
+          <p>Insurance and liability review to protect your plan against the shocks no portfolio can absorb alone.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= APPROACH ============================= -->
+  <section class="section" id="approach" aria-labelledby="approach-h">
+    <div class="wrap">
+      <p class="eyebrow">Our Process</p>
+      <h2 id="approach-h">A deliberate, four-step engagement.</h2>
+      <p class="lead" style="margin-bottom:2.5rem">Disciplined process is what turns good intentions into durable outcomes.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="n">1</div>
+          <h3>Discover</h3>
+          <p>We listen first — to your goals, obligations, and concerns — and map your full financial picture.</p>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <h3>Design</h3>
+          <p>We build an integrated plan and investment strategy calibrated to your goals and risk tolerance.</p>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <h3>Implement</h3>
+          <p>We put the plan to work with precision — tax-aware, cost-conscious, and coordinated.</p>
+        </div>
+        <div class="step">
+          <div class="n">4</div>
+          <h3>Steward</h3>
+          <p>We monitor, rebalance, and adapt the plan over time as markets and your life evolve.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= INSIGHTS ============================= -->
+  <section class="section section--alt" id="insights" aria-labelledby="insights-h">
+    <div class="wrap">
+      <p class="eyebrow">Perspectives</p>
+      <h2 id="insights-h">Insights for the long view.</h2>
+      <p class="lead" style="margin-bottom:2.5rem">Plain-spoken thinking on markets, planning, and staying disciplined.</p>
+      <div class="cards insights-grid">
+
+        <article class="insight">
+          <div class="thumb" aria-hidden="true" style="background-image:url('/assets/insight-1.png')"></div>
+          <div class="top" aria-hidden="true"></div>
+          <div class="body">
+            <span class="date">Placeholder · 2026</span>
+            <h3>Why discipline beats prediction</h3>
+            <p>A look at why a written plan outperforms market timing over a full cycle. <!-- TODO: replace --></p>
+            <a class="more" href="#">Read more →</a>
+          </div>
+        </article>
+
+        <article class="insight">
+          <div class="thumb" aria-hidden="true" style="background-image:url('/assets/insight-2.png')"></div>
+          <div class="top" aria-hidden="true"></div>
+          <div class="body">
+            <span class="date">Placeholder · 2026</span>
+            <h3>The quiet power of tax location</h3>
+            <p>How where you hold an asset can matter as much as what you hold. <!-- TODO: replace --></p>
+            <a class="more" href="#">Read more →</a>
+          </div>
+        </article>
+
+        <article class="insight">
+          <div class="thumb" aria-hidden="true" style="background-image:url('/assets/insight-3.png')"></div>
+          <div class="top" aria-hidden="true"></div>
+          <div class="body">
+            <span class="date">Placeholder · 2026</span>
+            <h3>Building a legacy that endures</h3>
+            <p>First principles for transferring wealth thoughtfully across generations. <!-- TODO: replace --></p>
+            <a class="more" href="#">Read more →</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= CTA BAND ============================= -->
+  <section class="section cta-band" aria-labelledby="cta-h">
+    <div class="wrap">
+      <h2 id="cta-h">Let's build a plan that lasts.</h2>
+      <p>A short, no-obligation conversation is the best way to learn whether we're the right fit for your family.</p>
+      <a class="btn btn-gold" href="#contact">Schedule a Consultation</a>
+    </div>
+  </section>
+
+  <!-- ============================== CONTACT ============================== -->
+  <section class="section" id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <div class="contact-narrow">
+        <p class="eyebrow">Get in Touch</p>
+        <h2 id="contact-h">Start a conversation.</h2>
+        <p class="lead">Tell us a little about your situation and we'll be in touch to arrange a consultation. Existing clients can use <a href="#" data-login>Client Login</a>.</p>
+
+        <!-- Functional contact form. POSTs (JSON) to a self-hosted posthorn
+             backend; on success the form is replaced with a thank-you panel,
+             no page reload. Set FORM_ENDPOINT in the script below to the
+             deployed posthorn URL before launch. Honeypot field "company"
+             traps bots. -->
+        <form id="contactForm" novalidate>
+          <div class="field">
+            <label for="cf-name">Name</label>
+            <input type="text" id="cf-name" name="name" autocomplete="name" required placeholder="Your full name">
+          </div>
+          <div class="field">
+            <label for="cf-email">Email</label>
+            <input type="email" id="cf-email" name="email" autocomplete="email" required placeholder="you@example.com">
+          </div>
+          <div class="field">
+            <label for="cf-msg">Message</label>
+            <textarea id="cf-msg" name="message" rows="4" required placeholder="How can we help?"></textarea>
+          </div>
+          <!-- Honeypot: hidden from humans, tempting to bots. Submissions
+               with this filled are silently dropped. -->
+          <div class="hp" aria-hidden="true">
+            <label for="cf-company">Company (leave blank)</label>
+            <input type="text" id="cf-company" name="company" tabindex="-1" autocomplete="off">
+          </div>
+          <button type="submit" class="btn btn-primary" id="cf-submit">Send Message</button>
+          <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="wordmark">Ktema Wealth Management<span class="dot" style="color:var(--gold)">.</span></div>
+        <p style="max-width:34ch;margin:.75rem 0 0;color:#9aa4ad">Independent, fee-based, fiduciary wealth management — built to last.</p>
+      </div>
+      <ul class="footer-nav" aria-label="Footer">
+        <li><a href="#clients">Clients</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#insights">Insights</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#" data-login>Client Login</a></li>
+      </ul>
+    </div>
+    <!-- TODO: point these to the real hosted PDFs / SEC adviserinfo pages. -->
+    <ul class="footer-nav" aria-label="Disclosures" style="margin-bottom:1.25rem">
+      <li><a href="#">Form ADV Part 2A</a></li>
+      <li><a href="#">Form ADV Part 2B</a></li>
+      <li><a href="#">Form CRS</a></li>
+      <li><a href="#">Disclosures</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="https://adviserinfo.sec.gov/" rel="noopener">SEC Adviser Check</a></li>
+    </ul>
+    <p class="disclosure">Ktema Wealth Management is a registered investment adviser. Registration does not imply a certain level of skill or training. [Firm CRD # and registration details TBD — confirm with compliance counsel.] Nothing herein is investment advice.</p>
+    <p class="disclosure">Any rankings or recognition shown are not indicative of future performance and do not constitute an endorsement. No fee was paid to receive any award displayed unless expressly stated; methodology and the date of each award will be disclosed here. [Award methodology TBD.]</p>
+    <p class="disclosure">Ktema Wealth Management acts as a fiduciary and is committed to placing client interests first. This site is for informational purposes only and does not constitute an offer or solicitation in any jurisdiction where we are not registered or exempt.</p>
+    <p class="disclosure">&copy; <span id="year">2026</span> Ktema Wealth Management. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ============================== LOGIN MODAL ============================== -->
+<div class="modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+  <div class="modal" role="document">
+    <button class="modal-close" id="modalClose" aria-label="Close login dialog">&times;</button>
+    <h2 id="modalTitle">Client Login</h2>
+    <p class="sub" id="modalDesc">Access your secure portfolio portal.</p>
+    <form action="#" id="loginForm" novalidate>
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" name="email" autocomplete="username" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="login-pass">Password</label>
+        <input type="password" id="login-pass" name="password" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn btn-navy btn-primary" style="width:100%">Sign In</button>
+    </form>
+    <p style="margin:.9rem 0 0"><a class="forgot" href="#">Forgot password?</a></p>
+    <p class="secure-note">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+      Secure client portal — access by invitation.
+    </p>
+    <p class="pending" role="note">Portal integration is pending — this login is not yet functional.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- Year ---- */
+  var y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+
+  /* ---- Mobile nav toggle ---- */
+  var navToggle = document.getElementById('navToggle');
+  var navLinks  = document.getElementById('navLinks');
+  if (navToggle && navLinks){
+    navToggle.addEventListener('click', function(){
+      var open = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    /* close menu after choosing a link */
+    navLinks.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && !e.target.hasAttribute('data-login')){
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+
+  /* ---- Login modal ---- */
+  var modal      = document.getElementById('loginModal');
+  var modalClose = document.getElementById('modalClose');
+  var lastFocus  = null;
+
+  function openModal(e){
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    /* close mobile nav if open */
+    if (navLinks){ navLinks.classList.remove('open'); }
+    if (navToggle){ navToggle.setAttribute('aria-expanded','false'); }
+    modal.classList.add('open');
+    document.body.classList.add('no-scroll');
+    var firstInput = document.getElementById('login-email');
+    if (firstInput) firstInput.focus();
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+  }
+
+  /* open triggers: any element with data-login */
+  var loginTriggers = document.querySelectorAll('[data-login]');
+  for (var i=0; i<loginTriggers.length; i++){
+    loginTriggers[i].addEventListener('click', openModal);
+  }
+
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+
+  /* backdrop click */
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) closeModal();
+  });
+
+  /* ESC key */
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  /* ---- Login form: portal integration still pending ---- */
+  var loginForm = document.getElementById('loginForm');
+  if (loginForm) loginForm.addEventListener('submit', function(e){ e.preventDefault(); });
+
+  /* ---- Contact form: posts to self-hosted posthorn backend ----
+     TODO: set FORM_ENDPOINT to the deployed posthorn URL, e.g.
+     "https://forms.ktemawealth.com/f/ktema-contact". Until then the form
+     reports a clear "not yet configured" message instead of failing oddly. */
+  var FORM_ENDPOINT = ""; /* <-- posthorn URL goes here */
+
+  var contactForm = document.getElementById('contactForm');
+  if (contactForm){
+    var statusEl = document.getElementById('cf-status');
+    var submitBtn = document.getElementById('cf-submit');
+
+    function setStatus(msg, kind){
+      if (!statusEl) return;
+      statusEl.textContent = msg || '';
+      statusEl.className = 'form-status' + (kind ? ' is-' + kind : '');
+    }
+
+    contactForm.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      /* Honeypot: if the hidden field is filled, it's a bot — drop silently
+         but show the normal success state so the bot learns nothing. */
+      var hp = document.getElementById('cf-company');
+      if (hp && hp.value.trim() !== ''){ showDone(); return; }
+
+      var name = document.getElementById('cf-name');
+      var email = document.getElementById('cf-email');
+      var msg = document.getElementById('cf-msg');
+
+      /* Minimal client-side validation */
+      if (!name.value.trim() || !email.value.trim() || !msg.value.trim()){
+        setStatus('Please complete all fields.', 'error'); return;
+      }
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+      if (!emailOk){ setStatus('Please enter a valid email address.', 'error'); return; }
+
+      if (!FORM_ENDPOINT){
+        setStatus('Form endpoint not yet configured. Please email hello@ktemawealth.com.', 'error');
+        return;
+      }
+
+      var payload = {
+        name: name.value.trim(),
+        email: email.value.trim(),
+        message: msg.value.trim()
+      };
+
+      submitBtn.disabled = true;
+      setStatus('Sending…', 'ok');
+
+      fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function(res){
+        if (!res.ok) throw new Error('bad status ' + res.status);
+        showDone();
+      }).catch(function(){
+        submitBtn.disabled = false;
+        setStatus('Something went wrong. Please try again or email hello@ktemawealth.com.', 'error');
+      });
+    });
+
+    function showDone(){
+      contactForm.innerHTML =
+        '<div class="form-done" role="status">' +
+          '<h3>Thank you.</h3>' +
+          '<p>Your message has been received. We\'ll be in touch shortly to arrange a consultation.</p>' +
+        '</div>';
+    }
+  }
+
+})();
+</script>
+</body>
+</html>

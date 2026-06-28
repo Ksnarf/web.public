@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  Page:  Disclosures & Legal — /disclosures/
+  Part of the Ktema Wealth Management multi-page Cloudflare Pages site.
+  Self-contained HTML; shared shell (style/header/footer/modal+script) embedded
+  verbatim from .build/ partials. Root-relative paths throughout.
+
+  IMPORTANT — EVERY legal specific on this page is a PLACEHOLDER.
+  Nothing here is legal or compliance advice. All bracketed [TODO]/[PLACEHOLDER]
+  items MUST be drafted, verified, and approved by qualified compliance/legal
+  counsel before this page is published. Do NOT publish placeholder regulatory
+  facts, CRD numbers, or PDF links as if true.
+
+  TODOs before launch:
+    [ ] Replace all [TODO: ...] with counsel-approved text.
+    [ ] Host real Form ADV 2A / 2B, Form CRS, Privacy Policy PDFs and link them.
+    [ ] Confirm registration status, jurisdictions, and CRD/firm IDs.
+  ============================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Disclosures, regulatory status, and important legal information for Ktema Wealth Management. Placeholder content pending compliance counsel review.">
+<meta name="robots" content="index,follow">
+<title>Disclosures &amp; Legal — Ktema Wealth Management</title>
+<meta property="og:title" content="Disclosures &amp; Legal — Ktema Wealth Management">
+<meta property="og:description" content="Regulatory status, fiduciary commitment, and important legal disclosures.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ktemawealth.com/disclosures/">
+<meta property="og:image" content="/assets/og.png">
+<style>
+  /* Self-hosted serif headings (OFL). Falls back to Georgia if the
+     woff2 files aren't present — see assets/fonts/README.md. */
+  @font-face{
+    font-family:"Source Serif 4";
+    src:url("/assets/fonts/SourceSerif4-SemiBold.woff2") format("woff2");
+    font-weight:600;font-style:normal;font-display:swap;
+  }
+  @font-face{
+    font-family:"Source Serif 4";
+    src:url("/assets/fonts/SourceSerif4-Bold.woff2") format("woff2");
+    font-weight:700;font-style:normal;font-display:swap;
+  }
+  :root{
+    --navy:#0f2034;
+    --navy-2:#16314f;
+    --charcoal:#1c2229;
+    --ink:#222a32;
+    --muted:#5d6b78;
+    --line:#e2e6ea;
+    --paper:#ffffff;
+    --paper-2:#f6f7f9;
+    --paper-3:#eef1f4;
+    --gold:#b08537;        /* single accent: deep gold */
+    --gold-dk:#8c6a2b;
+    --gold-soft:#f3ecdd;
+    --shadow:0 1px 2px rgba(15,32,52,.06), 0 10px 30px rgba(15,32,52,.07);
+    --radius:6px;
+    --serif:"Source Serif 4",Georgia,'Times New Roman',Cambria,'Liberation Serif',serif;
+    --sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body.no-scroll{overflow:hidden}
+  h1,h2,h3,h4{font-family:var(--serif);color:var(--navy);font-weight:600;line-height:1.2;letter-spacing:.2px}
+  h2{font-size:2rem;margin:0 0 .5rem}
+  p{margin:0 0 1rem}
+  a{color:var(--navy);text-decoration:none}
+  a:hover{color:var(--gold-dk)}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.5rem}
+  .eyebrow{
+    font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--gold-dk);margin:0 0 .75rem
+  }
+  .section{padding:5.5rem 0}
+  .section--alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .lead{font-size:1.15rem;color:var(--muted);max-width:48ch}
+
+  /* Buttons */
+  .btn{
+    display:inline-block;font-family:var(--sans);font-size:.95rem;font-weight:600;
+    padding:.8rem 1.5rem;border-radius:var(--radius);border:1px solid transparent;
+    cursor:pointer;transition:background .15s ease,color .15s ease,border-color .15s ease;
+    text-align:center;line-height:1.2;
+  }
+  .btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .btn-primary:hover{background:var(--navy-2);color:#fff}
+  .btn-gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+  .btn-gold:hover{background:var(--gold-dk);color:#fff}
+  .btn-outline{background:transparent;color:var(--navy);border-color:var(--line)}
+  .btn-outline:hover{border-color:var(--navy);color:var(--navy)}
+  .btn-ghost-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+  .btn-ghost-light:hover{background:rgba(255,255,255,.12);color:#fff;border-color:#fff}
+
+  /* Focus visibility */
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,.btn:focus-visible{
+    outline:3px solid var(--gold);outline-offset:2px;border-radius:4px;
+  }
+
+  /* Header / nav */
+  .site-header{
+    position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);
+    backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .wordmark{font-family:var(--serif);font-size:1.18rem;font-weight:600;color:var(--navy);letter-spacing:.3px;white-space:nowrap}
+  .wordmark .dot{color:var(--gold)}
+  .nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none;margin:0;padding:0}
+  .nav-links a{font-size:.95rem;color:var(--ink);font-weight:500}
+  .nav-links a:hover{color:var(--gold-dk)}
+  .nav-right{display:flex;align-items:center;gap:1.25rem}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:var(--radius);padding:.45rem .55rem;cursor:pointer}
+  .nav-toggle span{display:block;width:22px;height:2px;background:var(--navy);margin:4px 0;transition:transform .2s ease,opacity .2s ease}
+
+  /* Hero */
+  .hero{position:relative;color:#fff;overflow:hidden;
+    background:
+      radial-gradient(1100px 600px at 78% -10%, rgba(176,133,55,.22), transparent 60%),
+      linear-gradient(160deg,#0f2034 0%,#16314f 55%,#0c1a2c 100%);
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;opacity:.28;pointer-events:none;
+    background-image:url("/assets/hero.png");background-size:cover;background-position:center;
+    mix-blend-mode:luminosity;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:url("/assets/noise.svg");background-size:300px 300px;
+  }
+  .hero .wrap{position:relative;z-index:1;padding-top:6rem;padding-bottom:6.5rem;max-width:880px}
+  .hero h1{color:#fff;font-size:clamp(2.2rem,5vw,3.5rem);margin:0 0 1.25rem}
+  .hero .sub{font-size:1.2rem;color:#d7e0ea;max-width:54ch;margin:0 0 2rem}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:1rem}
+
+  /* Trust strip */
+  .trust{background:var(--navy);color:#fff;border-top:3px solid var(--gold)}
+  .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:2.5rem 0}
+  .trust-grid--2{grid-template-columns:repeat(2,1fr);max-width:780px;margin:0 auto}
+  .trust-item{text-align:center;padding:.5rem 1rem}
+  .trust-item .num{font-family:var(--serif);font-size:1.7rem;color:#fff;line-height:1.1}
+  .trust-item .lbl{font-size:.85rem;letter-spacing:.06em;color:#bcccdd;text-transform:uppercase;margin-top:.4rem}
+  .trust-item + .trust-item{border-left:1px solid rgba(255,255,255,.14)}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+  .about-quote{
+    border-left:3px solid var(--gold);padding:1.25rem 0 1.25rem 1.5rem;margin:0;
+    font-family:var(--serif);font-size:1.25rem;color:var(--navy);font-style:italic;
+  }
+  .about-quote cite{display:block;font-style:normal;font-size:.85rem;color:var(--muted);margin-top:.6rem;letter-spacing:.04em}
+
+  /* Services */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:1.75rem;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;
+  }
+  .card:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 14px 36px rgba(15,32,52,.12)}
+  .card .ico{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:var(--gold-soft);margin-bottom:1rem}
+  .card .ico svg{width:22px;height:22px;stroke:var(--gold-dk);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .card h3{font-size:1.15rem;margin:0 0 .5rem}
+  .card p{font-size:.95rem;color:var(--muted);margin:0}
+
+  /* Process */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;counter-reset:step}
+  .step{position:relative;padding:1.5rem 0 0}
+  .step .n{
+    font-family:var(--serif);font-size:1.05rem;font-weight:700;color:#fff;background:var(--navy);
+    width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;
+    border:2px solid var(--gold);
+  }
+  .step h3{font-size:1.1rem;margin:0 0 .4rem}
+  .step p{font-size:.92rem;color:var(--muted);margin:0}
+
+  /* Insights */
+  .insight{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease}
+  .insight:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(15,32,52,.12)}
+  .insight .top{height:6px;background:linear-gradient(90deg,var(--gold),var(--gold-dk))}
+  .insight .body{padding:1.6rem}
+  .insight .date{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dk);font-weight:700}
+  .insight h3{font-size:1.18rem;margin:.5rem 0 .6rem}
+  .insight p{font-size:.95rem;color:var(--muted)}
+  .insight .more{font-weight:600;font-size:.92rem;color:var(--navy)}
+  .insight .more:hover{color:var(--gold-dk)}
+
+  /* CTA band */
+  .cta-band{
+    background:
+      radial-gradient(800px 400px at 20% 120%, rgba(176,133,55,.22), transparent 60%),
+      linear-gradient(135deg,#16314f,#0f2034);
+    color:#fff;text-align:center;
+  }
+  .cta-band h2{color:#fff;font-size:clamp(1.8rem,4vw,2.6rem)}
+  .cta-band p{color:#cfdae6;max-width:46ch;margin:0 auto 1.75rem}
+
+  /* Contact */
+  .contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:3.5rem;align-items:start}
+  form .field{margin-bottom:1.1rem}
+  form label{display:block;font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:.35rem}
+  form input,form textarea{
+    width:100%;padding:.75rem .85rem;border:1px solid var(--line);border-radius:var(--radius);
+    font-family:var(--sans);font-size:1rem;color:var(--ink);background:var(--paper);
+  }
+  form input:focus,form textarea:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(176,133,55,.18)}
+  .note{font-size:.82rem;color:var(--muted);background:var(--paper-3);border:1px dashed var(--line);
+    border-radius:var(--radius);padding:.65rem .8rem;margin-bottom:1rem}
+  .contact-narrow{max-width:600px}
+  .contact-narrow .lead{margin-bottom:2rem}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .form-status{margin:1rem 0 0;font-size:.92rem;min-height:1.2em}
+  .form-status.is-error{color:#9a2a2a}
+  .form-status.is-ok{color:var(--gold-dk)}
+  .form-done{
+    background:var(--paper-2);border:1px solid var(--line);border-top:3px solid var(--gold);
+    border-radius:var(--radius);padding:2rem;text-align:center;
+  }
+  .form-done h3{margin:0 0 .4rem}
+  .form-done p{margin:0;color:var(--muted)}
+
+  /* Footer */
+  .site-footer{background:var(--charcoal);color:#c4ccd4;padding:3.5rem 0 2rem;font-size:.9rem}
+  .footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2rem;align-items:flex-start;
+    border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:2rem;margin-bottom:1.5rem}
+  .site-footer .wordmark{color:#fff}
+  .footer-nav{display:flex;flex-wrap:wrap;gap:1.25rem;list-style:none;margin:0;padding:0}
+  .footer-nav a{color:#c4ccd4}
+  .footer-nav a:hover{color:#fff}
+  .disclosure{font-size:.8rem;color:#8c97a3;max-width:80ch;margin:0 0 .5rem}
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    background:rgba(10,18,30,.6);padding:1.25rem;
+  }
+  .modal-overlay.open{display:flex}
+  .modal{
+    background:var(--paper);width:100%;max-width:420px;border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.4);
+    border-top:4px solid var(--gold);padding:2rem 2rem 1.75rem;position:relative;
+  }
+  .modal h2{font-size:1.45rem;margin:0 0 .25rem}
+  .modal .sub{font-size:.9rem;color:var(--muted);margin:0 0 1.25rem}
+  .modal-close{
+    position:absolute;top:.9rem;right:.9rem;background:none;border:none;cursor:pointer;
+    width:34px;height:34px;border-radius:50%;color:var(--muted);font-size:1.4rem;line-height:1;
+  }
+  .modal-close:hover{background:var(--paper-3);color:var(--ink)}
+  .modal .field{margin-bottom:1rem}
+  .modal .forgot{font-size:.85rem;font-weight:600}
+  .modal .secure-note{display:flex;gap:.5rem;align-items:center;font-size:.82rem;color:var(--muted);margin-top:1rem}
+  .modal .secure-note svg{width:15px;height:15px;stroke:var(--gold-dk);fill:none;stroke-width:1.7}
+  .modal .pending{font-size:.8rem;color:var(--muted);background:var(--paper-3);border:1px dashed var(--line);
+    border-radius:var(--radius);padding:.55rem .7rem;margin-top:1rem}
+
+  /* Segmentation pillars */
+  .segments{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+  .segment{
+    background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--gold);
+    border-radius:var(--radius);padding:1.75rem;box-shadow:var(--shadow);
+  }
+  .segment h3{font-size:1.15rem;margin:0 0 .3rem}
+  .segment .tier{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dk);margin:0 0 .75rem}
+  .segment p{font-size:.95rem;color:var(--muted);margin:0}
+
+  /* Awards / recognition row */
+  .awards{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:2.25rem 0}
+  .awards .lbl{text-align:center;font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 1.25rem}
+  .award-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem}
+  .award-badge{
+    border:1px solid var(--line);background:var(--paper);border-radius:var(--radius);
+    padding:.7rem 1.1rem;font-family:var(--serif);font-size:.95rem;color:var(--navy);
+    text-align:center;min-width:150px;
+  }
+  .award-badge span{display:block;font-family:var(--sans);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dk);font-weight:700;margin-top:.2rem}
+
+  /* About image */
+  .about-figure{margin:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:linear-gradient(160deg,#16314f,#0f2034);min-height:240px}
+  .about-figure img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* Insight thumbnails */
+  .insight .thumb{height:150px;background:linear-gradient(135deg,var(--navy-2),var(--navy));background-size:cover;background-position:center}
+
+  .skip-link{position:absolute;left:-999px;top:0;background:var(--navy);color:#fff;padding:.6rem 1rem;z-index:200;border-radius:0 0 var(--radius) 0}
+  .skip-link:focus{left:0}
+
+  /* Responsive */
+  @media (max-width:880px){
+    .about-grid,.contact-grid{grid-template-columns:1fr;gap:2rem}
+    .cards,.steps,.segments{grid-template-columns:1fr 1fr}
+    .trust-grid{grid-template-columns:1fr}
+    .trust-item + .trust-item{border-left:none;border-top:1px solid rgba(255,255,255,.14)}
+  }
+  @media (max-width:720px){
+    .section{padding:4rem 0}
+    .nav-toggle{display:block}
+    .nav-links{
+      position:absolute;top:72px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);
+      flex-direction:column;align-items:stretch;gap:0;padding:.5rem 0;display:none;box-shadow:var(--shadow);
+    }
+    .nav-links.open{display:flex}
+    .nav-links li{padding:0}
+    .nav-links a{display:block;padding:.85rem 1.5rem;border-top:1px solid var(--paper-2)}
+    .nav-right .btn-gold{display:none} /* login button shown inside menu on mobile via duplicate */
+    .cards,.steps,.insights-grid,.segments{grid-template-columns:1fr}
+  }
+  @media (max-width:720px){
+    .nav-login-mobile{display:block !important;margin:.5rem 1.5rem}
+  }
+  .nav-login-mobile{display:none}
+
+  /* Legal / disclosures document layout (page-local) */
+  .legal-wrap{max-width:820px}
+  .legal-toc{
+    background:var(--paper-2);border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:var(--radius);padding:1.4rem 1.6rem;margin:0 0 3rem;
+  }
+  .legal-toc p{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dk);margin:0 0 .75rem}
+  .legal-toc ul{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1.5rem}
+  .legal-toc a{font-size:.95rem;color:var(--navy)}
+  .legal-toc a:hover{color:var(--gold-dk)}
+  .legal-block{padding:2.25rem 0;border-top:1px solid var(--line)}
+  .legal-block:first-of-type{border-top:none;padding-top:.5rem}
+  .legal-block h2{font-size:1.45rem;margin:0 0 .85rem;scroll-margin-top:90px}
+  .legal-block h3{font-size:1.05rem;margin:1.4rem 0 .5rem}
+  .legal-block p,.legal-block li{font-size:.98rem;color:var(--ink)}
+  .legal-block ul{margin:0 0 1rem;padding-left:1.2rem}
+  .legal-block li{margin-bottom:.4rem}
+  .todo{
+    display:inline-block;font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:#7a4a00;background:#fbf0d8;border:1px solid #e7c98a;
+    border-radius:4px;padding:.12rem .5rem;margin:0 .15rem;vertical-align:baseline;
+  }
+  .placeholder-doc{
+    display:block;background:var(--paper-3);border:1px dashed var(--line);border-radius:var(--radius);
+    padding:.75rem .9rem;margin:.5rem 0;font-size:.92rem;color:var(--muted);
+  }
+  .updated{font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="wordmark" href="/">Ktema Wealth Management<span class="dot">.</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-right">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="/about/">About</a></li>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/approach/">Approach</a></li>
+          <li><a href="/insights/">Insights</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li class="nav-login-mobile"><a class="btn btn-gold" href="#" data-login>Client Login</a></li>
+        </ul>
+        <a class="btn btn-gold" href="#" data-login id="navLoginBtn">Client Login</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="section" aria-labelledby="disc-h">
+    <div class="wrap legal-wrap">
+      <p class="eyebrow">Legal &amp; Compliance</p>
+      <h1 id="disc-h">Disclosures &amp; Important Information</h1>
+      <p class="lead" style="margin-bottom:1.5rem">Transparency is part of our fiduciary duty. The information below describes our regulatory status, our commitment to clients, and the disclosures that govern this website.</p>
+
+      <p class="note" role="note" style="max-width:none">
+        <strong>Draft — pending counsel review.</strong> Every item marked
+        <span class="todo">TODO: compliance counsel</span> is a placeholder. Nothing on this
+        page is legal, tax, or investment advice, and no regulatory fact, document link,
+        or registration detail here should be relied upon until reviewed and approved by
+        qualified compliance and legal counsel.
+      </p>
+
+      <nav class="legal-toc" aria-label="On this page">
+        <p>On this page</p>
+        <ul>
+          <li><a href="#regulatory">Regulatory status &amp; registration</a></li>
+          <li><a href="#fiduciary">Fiduciary commitment</a></li>
+          <li><a href="#important">Important disclosures</a></li>
+          <li><a href="#privacy">Privacy policy summary</a></li>
+          <li><a href="#awards">Awards &amp; rankings</a></li>
+          <li><a href="#offchannel">Off-channel communications</a></li>
+          <li><a href="#continuity">Business continuity</a></li>
+        </ul>
+      </nav>
+
+      <!-- ===================== REGULATORY STATUS ===================== -->
+      <section class="legal-block" id="regulatory" aria-labelledby="regulatory-h">
+        <h2 id="regulatory-h">1. Regulatory status &amp; registration</h2>
+        <p>Ktema Wealth Management is an investment adviser. <span class="todo">TODO: compliance counsel</span> — confirm whether the firm is registered with the U.S. Securities and Exchange Commission (SEC) as a Registered Investment Adviser (RIA) or registered/notice-filed with one or more state securities regulators, and list the specific jurisdictions in which the firm is registered or exempt.</p>
+        <p>Registration as an investment adviser does not imply any particular level of skill or training. <span class="todo">TODO: compliance counsel</span> — insert the firm's legal entity name, CRD/IARD number, and principal place of business once confirmed: [Firm legal name — TODO] · CRD&nbsp;# [TODO] · [State/jurisdiction — TODO].</p>
+
+        <h3>Required disclosure documents</h3>
+        <p>The following documents describe our services, fees, conflicts of interest, and the background of our advisory personnel. <span class="todo">TODO: compliance counsel</span> — replace each placeholder below with a link to the current, hosted PDF and update the "last amended" date.</p>
+        <span class="placeholder-doc">[TODO PDF] Form ADV Part 2A — Firm Brochure &middot; last amended [date TODO]</span>
+        <span class="placeholder-doc">[TODO PDF] Form ADV Part 2B — Brochure Supplement(s) &middot; last amended [date TODO]</span>
+        <span class="placeholder-doc">[TODO PDF] Form CRS — Client / Customer Relationship Summary &middot; last amended [date TODO]</span>
+        <p>You may also independently review the firm and its representatives through the SEC's public adviser database at <a href="https://adviserinfo.sec.gov/" rel="noopener">adviserinfo.sec.gov</a>. <span class="todo">TODO: compliance counsel</span> — confirm the direct deep-link to this firm's record once the CRD number is assigned.</p>
+      </section>
+
+      <!-- ===================== FIDUCIARY COMMITMENT ===================== -->
+      <section class="legal-block" id="fiduciary" aria-labelledby="fiduciary-h">
+        <h2 id="fiduciary-h">2. Fiduciary commitment</h2>
+        <p>As an investment adviser, Ktema Wealth Management owes a fiduciary duty to its clients. We are committed to acting in each client's best interest and to placing our clients' interests ahead of our own. We are independent and fee-based; we do not sell commissioned products. <span class="todo">TODO: compliance counsel</span> — confirm this characterization accurately reflects the firm's compensation model and standard of care under applicable law, and reconcile with the conflicts-of-interest disclosures in Form ADV Part 2A.</p>
+        <p>Where conflicts of interest exist or may arise, we seek to identify, mitigate, and disclose them. A full description of any material conflicts is provided in our Form ADV Part 2A. <span class="todo">TODO: compliance counsel</span></p>
+      </section>
+
+      <!-- ===================== IMPORTANT DISCLOSURES ===================== -->
+      <section class="legal-block" id="important" aria-labelledby="important-h">
+        <h2 id="important-h">3. Important disclosures</h2>
+
+        <h3>Not investment, legal, or tax advice</h3>
+        <p>The content of this website is provided for general informational and educational purposes only. It does not constitute investment, legal, accounting, or tax advice, nor a recommendation or solicitation to buy or sell any security or to adopt any investment strategy. Advice is provided only under a written advisory agreement and is tailored to a client's specific circumstances. <span class="todo">TODO: compliance counsel</span></p>
+
+        <h3>Past performance</h3>
+        <p>Past performance is not indicative of, and is no guarantee of, future results. All investing involves risk, including the possible loss of principal. Diversification and asset allocation do not ensure a profit or protect against loss in a declining market. <span class="todo">TODO: compliance counsel</span></p>
+
+        <h3>Forward-looking statements</h3>
+        <p>Certain statements on this website may be forward-looking. Such statements reflect current views and assumptions and are subject to known and unknown risks and uncertainties; actual results may differ materially. We undertake no obligation to update any forward-looking statement. <span class="todo">TODO: compliance counsel</span></p>
+
+        <h3>No offer where not registered</h3>
+        <p>This website does not constitute an offer to provide advisory services in any jurisdiction in which Ktema Wealth Management is not registered or otherwise exempt from registration. <span class="todo">TODO: compliance counsel</span></p>
+
+        <h3>Third-party links</h3>
+        <p>Links to third-party websites are provided for convenience only. We do not endorse, control, or assume responsibility for the content of third-party sites. <span class="todo">TODO: compliance counsel</span></p>
+      </section>
+
+      <!-- ===================== PRIVACY POLICY ===================== -->
+      <section class="legal-block" id="privacy" aria-labelledby="privacy-h">
+        <h2 id="privacy-h">4. Privacy policy summary</h2>
+        <p>We respect the privacy of visitors and clients and are committed to protecting personal information. This is a summary only; the full privacy notice governs. <span class="todo">TODO: compliance counsel</span> — confirm consistency with Regulation S-P and any applicable state privacy laws, and link the full policy.</p>
+        <ul>
+          <li><strong>Information we collect:</strong> information you voluntarily provide (such as via the contact form), and limited technical/usage data. <span class="todo">TODO: compliance counsel</span></li>
+          <li><strong>How we use it:</strong> to respond to inquiries, provide and administer advisory services, and meet legal and regulatory obligations. <span class="todo">TODO: compliance counsel</span></li>
+          <li><strong>Sharing:</strong> we do not sell personal information; we share only as necessary to provide services or as required by law. <span class="todo">TODO: compliance counsel</span></li>
+          <li><strong>Your choices &amp; safeguards:</strong> [describe access/correction rights and security measures — TODO]. <span class="todo">TODO: compliance counsel</span></li>
+        </ul>
+        <span class="placeholder-doc">[TODO PDF / page] Full Privacy Policy &amp; Regulation S-P Notice &middot; effective [date TODO]</span>
+      </section>
+
+      <!-- ===================== AWARDS & RANKINGS ===================== -->
+      <section class="legal-block" id="awards" aria-labelledby="awards-h">
+        <h2 id="awards-h">5. Awards &amp; rankings methodology disclaimer</h2>
+        <p>Any awards, rankings, or recognitions referenced on this website are not, and should not be construed as, a guarantee of future performance or investment success, and do not constitute an endorsement of the firm by any client or by the granting organization. <span class="todo">TODO: compliance counsel</span></p>
+        <p>For each award or ranking displayed, the firm will disclose: the granting organization, the year and period covered, the eligibility criteria and selection methodology, the number of participants or candidates considered, and whether any fee was paid to participate in, or to use or promote, the recognition. No award displayed was obtained by paying a fee unless expressly stated. <span class="todo">TODO: compliance counsel</span> — provide the specific dated methodology for each award before any award is published.</p>
+        <span class="placeholder-doc">[TODO] Per-award methodology and dated disclosures — to be inserted when real, earned awards are added.</span>
+      </section>
+
+      <!-- ===================== OFF-CHANNEL COMMS ===================== -->
+      <section class="legal-block" id="offchannel" aria-labelledby="offchannel-h">
+        <h2 id="offchannel-h">6. Off-channel communications &amp; impersonation warning</h2>
+        <p>Ktema Wealth Management communicates with clients only through approved, recordkeeping-compliant channels. We will <strong>never</strong> solicit investments, request transfers, share account credentials, or conduct firm business with you over unmonitored consumer messaging applications such as <strong>WhatsApp, Signal, Telegram, WeChat, or personal social-media direct messages</strong>. <span class="todo">TODO: compliance counsel</span> — confirm the exact list of approved and prohibited channels.</p>
+        <p>If someone claiming to represent the firm contacts you through one of these channels, or pressures you to move money quickly, treat it as a likely impersonation or fraud attempt. Do not act on the request, do not send funds, and verify independently by contacting us through the details on this website. <span class="todo">TODO: compliance counsel</span> — add the official verification phone/email and a reporting procedure.</p>
+      </section>
+
+      <!-- ===================== BUSINESS CONTINUITY ===================== -->
+      <section class="legal-block" id="continuity" aria-labelledby="continuity-h">
+        <h2 id="continuity-h">7. Business continuity (summary)</h2>
+        <p>Ktema Wealth Management maintains a business continuity plan designed to respond to significant disruptions to its operations. The plan addresses, among other things, data backup and recovery, alternate communications with clients, and the safeguarding of client assets held at qualified custodians. <span class="todo">TODO: compliance counsel</span> — confirm scope and provide a procedure for clients to reach the firm or their custodian during a disruption.</p>
+        <p class="updated">This page was last updated <span id="discUpdated">[date TODO]</span>. <span class="todo">TODO: compliance counsel</span> — set and maintain an accurate "last updated" date.</p>
+      </section>
+
+    </div>
+  </section>
+
+  <!-- ============================= CTA BAND ============================= -->
+  <section class="section cta-band" aria-labelledby="cta-h">
+    <div class="wrap">
+      <h2 id="cta-h">Questions about how we work?</h2>
+      <p>We're happy to walk through our fiduciary commitment, fees, and disclosures in plain language.</p>
+      <a class="btn btn-gold" href="/contact/">Start a Conversation</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="wordmark">Ktema Wealth Management<span class="dot" style="color:var(--gold)">.</span></div>
+        <p style="max-width:34ch;margin:.75rem 0 0;color:#9aa4ad">Independent, fee-based, fiduciary wealth management — built to last.</p>
+      </div>
+      <ul class="footer-nav" aria-label="Footer">
+        <li><a href="/about/">About</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/approach/">Approach</a></li>
+        <li><a href="/insights/">Insights</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="#" data-login>Client Login</a></li>
+      </ul>
+    </div>
+    <ul class="footer-nav" aria-label="Disclosures" style="margin-bottom:1.25rem">
+      <li><a href="/disclosures/">Form ADV Part 2A</a></li>
+      <li><a href="/disclosures/">Form ADV Part 2B</a></li>
+      <li><a href="/disclosures/">Form CRS</a></li>
+      <li><a href="/disclosures/">Disclosures</a></li>
+      <li><a href="/disclosures/">Privacy Policy</a></li>
+      <li><a href="https://adviserinfo.sec.gov/" rel="noopener">SEC Adviser Check</a></li>
+    </ul>
+    <p class="disclosure">Ktema Wealth Management is a registered investment adviser. Registration does not imply a certain level of skill or training. [Firm CRD # and registration details TBD — confirm with compliance counsel.] Nothing herein is investment advice.</p>
+    <p class="disclosure">Any rankings or recognition shown are not indicative of future performance and do not constitute an endorsement. No fee was paid to receive any award displayed unless expressly stated; methodology and the date of each award will be disclosed here. [Award methodology TBD.]</p>
+    <p class="disclosure">&copy; <span id="year">2026</span> Ktema Wealth Management. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ============================== LOGIN MODAL ============================== -->
+<div class="modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+  <div class="modal" role="document">
+    <button class="modal-close" id="modalClose" aria-label="Close login dialog">&times;</button>
+    <h2 id="modalTitle">Client Login</h2>
+    <p class="sub" id="modalDesc">Access your secure portfolio portal.</p>
+    <form action="#" id="loginForm" novalidate>
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" name="email" autocomplete="username" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="login-pass">Password</label>
+        <input type="password" id="login-pass" name="password" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn btn-navy btn-primary" style="width:100%">Sign In</button>
+    </form>
+    <p style="margin:.9rem 0 0"><a class="forgot" href="#">Forgot password?</a></p>
+    <p class="secure-note">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+      Secure client portal — access by invitation.
+    </p>
+    <p class="pending" role="note">Portal integration is pending — this login is not yet functional.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- Year ---- */
+  var y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+
+  /* ---- Mobile nav toggle ---- */
+  var navToggle = document.getElementById('navToggle');
+  var navLinks  = document.getElementById('navLinks');
+  if (navToggle && navLinks){
+    navToggle.addEventListener('click', function(){
+      var open = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    /* close menu after choosing a link */
+    navLinks.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && !e.target.hasAttribute('data-login')){
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+
+  /* ---- Login modal ---- */
+  var modal      = document.getElementById('loginModal');
+  var modalClose = document.getElementById('modalClose');
+  var lastFocus  = null;
+
+  function openModal(e){
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    /* close mobile nav if open */
+    if (navLinks){ navLinks.classList.remove('open'); }
+    if (navToggle){ navToggle.setAttribute('aria-expanded','false'); }
+    modal.classList.add('open');
+    document.body.classList.add('no-scroll');
+    var firstInput = document.getElementById('login-email');
+    if (firstInput) firstInput.focus();
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+  }
+
+  /* open triggers: any element with data-login */
+  var loginTriggers = document.querySelectorAll('[data-login]');
+  for (var i=0; i<loginTriggers.length; i++){
+    loginTriggers[i].addEventListener('click', openModal);
+  }
+
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+
+  /* backdrop click */
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) closeModal();
+  });
+
+  /* ESC key */
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  /* ---- Login form: portal integration still pending ---- */
+  var loginForm = document.getElementById('loginForm');
+  if (loginForm) loginForm.addEventListener('submit', function(e){ e.preventDefault(); });
+
+  /* ---- Contact form: posts to self-hosted posthorn backend ----
+     TODO: set FORM_ENDPOINT to the deployed posthorn URL, e.g.
+     "https://forms.ktemawealth.com/f/ktema-contact". Until then the form
+     reports a clear "not yet configured" message instead of failing oddly. */
+  var FORM_ENDPOINT = ""; /* <-- posthorn URL goes here */
+
+  var contactForm = document.getElementById('contactForm');
+  if (contactForm){
+    var statusEl = document.getElementById('cf-status');
+    var submitBtn = document.getElementById('cf-submit');
+
+    function setStatus(msg, kind){
+      if (!statusEl) return;
+      statusEl.textContent = msg || '';
+      statusEl.className = 'form-status' + (kind ? ' is-' + kind : '');
+    }
+
+    contactForm.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      /* Honeypot: if the hidden field is filled, it's a bot — drop silently
+         but show the normal success state so the bot learns nothing. */
+      var hp = document.getElementById('cf-company');
+      if (hp && hp.value.trim() !== ''){ showDone(); return; }
+
+      var name = document.getElementById('cf-name');
+      var email = document.getElementById('cf-email');
+      var msg = document.getElementById('cf-msg');
+
+      /* Minimal client-side validation */
+      if (!name.value.trim() || !email.value.trim() || !msg.value.trim()){
+        setStatus('Please complete all fields.', 'error'); return;
+      }
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+      if (!emailOk){ setStatus('Please enter a valid email address.', 'error'); return; }
+
+      if (!FORM_ENDPOINT){
+        setStatus('Form endpoint not yet configured. Please email hello@ktemawealth.com.', 'error');
+        return;
+      }
+
+      var payload = {
+        name: name.value.trim(),
+        email: email.value.trim(),
+        message: msg.value.trim()
+      };
+
+      submitBtn.disabled = true;
+      setStatus('Sending…', 'ok');
+
+      fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function(res){
+        if (!res.ok) throw new Error('bad status ' + res.status);
+        showDone();
+      }).catch(function(){
+        submitBtn.disabled = false;
+        setStatus('Something went wrong. Please try again or email hello@ktemawealth.com.', 'error');
+      });
+    });
+
+    function showDone(){
+      contactForm.innerHTML =
+        '<div class="form-done" role="status">' +
+          '<h3>Thank you.</h3>' +
+          '<p>Your message has been received. We\'ll be in touch shortly to arrange a consultation.</p>' +
+        '</div>';
+    }
+  }
+
+})();
+</script>
+</body>
+</html>

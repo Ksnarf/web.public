@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<!--
+  Investment Management — service-detail page.
+  Part of the Ktema Wealth Management multi-page Cloudflare Pages static site.
+  TODOs:
+    - Replace [TODO] markers before any numbers/figures are shown.
+    - Wire FORM_ENDPOINT (posthorn URL) in the modal/contact script.
+    - Confirm Firm CRD #, award methodology, and disclosures with compliance counsel.
+    - Drop in assets/hero.png, assets/og.png, assets/noise.svg, and self-hosted fonts.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Investment Management — Ktema Wealth Management</title>
+  <meta name="description" content="Evidence-based, low-cost investment management from a fiduciary RIA — strategic asset allocation, global diversification, disciplined rebalancing, and tax-aware implementation aligned to your goals.">
+  <meta property="og:title" content="Investment Management — Ktema Wealth Management">
+  <meta property="og:description" content="Evidence-based, low-cost investment management from a fiduciary RIA — strategic asset allocation, global diversification, disciplined rebalancing, and tax-aware implementation aligned to your goals.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ktemawealth.com/services/investment-management/">
+  <meta property="og:image" content="/assets/og.png">
+<style>
+  /* Self-hosted serif headings (OFL). Falls back to Georgia if the
+     woff2 files aren't present — see assets/fonts/README.md. */
+  @font-face{
+    font-family:"Source Serif 4";
+    src:url("/assets/fonts/SourceSerif4-SemiBold.woff2") format("woff2");
+    font-weight:600;font-style:normal;font-display:swap;
+  }
+  @font-face{
+    font-family:"Source Serif 4";
+    src:url("/assets/fonts/SourceSerif4-Bold.woff2") format("woff2");
+    font-weight:700;font-style:normal;font-display:swap;
+  }
+  :root{
+    --navy:#0f2034;
+    --navy-2:#16314f;
+    --charcoal:#1c2229;
+    --ink:#222a32;
+    --muted:#5d6b78;
+    --line:#e2e6ea;
+    --paper:#ffffff;
+    --paper-2:#f6f7f9;
+    --paper-3:#eef1f4;
+    --gold:#b08537;        /* single accent: deep gold */
+    --gold-dk:#8c6a2b;
+    --gold-soft:#f3ecdd;
+    --shadow:0 1px 2px rgba(15,32,52,.06), 0 10px 30px rgba(15,32,52,.07);
+    --radius:6px;
+    --serif:"Source Serif 4",Georgia,'Times New Roman',Cambria,'Liberation Serif',serif;
+    --sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body.no-scroll{overflow:hidden}
+  h1,h2,h3,h4{font-family:var(--serif);color:var(--navy);font-weight:600;line-height:1.2;letter-spacing:.2px}
+  h2{font-size:2rem;margin:0 0 .5rem}
+  p{margin:0 0 1rem}
+  a{color:var(--navy);text-decoration:none}
+  a:hover{color:var(--gold-dk)}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.5rem}
+  .eyebrow{
+    font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--gold-dk);margin:0 0 .75rem
+  }
+  .section{padding:5.5rem 0}
+  .section--alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .lead{font-size:1.15rem;color:var(--muted);max-width:48ch}
+
+  /* Buttons */
+  .btn{
+    display:inline-block;font-family:var(--sans);font-size:.95rem;font-weight:600;
+    padding:.8rem 1.5rem;border-radius:var(--radius);border:1px solid transparent;
+    cursor:pointer;transition:background .15s ease,color .15s ease,border-color .15s ease;
+    text-align:center;line-height:1.2;
+  }
+  .btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .btn-primary:hover{background:var(--navy-2);color:#fff}
+  .btn-gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+  .btn-gold:hover{background:var(--gold-dk);color:#fff}
+  .btn-outline{background:transparent;color:var(--navy);border-color:var(--line)}
+  .btn-outline:hover{border-color:var(--navy);color:var(--navy)}
+  .btn-ghost-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+  .btn-ghost-light:hover{background:rgba(255,255,255,.12);color:#fff;border-color:#fff}
+
+  /* Focus visibility */
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,.btn:focus-visible{
+    outline:3px solid var(--gold);outline-offset:2px;border-radius:4px;
+  }
+
+  /* Header / nav */
+  .site-header{
+    position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);
+    backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .wordmark{font-family:var(--serif);font-size:1.18rem;font-weight:600;color:var(--navy);letter-spacing:.3px;white-space:nowrap}
+  .wordmark .dot{color:var(--gold)}
+  .nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none;margin:0;padding:0}
+  .nav-links a{font-size:.95rem;color:var(--ink);font-weight:500}
+  .nav-links a:hover{color:var(--gold-dk)}
+  .nav-right{display:flex;align-items:center;gap:1.25rem}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:var(--radius);padding:.45rem .55rem;cursor:pointer}
+  .nav-toggle span{display:block;width:22px;height:2px;background:var(--navy);margin:4px 0;transition:transform .2s ease,opacity .2s ease}
+
+  /* Hero */
+  .hero{position:relative;color:#fff;overflow:hidden;
+    background:
+      radial-gradient(1100px 600px at 78% -10%, rgba(176,133,55,.22), transparent 60%),
+      linear-gradient(160deg,#0f2034 0%,#16314f 55%,#0c1a2c 100%);
+  }
+  /* Optional hero photo layer. If assets/hero.png is absent the image
+     simply doesn't paint and the gradient below shows through — no broken
+     icon, no layout shift. Photo is dimmed so white hero text stays legible. */
+  .hero::before{
+    content:"";position:absolute;inset:0;opacity:.28;pointer-events:none;
+    background-image:url("/assets/hero.png");background-size:cover;background-position:center;
+    mix-blend-mode:luminosity;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:url("/assets/noise.svg");background-size:300px 300px;
+  }
+  .hero .wrap{position:relative;z-index:1;padding-top:6rem;padding-bottom:6.5rem;max-width:880px}
+  .hero h1{color:#fff;font-size:clamp(2.2rem,5vw,3.5rem);margin:0 0 1.25rem}
+  .hero .sub{font-size:1.2rem;color:#d7e0ea;max-width:54ch;margin:0 0 2rem}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:1rem}
+
+  /* Trust strip */
+  .trust{background:var(--navy);color:#fff;border-top:3px solid var(--gold)}
+  .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:2.5rem 0}
+  .trust-grid--2{grid-template-columns:repeat(2,1fr);max-width:780px;margin:0 auto}
+  .trust-item{text-align:center;padding:.5rem 1rem}
+  .trust-item .num{font-family:var(--serif);font-size:1.7rem;color:#fff;line-height:1.1}
+  .trust-item .lbl{font-size:.85rem;letter-spacing:.06em;color:#bcccdd;text-transform:uppercase;margin-top:.4rem}
+  .trust-item + .trust-item{border-left:1px solid rgba(255,255,255,.14)}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+  .about-quote{
+    border-left:3px solid var(--gold);padding:1.25rem 0 1.25rem 1.5rem;margin:0;
+    font-family:var(--serif);font-size:1.25rem;color:var(--navy);font-style:italic;
+  }
+  .about-quote cite{display:block;font-style:normal;font-size:.85rem;color:var(--muted);margin-top:.6rem;letter-spacing:.04em}
+
+  /* Services */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:1.75rem;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;
+  }
+  .card:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 14px 36px rgba(15,32,52,.12)}
+  .card .ico{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:var(--gold-soft);margin-bottom:1rem}
+  .card .ico svg{width:22px;height:22px;stroke:var(--gold-dk);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .card h3{font-size:1.15rem;margin:0 0 .5rem}
+  .card p{font-size:.95rem;color:var(--muted);margin:0}
+
+  /* Process */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;counter-reset:step}
+  .step{position:relative;padding:1.5rem 0 0}
+  .step .n{
+    font-family:var(--serif);font-size:1.05rem;font-weight:700;color:#fff;background:var(--navy);
+    width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;
+    border:2px solid var(--gold);
+  }
+  .step h3{font-size:1.1rem;margin:0 0 .4rem}
+  .step p{font-size:.92rem;color:var(--muted);margin:0}
+
+  /* Insights */
+  .insight{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease}
+  .insight:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(15,32,52,.12)}
+  .insight .top{height:6px;background:linear-gradient(90deg,var(--gold),var(--gold-dk))}
+  .insight .body{padding:1.6rem}
+  .insight .date{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dk);font-weight:700}
+  .insight h3{font-size:1.18rem;margin:.5rem 0 .6rem}
+  .insight p{font-size:.95rem;color:var(--muted)}
+  .insight .more{font-weight:600;font-size:.92rem;color:var(--navy)}
+  .insight .more:hover{color:var(--gold-dk)}
+
+  /* CTA band */
+  .cta-band{
+    background:
+      radial-gradient(800px 400px at 20% 120%, rgba(176,133,55,.22), transparent 60%),
+      linear-gradient(135deg,#16314f,#0f2034);
+    color:#fff;text-align:center;
+  }
+  .cta-band h2{color:#fff;font-size:clamp(1.8rem,4vw,2.6rem)}
+  .cta-band p{color:#cfdae6;max-width:46ch;margin:0 auto 1.75rem}
+
+  /* Contact */
+  .contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:3.5rem;align-items:start}
+  form .field{margin-bottom:1.1rem}
+  form label{display:block;font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:.35rem}
+  form input,form textarea{
+    width:100%;padding:.75rem .85rem;border:1px solid var(--line);border-radius:var(--radius);
+    font-family:var(--sans);font-size:1rem;color:var(--ink);background:var(--paper);
+  }
+  form input:focus,form textarea:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(176,133,55,.18)}
+  .note{font-size:.82rem;color:var(--muted);background:var(--paper-3);border:1px dashed var(--line);
+    border-radius:var(--radius);padding:.65rem .8rem;margin-bottom:1rem}
+  .contact-narrow{max-width:600px}
+  .contact-narrow .lead{margin-bottom:2rem}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .form-status{margin:1rem 0 0;font-size:.92rem;min-height:1.2em}
+  .form-status.is-error{color:#9a2a2a}
+  .form-status.is-ok{color:var(--gold-dk)}
+  .form-done{
+    background:var(--paper-2);border:1px solid var(--line);border-top:3px solid var(--gold);
+    border-radius:var(--radius);padding:2rem;text-align:center;
+  }
+  .form-done h3{margin:0 0 .4rem}
+  .form-done p{margin:0;color:var(--muted)}
+
+  /* Footer */
+  .site-footer{background:var(--charcoal);color:#c4ccd4;padding:3.5rem 0 2rem;font-size:.9rem}
+  .footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2rem;align-items:flex-start;
+    border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:2rem;margin-bottom:1.5rem}
+  .site-footer .wordmark{color:#fff}
+  .footer-nav{display:flex;flex-wrap:wrap;gap:1.25rem;list-style:none;margin:0;padding:0}
+  .footer-nav a{color:#c4ccd4}
+  .footer-nav a:hover{color:#fff}
+  .disclosure{font-size:.8rem;color:#8c97a3;max-width:80ch;margin:0 0 .5rem}
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    background:rgba(10,18,30,.6);padding:1.25rem;
+  }
+  .modal-overlay.open{display:flex}
+  .modal{
+    background:var(--paper);width:100%;max-width:420px;border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.4);
+    border-top:4px solid var(--gold);padding:2rem 2rem 1.75rem;position:relative;
+  }
+  .modal h2{font-size:1.45rem;margin:0 0 .25rem}
+  .modal .sub{font-size:.9rem;color:var(--muted);margin:0 0 1.25rem}
+  .modal-close{
+    position:absolute;top:.9rem;right:.9rem;background:none;border:none;cursor:pointer;
+    width:34px;height:34px;border-radius:50%;color:var(--muted);font-size:1.4rem;line-height:1;
+  }
+  .modal-close:hover{background:var(--paper-3);color:var(--ink)}
+  .modal .field{margin-bottom:1rem}
+  .modal .forgot{font-size:.85rem;font-weight:600}
+  .modal .secure-note{display:flex;gap:.5rem;align-items:center;font-size:.82rem;color:var(--muted);margin-top:1rem}
+  .modal .secure-note svg{width:15px;height:15px;stroke:var(--gold-dk);fill:none;stroke-width:1.7}
+  .modal .pending{font-size:.8rem;color:var(--muted);background:var(--paper-3);border:1px dashed var(--line);
+    border-radius:var(--radius);padding:.55rem .7rem;margin-top:1rem}
+
+  /* Segmentation pillars */
+  .segments{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+  .segment{
+    background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--gold);
+    border-radius:var(--radius);padding:1.75rem;box-shadow:var(--shadow);
+  }
+  .segment h3{font-size:1.15rem;margin:0 0 .3rem}
+  .segment .tier{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dk);margin:0 0 .75rem}
+  .segment p{font-size:.95rem;color:var(--muted);margin:0}
+
+  /* Awards / recognition row */
+  .awards{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:2.25rem 0}
+  .awards .lbl{text-align:center;font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 1.25rem}
+  .award-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem}
+  .award-badge{
+    border:1px solid var(--line);background:var(--paper);border-radius:var(--radius);
+    padding:.7rem 1.1rem;font-family:var(--serif);font-size:.95rem;color:var(--navy);
+    text-align:center;min-width:150px;
+  }
+  .award-badge span{display:block;font-family:var(--sans);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dk);font-weight:700;margin-top:.2rem}
+
+  /* About image */
+  .about-figure{margin:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:linear-gradient(160deg,#16314f,#0f2034);min-height:240px}
+  .about-figure img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* Insight thumbnails */
+  .insight .thumb{height:150px;background:linear-gradient(135deg,var(--navy-2),var(--navy));background-size:cover;background-position:center}
+
+  .skip-link{position:absolute;left:-999px;top:0;background:var(--navy);color:#fff;padding:.6rem 1rem;z-index:200;border-radius:0 0 var(--radius) 0}
+  .skip-link:focus{left:0}
+
+  /* Responsive */
+  @media (max-width:880px){
+    .about-grid,.contact-grid{grid-template-columns:1fr;gap:2rem}
+    .cards,.steps,.segments{grid-template-columns:1fr 1fr}
+    .trust-grid{grid-template-columns:1fr}
+    .trust-item + .trust-item{border-left:none;border-top:1px solid rgba(255,255,255,.14)}
+  }
+  @media (max-width:720px){
+    .section{padding:4rem 0}
+    .nav-toggle{display:block}
+    .nav-links{
+      position:absolute;top:72px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);
+      flex-direction:column;align-items:stretch;gap:0;padding:.5rem 0;display:none;box-shadow:var(--shadow);
+    }
+    .nav-links.open{display:flex}
+    .nav-links li{padding:0}
+    .nav-links a{display:block;padding:.85rem 1.5rem;border-top:1px solid var(--paper-2)}
+    .nav-right .btn-gold{display:none} /* login button shown inside menu on mobile via duplicate */
+    .cards,.steps,.insights-grid,.segments{grid-template-columns:1fr}
+  }
+  @media (max-width:720px){
+    .nav-login-mobile{display:block !important;margin:.5rem 1.5rem}
+  }
+  .nav-login-mobile{display:none}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="wordmark" href="/">Ktema Wealth Management<span class="dot">.</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-right">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="/about/">About</a></li>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/approach/">Approach</a></li>
+          <li><a href="/insights/">Insights</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li class="nav-login-mobile"><a class="btn btn-gold" href="#" data-login>Client Login</a></li>
+        </ul>
+        <a class="btn btn-gold" href="#" data-login id="navLoginBtn">Client Login</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="wrap" style="padding-top:1.5rem;padding-bottom:0">
+    <nav aria-label="Breadcrumb">
+      <a href="/services/">Services</a> &rarr; Investment Management
+    </nav>
+  </div>
+
+  <section class="hero">
+    <div class="wrap">
+      <span style="display:inline-flex;width:54px;height:54px;border-radius:50%;align-items:center;justify-content:center;background:rgba(176,133,55,.18);margin-bottom:1rem" aria-hidden="true">
+        <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#d9b873;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round"><path d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"/></svg>
+      </span>
+      <p class="eyebrow" style="color:#d9b873">Services</p>
+      <h1>Investment Management</h1>
+      <p class="sub">Portfolios built on evidence, diversification, and discipline — designed to serve your plan rather than the headlines, and managed under a fiduciary standard that puts your interests first.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">What This Includes</p>
+      <h2>What this includes</h2>
+      <p class="lead">A complete, transparent approach to managing your portfolio — from the long-term allocation decisions that drive most of your results to the day-to-day discipline that keeps the plan on course.</p>
+      <div class="cards" style="margin-top:2.5rem">
+        <article class="card">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"/></svg></div>
+          <h3>Strategic asset allocation</h3>
+          <p>We set a long-term mix of stocks, bonds, and other asset classes tied to your goals, time horizon, and capacity for risk — because the allocation decision, not stock picking, drives the majority of outcomes over time.</p>
+        </article>
+        <article class="card">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"/></svg></div>
+          <h3>Globally diversified portfolios</h3>
+          <p>Holdings span markets, sectors, and geographies so no single company, region, or theme can dominate results. Broad diversification is how we manage the risks we cannot predict.</p>
+        </article>
+        <article class="card">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"/></svg></div>
+          <h3>Evidence-based, low-cost implementation</h3>
+          <p>We favor transparent, low-cost vehicles supported by long-run academic research. Keeping internal fees and turnover low means more of every dollar stays invested and working for you. [TODO: confirm representative expense-ratio range with compliance.]</p>
+        </article>
+        <article class="card">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"/></svg></div>
+          <h3>Disciplined rebalancing</h3>
+          <p>As markets move, your portfolio drifts from its targets. We rebalance on a defined, rules-based schedule to keep risk aligned with your plan and to avoid emotional, reactive decisions.</p>
+        </article>
+        <article class="card">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"/></svg></div>
+          <h3>Tax-aware implementation</h3>
+          <p>Where appropriate, we consider asset location, tax-loss harvesting, and the timing of trades to help reduce the drag taxes place on long-term returns. This coordinates with — but does not replace — advice from your tax professional.</p>
+        </article>
+        <article class="card">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"/></svg></div>
+          <h3>Risk alignment &amp; suitability</h3>
+          <p>We continually check that your portfolio matches your goals, liquidity needs, and tolerance for volatility — revisiting the fit as your life and circumstances change, not just when markets do.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="wrap">
+      <p class="eyebrow">Our Approach</p>
+      <h2>Our approach to investment management</h2>
+      <p>We start from a simple premise: markets reward patient, disciplined investors, and the surest path to long-term results is broad diversification at low cost. Rather than trying to forecast the next move or chase last year's winners, we build portfolios designed to capture the returns of global markets and then stay invested through their inevitable ups and downs.</p>
+      <p>Cost and tax discipline compound quietly in your favor. Every basis point of unnecessary fee or avoidable tax is a permanent reduction in what you keep, so we keep implementation lean, turnover deliberate, and tax considerations in view throughout. The goal is not to be clever — it is to be consistent.</p>
+      <p>As a fiduciary, we are obligated to act in your best interest, and that obligation shapes every decision: which holdings we use, how we rebalance, and what we recommend. Your portfolio exists to serve your broader financial plan, and we manage it with that purpose — and your long-term well-being — in mind. Nothing here is individual investment, tax, or legal advice.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">One Coordinated Plan</p>
+      <h3>Coordinated with the rest of your plan</h3>
+      <p style="max-width:60ch">Investment management works best when it is connected to everything else you are working toward. Your portfolio decisions inform — and are informed by — your planning, income strategy, tax picture, estate intentions, and protection needs. Explore how the pieces fit together:</p>
+      <ul class="footer-nav" style="margin-top:.5rem">
+        <li><a href="/services/wealth-planning/">Wealth Planning</a></li>
+        <li><a href="/services/retirement-income/">Retirement &amp; Income</a></li>
+        <li><a href="/services/tax-aware-strategies/">Tax-Aware Strategies</a></li>
+        <li><a href="/services/estate-legacy/">Estate &amp; Legacy</a></li>
+        <li><a href="/services/risk-management/">Risk Management</a></li>
+        <li><a href="/services/">All services</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="wrap">
+      <h2>Let's build a portfolio that serves your plan.</h2>
+      <p>Start with a conversation about your goals, your timeline, and how an evidence-based, fiduciary approach can work for you.</p>
+      <a class="btn btn-gold" href="/contact/">Schedule a Consultation</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="wordmark">Ktema Wealth Management<span class="dot" style="color:var(--gold)">.</span></div>
+        <p style="max-width:34ch;margin:.75rem 0 0;color:#9aa4ad">Independent, fee-based, fiduciary wealth management — built to last.</p>
+      </div>
+      <ul class="footer-nav" aria-label="Footer">
+        <li><a href="/about/">About</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/approach/">Approach</a></li>
+        <li><a href="/insights/">Insights</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="#" data-login>Client Login</a></li>
+      </ul>
+    </div>
+    <ul class="footer-nav" aria-label="Disclosures" style="margin-bottom:1.25rem">
+      <li><a href="/disclosures/">Form ADV Part 2A</a></li>
+      <li><a href="/disclosures/">Form ADV Part 2B</a></li>
+      <li><a href="/disclosures/">Form CRS</a></li>
+      <li><a href="/disclosures/">Disclosures</a></li>
+      <li><a href="/disclosures/">Privacy Policy</a></li>
+      <li><a href="https://adviserinfo.sec.gov/" rel="noopener">SEC Adviser Check</a></li>
+    </ul>
+    <p class="disclosure">Ktema Wealth Management is a registered investment adviser. Registration does not imply a certain level of skill or training. [Firm CRD # and registration details TBD — confirm with compliance counsel.] Nothing herein is investment advice.</p>
+    <p class="disclosure">Any rankings or recognition shown are not indicative of future performance and do not constitute an endorsement. No fee was paid to receive any award displayed unless expressly stated; methodology and the date of each award will be disclosed here. [Award methodology TBD.]</p>
+    <p class="disclosure">&copy; <span id="year">2026</span> Ktema Wealth Management. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ============================== LOGIN MODAL ============================== -->
+<div class="modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+  <div class="modal" role="document">
+    <button class="modal-close" id="modalClose" aria-label="Close login dialog">&times;</button>
+    <h2 id="modalTitle">Client Login</h2>
+    <p class="sub" id="modalDesc">Access your secure portfolio portal.</p>
+    <form action="#" id="loginForm" novalidate>
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" name="email" autocomplete="username" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="login-pass">Password</label>
+        <input type="password" id="login-pass" name="password" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn btn-navy btn-primary" style="width:100%">Sign In</button>
+    </form>
+    <p style="margin:.9rem 0 0"><a class="forgot" href="#">Forgot password?</a></p>
+    <p class="secure-note">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+      Secure client portal — access by invitation.
+    </p>
+    <p class="pending" role="note">Portal integration is pending — this login is not yet functional.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- Year ---- */
+  var y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+
+  /* ---- Mobile nav toggle ---- */
+  var navToggle = document.getElementById('navToggle');
+  var navLinks  = document.getElementById('navLinks');
+  if (navToggle && navLinks){
+    navToggle.addEventListener('click', function(){
+      var open = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    /* close menu after choosing a link */
+    navLinks.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && !e.target.hasAttribute('data-login')){
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+
+  /* ---- Login modal ---- */
+  var modal      = document.getElementById('loginModal');
+  var modalClose = document.getElementById('modalClose');
+  var lastFocus  = null;
+
+  function openModal(e){
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    /* close mobile nav if open */
+    if (navLinks){ navLinks.classList.remove('open'); }
+    if (navToggle){ navToggle.setAttribute('aria-expanded','false'); }
+    modal.classList.add('open');
+    document.body.classList.add('no-scroll');
+    var firstInput = document.getElementById('login-email');
+    if (firstInput) firstInput.focus();
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+  }
+
+  /* open triggers: any element with data-login */
+  var loginTriggers = document.querySelectorAll('[data-login]');
+  for (var i=0; i<loginTriggers.length; i++){
+    loginTriggers[i].addEventListener('click', openModal);
+  }
+
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+
+  /* backdrop click */
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) closeModal();
+  });
+
+  /* ESC key */
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  /* ---- Login form: portal integration still pending ---- */
+  var loginForm = document.getElementById('loginForm');
+  if (loginForm) loginForm.addEventListener('submit', function(e){ e.preventDefault(); });
+
+  /* ---- Contact form: posts to self-hosted posthorn backend ----
+     TODO: set FORM_ENDPOINT to the deployed posthorn URL, e.g.
+     "https://forms.ktemawealth.com/f/ktema-contact". Until then the form
+     reports a clear "not yet configured" message instead of failing oddly. */
+  var FORM_ENDPOINT = ""; /* <-- posthorn URL goes here */
+
+  var contactForm = document.getElementById('contactForm');
+  if (contactForm){
+    var statusEl = document.getElementById('cf-status');
+    var submitBtn = document.getElementById('cf-submit');
+
+    function setStatus(msg, kind){
+      if (!statusEl) return;
+      statusEl.textContent = msg || '';
+      statusEl.className = 'form-status' + (kind ? ' is-' + kind : '');
+    }
+
+    contactForm.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      /* Honeypot: if the hidden field is filled, it's a bot — drop silently
+         but show the normal success state so the bot learns nothing. */
+      var hp = document.getElementById('cf-company');
+      if (hp && hp.value.trim() !== ''){ showDone(); return; }
+
+      var name = document.getElementById('cf-name');
+      var email = document.getElementById('cf-email');
+      var msg = document.getElementById('cf-msg');
+
+      /* Minimal client-side validation */
+      if (!name.value.trim() || !email.value.trim() || !msg.value.trim()){
+        setStatus('Please complete all fields.', 'error'); return;
+      }
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+      if (!emailOk){ setStatus('Please enter a valid email address.', 'error'); return; }
+
+      if (!FORM_ENDPOINT){
+        setStatus('Form endpoint not yet configured. Please email hello@ktemawealth.com.', 'error');
+        return;
+      }
+
+      var payload = {
+        name: name.value.trim(),
+        email: email.value.trim(),
+        message: msg.value.trim()
+      };
+
+      submitBtn.disabled = true;
+      setStatus('Sending…', 'ok');
+
+      fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function(res){
+        if (!res.ok) throw new Error('bad status ' + res.status);
+        showDone();
+      }).catch(function(){
+        submitBtn.disabled = false;
+        setStatus('Something went wrong. Please try again or email hello@ktemawealth.com.', 'error');
+      });
+    });
+
+    function showDone(){
+      contactForm.innerHTML =
+        '<div class="form-done" role="status">' +
+          '<h3>Thank you.</h3>' +
+          '<p>Your message has been received. We\'ll be in touch shortly to arrange a consultation.</p>' +
+        '</div>';
+    }
+  }
+
+})();
+</script>
+</body>
+</html>

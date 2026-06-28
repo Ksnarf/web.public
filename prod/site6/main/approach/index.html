@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  Site:    Ktema Wealth Management
+  Domain:  ktemawealth.com
+  Page:    /approach/  — Our process, in depth
+  Type:    Static marketing site — self-contained HTML, shared shell embedded
+           verbatim (style + header + footer + modal/script). Root-relative
+           paths. Cloudflare Pages multi-page.
+
+  TODO — PLACEHOLDERS TO FILL BEFORE LAUNCH:
+    [ ] Confirm exact fee schedule / fee-only vs fee-based language w/ compliance
+    [ ] Calendly/booking link — wire "Schedule a Consultation" CTAs
+    [ ] Client portal URL — wire "Client Login" modal to custodian SSO
+    Content here is placeholder-but-plausible fiduciary RIA copy. No AUM,
+    awards, or credentials are asserted.
+  ============================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Our approach — a deliberate four-step engagement: Discover, Design, Implement, and Steward. Disciplined process is what turns good intentions into durable outcomes.">
+<title>Our Approach — Ktema Wealth Management</title>
+<meta property="og:title" content="Our Approach — Ktema Wealth Management">
+<meta property="og:description" content="A deliberate four-step engagement: Discover, Design, Implement, Steward — built on fee transparency and patient stewardship.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ktemawealth.com/approach/">
+<meta property="og:image" content="/assets/og.png">
+<style>
+  @font-face{
+    font-family:"Source Serif 4";
+    src:url("/assets/fonts/SourceSerif4-SemiBold.woff2") format("woff2");
+    font-weight:600;font-style:normal;font-display:swap;
+  }
+  @font-face{
+    font-family:"Source Serif 4";
+    src:url("/assets/fonts/SourceSerif4-Bold.woff2") format("woff2");
+    font-weight:700;font-style:normal;font-display:swap;
+  }
+  :root{
+    --navy:#0f2034;
+    --navy-2:#16314f;
+    --charcoal:#1c2229;
+    --ink:#222a32;
+    --muted:#5d6b78;
+    --line:#e2e6ea;
+    --paper:#ffffff;
+    --paper-2:#f6f7f9;
+    --paper-3:#eef1f4;
+    --gold:#b08537;
+    --gold-dk:#8c6a2b;
+    --gold-soft:#f3ecdd;
+    --shadow:0 1px 2px rgba(15,32,52,.06), 0 10px 30px rgba(15,32,52,.07);
+    --radius:6px;
+    --serif:"Source Serif 4",Georgia,'Times New Roman',Cambria,'Liberation Serif',serif;
+    --sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body.no-scroll{overflow:hidden}
+  h1,h2,h3,h4{font-family:var(--serif);color:var(--navy);font-weight:600;line-height:1.2;letter-spacing:.2px}
+  h2{font-size:2rem;margin:0 0 .5rem}
+  p{margin:0 0 1rem}
+  a{color:var(--navy);text-decoration:none}
+  a:hover{color:var(--gold-dk)}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.5rem}
+  .eyebrow{
+    font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--gold-dk);margin:0 0 .75rem
+  }
+  .section{padding:5.5rem 0}
+  .section--alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .lead{font-size:1.15rem;color:var(--muted);max-width:48ch}
+
+  /* Buttons */
+  .btn{
+    display:inline-block;font-family:var(--sans);font-size:.95rem;font-weight:600;
+    padding:.8rem 1.5rem;border-radius:var(--radius);border:1px solid transparent;
+    cursor:pointer;transition:background .15s ease,color .15s ease,border-color .15s ease;
+    text-align:center;line-height:1.2;
+  }
+  .btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .btn-primary:hover{background:var(--navy-2);color:#fff}
+  .btn-gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+  .btn-gold:hover{background:var(--gold-dk);color:#fff}
+  .btn-outline{background:transparent;color:var(--navy);border-color:var(--line)}
+  .btn-outline:hover{border-color:var(--navy);color:var(--navy)}
+  .btn-ghost-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+  .btn-ghost-light:hover{background:rgba(255,255,255,.12);color:#fff;border-color:#fff}
+
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,.btn:focus-visible{
+    outline:3px solid var(--gold);outline-offset:2px;border-radius:4px;
+  }
+
+  /* Header / nav */
+  .site-header{
+    position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);
+    backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .wordmark{font-family:var(--serif);font-size:1.18rem;font-weight:600;color:var(--navy);letter-spacing:.3px;white-space:nowrap}
+  .wordmark .dot{color:var(--gold)}
+  .nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none;margin:0;padding:0}
+  .nav-links a{font-size:.95rem;color:var(--ink);font-weight:500}
+  .nav-links a:hover{color:var(--gold-dk)}
+  .nav-links a[aria-current="page"]{color:var(--gold-dk);border-bottom:2px solid var(--gold);padding-bottom:2px}
+  .nav-right{display:flex;align-items:center;gap:1.25rem}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:var(--radius);padding:.45rem .55rem;cursor:pointer}
+  .nav-toggle span{display:block;width:22px;height:2px;background:var(--navy);margin:4px 0;transition:transform .2s ease,opacity .2s ease}
+
+  /* Hero */
+  .hero{position:relative;color:#fff;overflow:hidden;
+    background:
+      radial-gradient(1100px 600px at 78% -10%, rgba(176,133,55,.22), transparent 60%),
+      linear-gradient(160deg,#0f2034 0%,#16314f 55%,#0c1a2c 100%);
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;opacity:.28;pointer-events:none;
+    background-image:url("/assets/hero.png");background-size:cover;background-position:center;
+    mix-blend-mode:luminosity;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:url("/assets/noise.svg");background-size:300px 300px;
+  }
+  .hero .wrap{position:relative;z-index:1;padding-top:5rem;padding-bottom:5rem;max-width:880px}
+  .hero h1{color:#fff;font-size:clamp(2.2rem,5vw,3.5rem);margin:0 0 1.25rem}
+  .hero .sub{font-size:1.2rem;color:#d7e0ea;max-width:54ch;margin:0 0 2rem}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:1rem}
+
+  /* Trust strip */
+  .trust{background:var(--navy);color:#fff;border-top:3px solid var(--gold)}
+  .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:2.5rem 0}
+  .trust-grid--2{grid-template-columns:repeat(2,1fr);max-width:780px;margin:0 auto}
+  .trust-item{text-align:center;padding:.5rem 1rem}
+  .trust-item .num{font-family:var(--serif);font-size:1.7rem;color:#fff;line-height:1.1}
+  .trust-item .lbl{font-size:.85rem;letter-spacing:.06em;color:#bcccdd;text-transform:uppercase;margin-top:.4rem}
+  .trust-item + .trust-item{border-left:1px solid rgba(255,255,255,.14)}
+
+  /* Process — numbered steps, expanded into rows */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;counter-reset:step}
+  .step{position:relative;padding:1.5rem 0 0}
+  .step .n{
+    font-family:var(--serif);font-size:1.05rem;font-weight:700;color:#fff;background:var(--navy);
+    width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;
+    border:2px solid var(--gold);
+  }
+  .step h3{font-size:1.1rem;margin:0 0 .4rem}
+  .step p{font-size:.92rem;color:var(--muted);margin:0}
+
+  /* Expanded step rows */
+  .step-row{display:grid;grid-template-columns:auto 1fr;gap:2rem;padding:2.5rem 0;border-top:1px solid var(--line)}
+  .step-row:first-of-type{border-top:none}
+  .step-row .n{
+    font-family:var(--serif);font-size:1.35rem;font-weight:700;color:#fff;background:var(--navy);
+    width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    border:2px solid var(--gold);flex:none;
+  }
+  .step-row h3{font-size:1.5rem;margin:0 0 .25rem}
+  .step-row .step-tag{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dk);margin:0 0 1rem}
+  .step-row p{max-width:62ch}
+  .step-row .deliver{
+    margin-top:1.25rem;background:var(--paper-2);border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:var(--radius);padding:1rem 1.25rem;
+  }
+  .step-row .deliver strong{display:block;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dk);margin-bottom:.4rem}
+  .step-row .deliver ul{margin:0;padding-left:1.1rem;color:var(--muted);font-size:.95rem}
+  .step-row .deliver li{margin:.2rem 0}
+
+  /* Fee note card */
+  .feebox{
+    background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--gold);
+    border-radius:var(--radius);box-shadow:var(--shadow);padding:2.25rem;max-width:72ch;
+  }
+  .feebox h3{font-size:1.3rem;margin:0 0 .75rem}
+  .feebox p{color:var(--muted);margin:0 0 1rem}
+  .feebox p:last-child{margin:0}
+  .note{font-size:.82rem;color:var(--muted);background:var(--paper-3);border:1px dashed var(--line);
+    border-radius:var(--radius);padding:.65rem .8rem;margin:1rem 0 0}
+
+  /* CTA band */
+  .cta-band{
+    background:
+      radial-gradient(800px 400px at 20% 120%, rgba(176,133,55,.22), transparent 60%),
+      linear-gradient(135deg,#16314f,#0f2034);
+    color:#fff;text-align:center;
+  }
+  .cta-band h2{color:#fff;font-size:clamp(1.8rem,4vw,2.6rem)}
+  .cta-band p{color:#cfdae6;max-width:46ch;margin:0 auto 1.75rem}
+
+  /* Footer */
+  .site-footer{background:var(--charcoal);color:#c4ccd4;padding:3.5rem 0 2rem;font-size:.9rem}
+  .footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2rem;align-items:flex-start;
+    border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:2rem;margin-bottom:1.5rem}
+  .site-footer .wordmark{color:#fff}
+  .footer-nav{display:flex;flex-wrap:wrap;gap:1.25rem;list-style:none;margin:0;padding:0}
+  .footer-nav a{color:#c4ccd4}
+  .footer-nav a:hover{color:#fff}
+  .disclosure{font-size:.8rem;color:#8c97a3;max-width:80ch;margin:0 0 .5rem}
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    background:rgba(10,18,30,.6);padding:1.25rem;
+  }
+  .modal-overlay.open{display:flex}
+  .modal{
+    background:var(--paper);width:100%;max-width:420px;border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.4);
+    border-top:4px solid var(--gold);padding:2rem 2rem 1.75rem;position:relative;
+  }
+  .modal h2{font-size:1.45rem;margin:0 0 .25rem}
+  .modal .sub{font-size:.9rem;color:var(--muted);margin:0 0 1.25rem}
+  .modal-close{
+    position:absolute;top:.9rem;right:.9rem;background:none;border:none;cursor:pointer;
+    width:34px;height:34px;border-radius:50%;color:var(--muted);font-size:1.4rem;line-height:1;
+  }
+  .modal-close:hover{background:var(--paper-3);color:var(--ink)}
+  .modal .field{margin-bottom:1rem}
+  .modal .forgot{font-size:.85rem;font-weight:600}
+  .modal .secure-note{display:flex;gap:.5rem;align-items:center;font-size:.82rem;color:var(--muted);margin-top:1rem}
+  .modal .secure-note svg{width:15px;height:15px;stroke:var(--gold-dk);fill:none;stroke-width:1.7}
+  .modal .pending{font-size:.8rem;color:var(--muted);background:var(--paper-3);border:1px dashed var(--line);
+    border-radius:var(--radius);padding:.55rem .7rem;margin-top:1rem}
+
+  form .field{margin-bottom:1.1rem}
+  form label{display:block;font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:.35rem}
+  form input,form textarea{
+    width:100%;padding:.75rem .85rem;border:1px solid var(--line);border-radius:var(--radius);
+    font-family:var(--sans);font-size:1rem;color:var(--ink);background:var(--paper);
+  }
+  form input:focus,form textarea:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(176,133,55,.18)}
+
+  .skip-link{position:absolute;left:-999px;top:0;background:var(--navy);color:#fff;padding:.6rem 1rem;z-index:200;border-radius:0 0 var(--radius) 0}
+  .skip-link:focus{left:0}
+
+  /* Responsive */
+  @media (max-width:880px){
+    .steps{grid-template-columns:1fr 1fr}
+    .trust-grid{grid-template-columns:1fr}
+    .trust-item + .trust-item{border-left:none;border-top:1px solid rgba(255,255,255,.14)}
+  }
+  @media (max-width:720px){
+    .section{padding:4rem 0}
+    .nav-toggle{display:block}
+    .nav-links{
+      position:absolute;top:72px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);
+      flex-direction:column;align-items:stretch;gap:0;padding:.5rem 0;display:none;box-shadow:var(--shadow);
+    }
+    .nav-links.open{display:flex}
+    .nav-links li{padding:0}
+    .nav-links a{display:block;padding:.85rem 1.5rem;border-top:1px solid var(--paper-2)}
+    .nav-right .btn-gold{display:none}
+    .steps{grid-template-columns:1fr}
+    .step-row{grid-template-columns:1fr;gap:1rem}
+  }
+  @media (max-width:720px){
+    .nav-login-mobile{display:block !important;margin:.5rem 1.5rem}
+  }
+  .nav-login-mobile{display:none}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================ HEADER / NAV ============================ -->
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="wordmark" href="/">Ktema Wealth Management<span class="dot">.</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-right">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="/about/">About</a></li>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/approach/" aria-current="page">Approach</a></li>
+          <li><a href="/insights/">Insights</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li class="nav-login-mobile"><a class="btn btn-gold" href="#" data-login>Client Login</a></li>
+        </ul>
+        <a class="btn btn-gold" href="#" data-login id="navLoginBtn">Client Login</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<span id="top"></span>
+
+  <!-- ============================== HERO ============================== -->
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap">
+      <p class="eyebrow" style="color:#d9b873">Our Process</p>
+      <h1 id="hero-h">A deliberate, four-step engagement.</h1>
+      <p class="sub">Disciplined process is what turns good intentions into durable outcomes. Every relationship moves through the same four stages — Discover, Design, Implement, and Steward — at a pace set by your goals, not ours.</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="/contact/">Schedule a Consultation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ TRUST STRIP ============================ -->
+  <section class="trust" aria-label="Process at a glance">
+    <div class="wrap">
+      <div class="steps" style="padding:2.5rem 0">
+        <div class="step"><div class="n">1</div><h3 style="color:#fff">Discover</h3><p style="color:#bcccdd">Understand your full picture.</p></div>
+        <div class="step"><div class="n">2</div><h3 style="color:#fff">Design</h3><p style="color:#bcccdd">Build the integrated plan.</p></div>
+        <div class="step"><div class="n">3</div><h3 style="color:#fff">Implement</h3><p style="color:#bcccdd">Put the plan to work.</p></div>
+        <div class="step"><div class="n">4</div><h3 style="color:#fff">Steward</h3><p style="color:#bcccdd">Monitor, adapt, endure.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= INTRO ============================= -->
+  <section class="section" aria-labelledby="intro-h">
+    <div class="wrap">
+      <p class="eyebrow">How We Work</p>
+      <h2 id="intro-h">Process you can see, results you can hold.</h2>
+      <p class="lead" style="margin-bottom:0">Good advice is not a single moment — it is a discipline practiced over years. The four steps below describe how we begin a relationship and how we sustain it. Each step is designed to produce something concrete you can hold, review, and build on.</p>
+    </div>
+  </section>
+
+  <!-- ===================== EXPANDED STEPS ===================== -->
+  <section class="section section--alt" aria-labelledby="steps-h">
+    <div class="wrap">
+      <h2 id="steps-h" style="margin-bottom:1.5rem">The four steps, in depth.</h2>
+
+      <div class="step-row">
+        <div class="n">1</div>
+        <div>
+          <p class="step-tag">Listen and understand</p>
+          <h3>Discover</h3>
+          <p><strong>What happens:</strong> We listen first. Before any recommendation, we work to understand your goals, obligations, and concerns — the people who depend on you, the milestones ahead, and the worries that keep the plan from feeling settled. We then map your full financial picture: assets and liabilities, income and spending, tax situation, existing accounts, insurance, and estate documents.</p>
+          <p>This stage is intentionally unhurried. The quality of everything that follows depends on how well we understand where you actually stand and where you genuinely want to go.</p>
+          <div class="deliver">
+            <strong>What you get</strong>
+            <ul>
+              <li>A consolidated view of your complete balance sheet and cash flow</li>
+              <li>A documented set of goals, priorities, and constraints</li>
+              <li>A candid read on whether we are the right fit for your family</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="n">2</div>
+        <div>
+          <p class="step-tag">Plan and calibrate</p>
+          <h3>Design</h3>
+          <p><strong>What happens:</strong> We build an integrated financial plan and investment strategy calibrated to your goals and your tolerance for risk. Planning and portfolio are designed together, not in isolation — the withdrawal strategy informs the asset allocation, the tax picture informs where assets are held, and the estate intent informs how it is all titled.</p>
+          <p>We model trade-offs in plain language so you can see how decisions interact: what a more conservative allocation costs in growth, what an earlier retirement asks of savings, how different sequences of withdrawals affect taxes over time.</p>
+          <div class="deliver">
+            <strong>What you get</strong>
+            <ul>
+              <li>A written financial plan connecting goals, cash flow, and balance sheet</li>
+              <li>A target investment strategy with a clear rationale for each choice</li>
+              <li>Scenario analysis showing the major trade-offs in your own numbers</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="n">3</div>
+        <div>
+          <p class="step-tag">Execute with precision</p>
+          <h3>Implement</h3>
+          <p><strong>What happens:</strong> We put the plan to work with precision — tax-aware, cost-conscious, and coordinated. We transition existing holdings thoughtfully to avoid unnecessary tax, locate assets across account types for efficiency, and put the structure of the plan in place. Where your CPA and attorney are involved, we coordinate directly so nothing falls between advisors.</p>
+          <p>Implementation is sequenced, not rushed. Each move is made deliberately, with an eye to cost and tax, so the act of putting the plan in place does not quietly undo its benefits.</p>
+          <div class="deliver">
+            <strong>What you get</strong>
+            <ul>
+              <li>Accounts opened, funded, and invested to the agreed strategy</li>
+              <li>A tax-aware transition that avoids needless realized gains</li>
+              <li>Coordination with your CPA and attorney, documented and aligned</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="n">4</div>
+        <div>
+          <p class="step-tag">Monitor and adapt</p>
+          <h3>Steward</h3>
+          <p><strong>What happens:</strong> We monitor, rebalance, and adapt the plan over time as markets and your life evolve. We rebalance with discipline, harvest losses where it helps, revisit the plan as circumstances change, and stay beside you through the moments when markets test resolve. This is the longest stage by far — and the one where durable results are actually made.</p>
+          <p>You will hear from us on a regular cadence, and whenever something material changes for you. The plan is a living document, reviewed and updated rather than filed away.</p>
+          <div class="deliver">
+            <strong>What you get</strong>
+            <ul>
+              <li>Ongoing monitoring, disciplined rebalancing, and tax-loss harvesting</li>
+              <li>Regular reviews that keep the plan current with your life</li>
+              <li>A steady hand and a clear voice in the moments that matter most</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== HOW WE CHARGE ===================== -->
+  <section class="section" id="fees" aria-labelledby="fees-h">
+    <div class="wrap">
+      <p class="eyebrow">Transparency</p>
+      <h2 id="fees-h">How we charge.</h2>
+      <p class="lead" style="margin-bottom:2rem">Our compensation model is built to keep our advice aligned with your outcomes.</p>
+      <div class="feebox">
+        <h3>Fee-based advice, clearly stated.</h3>
+        <p>We are an independent, fee-based fiduciary firm. We are compensated by you, transparently, for advice — not by commissions, product sales, or sales quotas. Removing those incentives removes the conflicts that come with them, so that what we recommend is what we believe is genuinely best for you.</p>
+        <p>Before any engagement begins, you will see our fees in writing and understand exactly what you pay and what it covers. There are no surprise charges and no hidden product commissions buried inside what we recommend.</p>
+        <p class="note">[TODO: confirm exact fee schedule, and fee-only vs. fee-based terminology, with compliance counsel before launch. Disclose the fee structure, billing method, and any third-party costs here, consistent with Form ADV and Form CRS.]</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= CTA BAND ============================= -->
+  <section class="section cta-band" aria-labelledby="cta-h">
+    <div class="wrap">
+      <h2 id="cta-h">Begin with a conversation.</h2>
+      <p>The first step is always a short, no-obligation conversation to learn whether our approach fits your family.</p>
+      <a class="btn btn-gold" href="/contact/">Schedule a Consultation</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="wordmark">Ktema Wealth Management<span class="dot" style="color:var(--gold)">.</span></div>
+        <p style="max-width:34ch;margin:.75rem 0 0;color:#9aa4ad">Independent, fee-based, fiduciary wealth management — built to last.</p>
+      </div>
+      <ul class="footer-nav" aria-label="Footer">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/approach/">Approach</a></li>
+        <li><a href="/insights/">Insights</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="#" data-login>Client Login</a></li>
+      </ul>
+    </div>
+    <!-- TODO: point these to the real hosted PDFs / SEC adviserinfo pages. -->
+    <ul class="footer-nav" aria-label="Disclosures" style="margin-bottom:1.25rem">
+      <li><a href="#">Form ADV Part 2A</a></li>
+      <li><a href="#">Form ADV Part 2B</a></li>
+      <li><a href="#">Form CRS</a></li>
+      <li><a href="#">Disclosures</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="https://adviserinfo.sec.gov/" rel="noopener">SEC Adviser Check</a></li>
+    </ul>
+    <p class="disclosure">Ktema Wealth Management is a registered investment adviser. Registration does not imply a certain level of skill or training. [Firm CRD # and registration details TBD — confirm with compliance counsel.] Nothing herein is investment advice.</p>
+    <p class="disclosure">Any rankings or recognition shown are not indicative of future performance and do not constitute an endorsement. No fee was paid to receive any award displayed unless expressly stated; methodology and the date of each award will be disclosed here. [Award methodology TBD.]</p>
+    <p class="disclosure">Ktema Wealth Management acts as a fiduciary and is committed to placing client interests first. This site is for informational purposes only and does not constitute an offer or solicitation in any jurisdiction where we are not registered or exempt.</p>
+    <p class="disclosure">&copy; <span id="year">2026</span> Ktema Wealth Management. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ============================== LOGIN MODAL ============================== -->
+<div class="modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+  <div class="modal" role="document">
+    <button class="modal-close" id="modalClose" aria-label="Close login dialog">&times;</button>
+    <h2 id="modalTitle">Client Login</h2>
+    <p class="sub" id="modalDesc">Access your secure portfolio portal.</p>
+    <form action="#" id="loginForm" novalidate>
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" name="email" autocomplete="username" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="login-pass">Password</label>
+        <input type="password" id="login-pass" name="password" autocomplete="current-password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+      </div>
+      <button type="submit" class="btn btn-navy btn-primary" style="width:100%">Sign In</button>
+    </form>
+    <p style="margin:.9rem 0 0"><a class="forgot" href="#">Forgot password?</a></p>
+    <p class="secure-note">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+      Secure client portal — access by invitation.
+    </p>
+    <p class="pending" role="note">Portal integration is pending — this login is not yet functional.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+
+  var navToggle = document.getElementById('navToggle');
+  var navLinks  = document.getElementById('navLinks');
+  if (navToggle && navLinks){
+    navToggle.addEventListener('click', function(){
+      var open = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    navLinks.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && !e.target.hasAttribute('data-login')){
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+
+  var modal      = document.getElementById('loginModal');
+  var modalClose = document.getElementById('modalClose');
+  var lastFocus  = null;
+
+  function openModal(e){
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    if (navLinks){ navLinks.classList.remove('open'); }
+    if (navToggle){ navToggle.setAttribute('aria-expanded','false'); }
+    modal.classList.add('open');
+    document.body.classList.add('no-scroll');
+    var firstInput = document.getElementById('login-email');
+    if (firstInput) firstInput.focus();
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+  }
+
+  var loginTriggers = document.querySelectorAll('[data-login]');
+  for (var i=0; i<loginTriggers.length; i++){
+    loginTriggers[i].addEventListener('click', openModal);
+  }
+
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  var loginForm = document.getElementById('loginForm');
+  if (loginForm) loginForm.addEventListener('submit', function(e){ e.preventDefault(); });
+
+})();
+</script>
+</body>
+</html>
