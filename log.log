@@ -22,3 +22,6 @@ Conventions:
 2026-08-07 20:32:24 | ui-designer: creating self-contained counter page at prod/site1.2/main/soup/index.html showing time since Chicken Noodle soup [prod/site1.2/main/soup/index.html]
 2026-08-07 20:38:20 | coordinator: Kilo approved commit+push of the /soup page to trigger a Cloudflare Pages rebuild. Dispatching deployer to stage ONLY prod/site1.2/main/soup/ + log.log, commit, push to main. [operator-approved]
 2026-08-07 20:38:20 | deployer: committing prod/site1.2/main/soup/index.html + log.log to main and pushing to origin to trigger Cloudflare Pages rebuild [prod/site1.2/main/soup/index.html]
+2026-08-07 20:38:20 | verifier: https://ksnarf.dev/soup returns 200 (resolves to /soup/), body contains "Chicken Noodle" and start instant 2026-06-27T20:32:24-07:00; /soup/index.html 200; site root 200. Cloudflare Pages rebuild from be32489 is LIVE. [verified: curl -w %{http_code} + body grep]
+2026-08-07 20:45:37 | coordinator: Kilo approved a follow-up commit to sweep up the post-deploy log.log entries. Dispatching deployer to stage ONLY log.log, commit, push to main. [operator-approved]
+2026-08-07 20:45:37 | deployer: committing post-deploy log.log entries (verifier proof of ksnarf.dev/soup live) and pushing to origin main [log.log]
