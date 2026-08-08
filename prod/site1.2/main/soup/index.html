@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Time since Chicken Noodle soup - ksnarf.dev</title>
+  <meta name="description" content="A live counter tracking the time elapsed since Chicken Noodle soup." />
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --fg: #e8edf2;
+      --muted: #9aa7b4;
+      --card: #0f1620;
+      --border: #1b2633;
+      --link: #9bd2ff;
+      --accent: #38bdf8;
+      --radius: 14px;
+      --shadow: 0 12px 30px rgba(0, 0, 0, .35);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.45;
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none
+    }
+
+    a:hover {
+      text-decoration: underline
+    }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px 28px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .days {
+      font-family: var(--mono);
+      font-size: clamp(3rem, 14vw, 4.5rem);
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .days-label {
+      font-family: var(--mono);
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 6px;
+      margin-bottom: 20px;
+    }
+
+    .clock {
+      font-family: var(--mono);
+      font-size: clamp(1.3rem, 5vw, 1.8rem);
+      color: var(--fg);
+      letter-spacing: 1px;
+    }
+
+    .clock-label {
+      font-family: var(--mono);
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 28px;
+      font-family: var(--mono);
+      font-size: 0.9rem;
+    }
+
+    noscript {
+      display: block;
+      color: var(--muted);
+      margin-top: 16px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Time since Chicken Noodle soup</h1>
+    <div class="days" id="days">-</div>
+    <div class="days-label">days</div>
+    <div class="clock" id="clock">--:--:--</div>
+    <div class="clock-label">hh:mm:ss</div>
+    <noscript>Enable JavaScript to see the live counter.</noscript>
+    <a class="back" href="/">ksnarf.dev</a>
+  </div>
+
+  <script>
+    var start = new Date("2026-06-27T20:32:24-07:00");
+    var daysEl = document.getElementById("days");
+    var clockEl = document.getElementById("clock");
+
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function tick() {
+      var diff = Date.now() - start.getTime();
+      if (diff < 0) diff = 0;
+      var totalSeconds = Math.floor(diff / 1000);
+      var days = Math.floor(totalSeconds / 86400);
+      var hours = Math.floor((totalSeconds % 86400) / 3600);
+      var minutes = Math.floor((totalSeconds % 3600) / 60);
+      var seconds = totalSeconds % 60;
+
+      daysEl.textContent = String(days);
+      clockEl.textContent = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+
+</html>
